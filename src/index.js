@@ -21,6 +21,9 @@ let resolveItem = null;
 let itemsCache = [];
 let lastUpdate = null;
 
+const VALUES_CHANNEL_ID = "1510408304046768248";
+
+
 function resolveItems(inputItems) {
     const found = [];
     const notFound = [];
@@ -289,6 +292,8 @@ client.once("clientReady", async () => {
 client.on("messageCreate", async (message) => {
     if (message.author.bot) return;
     if (!resolveItem) return;
+
+    if (message.channel.id !== VALUES_CHANNEL_ID) return;
 
     const parsed = parseTradeMessage(message.content);
 
