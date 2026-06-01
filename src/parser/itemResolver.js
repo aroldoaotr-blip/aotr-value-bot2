@@ -94,10 +94,70 @@ function suggestItems(input, limit = 5) {
     return uniqueItems;
 }
 
+function resolvePerk(input) {
+    const query = normalizeText(input);
+
+    const wantsLevel10 = /\b10\b/.test(query);
+
+    const cleanQuery = query
+        .replace(/\b10\b/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+
+    const perkItems = items.filter(item =>
+        item.sheet?.toLowerCase().includes("perk") ||
+        item.category?.toLowerCase().includes("perk")
+    );
+
+    const targetCategory = wantsLevel10 ? "PERKS +10" : "PERKS +0";
+
+    const categoryPerks = perkItems.filter(item =>
+        item.category?.toUpperCase() === targetCategory
+    );
+
+    const found = categoryPerks.find(item =>
+        normalizeText(item.name) === cleanQuery
+    );
+
+    if (found) return found;
+
+    const perkFuse = new Fuse(categoryPerks, {
+        keys: ["name"],
+        threshold: 0.25,
+        includeScore: true
+    });
+
+    const results = perkFuse.search(cleanQuery);
+
+    if (!results.length) return null;
+
+    if (results[0].score > 0.25) return null;
+
+    return results[0].item;
+}
+
     function resolveItem(input) {
     const query = normalizeText(input);
 
+    const wantsPerk10 =
+    /\b10\b/.test(query) ||
+    query.includes("plus 10") ||
+    query.includes("+10");
+
+const cleanPerkQuery = query
+    .replace(/\b10\b/g, "")
+    .replace(/plus 10/g, "")
+    .replace(/\+10/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
     if (!query) return null;
+    
+    const perkResult = resolvePerk(input);
+
+if (perkResult) {
+    return perkResult;
+}
 
     if (exactMap.has(query)) {
         return exactMap.get(query);
