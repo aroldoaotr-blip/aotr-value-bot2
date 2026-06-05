@@ -1,6 +1,52 @@
 import Fuse from "fuse.js";
+import { SEARCH_ALIASES } from "../data/searchAliases.js";
 
 function normalizeText(text = "") {
+    function applySearchAliases(text = "") {
+    const normalized = normalizeText(text);
+    const words = normalized.split(" ").filter(Boolean);
+
+    const translatedWords = words.flatMap(word => {
+        const replacement = SEARCH_ALIASES[word];
+
+        if (!replacement) return [word];
+
+        return normalizeText(replacement).split(" ");
+    });
+
+    return translatedWords.join(" ").trim();
+}
+
+function tokenSearch(items, query) {
+    const queryTokens = query.split(" ").filter(Boolean);
+
+    if (!queryTokens.length) return null;
+
+    const matches = items
+        .map(item => {
+            const itemName = normalizeText(item.name);
+            const itemTokens = itemName.split(" ");
+
+            let score = 0;
+
+            for (const token of queryTokens) {
+                if (itemTokens.includes(token)) score += 3;
+                else if (itemName.includes(token)) score += 1;
+            }
+
+            return { item, score };
+        })
+        .filter(result => result.score > 0)
+        .sort((a, b) => b.score - a.score);
+
+    if (!matches.length) return null;
+
+    const best = matches[0];
+
+    if (best.score < queryTokens.length) return null;
+
+    return best.item;
+}
     return String(text)
         .toLowerCase()
         .normalize("NFD")
@@ -73,7 +119,7 @@ const suggestionFuse = new Fuse(entries, {
 })
 
 function suggestItems(input, limit = 5) {
-    const query = normalizeText(input);
+    const query = applySearchAliases(input);
 
     if (!query) return [];
 
@@ -137,7 +183,7 @@ function resolvePerk(input) {
 }
 
     function resolveItem(input) {
-    const query = normalizeText(input);
+    const query = applySearchAliases(input);
 
     const wantsPerk10 =
     /\b10\b/.test(query) ||
@@ -159,11 +205,17 @@ if (perkResult) {
     return perkResult;
 }
 
-    if (exactMap.has(query)) {
-        return exactMap.get(query);
-    }
+if (exactMap.has(query)) {
+    return exactMap.get(query);
+}
 
-    const results = fuse.search(query);
+const tokenResult = tokenSearch(items, query);
+
+if (tokenResult) {
+    return tokenResult;
+}
+
+const results = fuse.search(query);
 
     if (!results.length) return null;
 
