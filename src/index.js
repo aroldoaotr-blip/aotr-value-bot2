@@ -402,9 +402,19 @@ if (parsed.type === "sum") {
                 new EmbedBuilder()
                     .setColor(0xe74c3c)
                     .setTitle("❌ Items no encontrados")
-                    .setDescription(
-                        notFound.map(item => `• ${item}`).join("\n")
-                    )
+                   .setDescription(
+    groupTextItems(notFound)
+        .map(({ name, quantity }) => {
+            const suggestions = resolveItem.suggest(name, 3);
+
+            const suggestionText = suggestions.length
+                ? `\n🔎 Quizás quisiste decir:\n${suggestions.map(item => `   • ${item.name}`).join("\n")}`
+                : "";
+
+            return `• ${name}${quantity > 1 ? ` x${quantity}` : ""}${suggestionText}`;
+        })
+        .join("\n\n")
+)
             ]
         });
 
