@@ -188,11 +188,27 @@ function createSumEmbed(foundItems, total, notFound = []) {
 const groupedItems = groupItems(foundItems);
 
 const itemsText = groupedItems.map(({ item, quantity }) => {
+
+    const totalKeys =
+        item.value.keys != null
+            ? item.value.keys * quantity
+            : null;
+
+    const totalScrolls =
+        item.value.scrolls != null
+            ? item.value.scrolls * quantity
+            : null;
+
+    const totalVizards =
+        item.value.vizards != null
+            ? item.value.vizards * quantity
+            : null;
+
     return (
         `**${item.name} x${quantity}**\n` +
-        `🔑 Llaves: ${formatValue(item.value.keys)} c/u\n` +
-        `📜 Pergaminos: ${formatValue(item.value.scrolls)} c/u\n` +
-        `🎭 Vizard: ${formatValue(item.value.vizards)} c/u\n` +
+        `🔑 Llaves: ${formatValue(totalKeys)}\n` +
+        `📜 Pergaminos: ${formatValue(totalScrolls)}\n` +
+        `🎭 Vizard: ${formatValue(totalVizards)}\n` +
         `**Demanda:** ${formatDemand(item.demand)}`
     );
 }).join("\n\n");
@@ -231,16 +247,33 @@ const notFoundText = groupedNotFound.length
 }
 
 function createTradeEmbed(comparison, notFound = []) {
-    const formatItems = (items) => {
-        return items.map(item => {
-            return (
-                `**${item.name}**\n` +
-                `🔑 Llaves: ${formatValue(item.value.keys)}\n` +
-                `📜 Pergaminos: ${formatValue(item.value.scrolls)}\n` +
-                `🎭 Vizard: ${formatValue(item.value.vizards)}\n` 
-            );
-        }).join("\n");
-    };
+const formatItems = (items) => {
+    const groupedItems = groupItems(items);
+
+    return groupedItems.map(({ item, quantity }) => {
+        const totalKeys =
+            item.value.keys != null
+                ? item.value.keys * quantity
+                : null;
+
+        const totalScrolls =
+            item.value.scrolls != null
+                ? item.value.scrolls * quantity
+                : null;
+
+        const totalVizards =
+            item.value.vizards != null
+                ? item.value.vizards * quantity
+                : null;
+
+        return (
+            `**${item.name} x${quantity}**\n` +
+            `🔑 Llaves: ${formatValue(totalKeys)}\n` +
+            `📜 Pergaminos: ${formatValue(totalScrolls)}\n` +
+            `🎭 Vizard: ${formatValue(totalVizards)}\n`
+        );
+    }).join("\n");
+};
 
     const resultEmoji =
         comparison.result === "W" ? "🟢" :
@@ -257,9 +290,13 @@ function createTradeEmbed(comparison, notFound = []) {
         comparison.result === "L" ? 0xe74c3c :
         0xf1c40f;
 
-    const notFoundText = notFound.length
-        ? `\n\n❌ **Items no encontrados:**\n${notFound.map(item => `• ${item}`).join("\n")}`
-        : "";
+ const groupedNotFound = groupTextItems(notFound);
+
+const notFoundText = groupedNotFound.length
+    ? `\n\n❌ **Items no encontrados:**\n${groupedNotFound
+        .map(({ name, quantity }) => `• ${name}${quantity > 1 ? ` x${quantity}` : ""}`)
+        .join("\n")}`
+    : "";
 
     return new EmbedBuilder()
         .setColor(color)
