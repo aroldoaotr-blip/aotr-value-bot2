@@ -164,6 +164,25 @@ function groupItems(items) {
     return Array.from(map.values());
 }
 
+function groupTextItems(items) {
+    const map = new Map();
+
+    for (const item of items) {
+        const key = item.toLowerCase().trim();
+
+        if (!map.has(key)) {
+            map.set(key, {
+                name: item,
+                quantity: 1
+            });
+        } else {
+            map.get(key).quantity++;
+        }
+    }
+
+    return Array.from(map.values());
+}
+
 
 function createSumEmbed(foundItems, total, notFound = []) {
 const groupedItems = groupItems(foundItems);
@@ -178,9 +197,13 @@ const itemsText = groupedItems.map(({ item, quantity }) => {
     );
 }).join("\n\n");
 
-    const notFoundText = notFound.length
-        ? `\n\n❌ **Items no encontrados:**\n${notFound.map(item => `• ${item}`).join("\n")}`
-        : "";
+const groupedNotFound = groupTextItems(notFound);
+
+const notFoundText = groupedNotFound.length
+    ? `\n\n❌ **Items no encontrados:**\n${groupedNotFound
+        .map(({ name, quantity }) => `• ${name}${quantity > 1 ? ` x${quantity}` : ""}`)
+        .join("\n")}`
+    : "";
 
     return new EmbedBuilder()
         .setColor(0x2ecc71)
