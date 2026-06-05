@@ -512,6 +512,7 @@ const createGiveawayEmbed = () => {
             `🎊 **¿Cómo participar?**\n` +
             `Presiona el botón **Participar**.\n\n` +
             `🍀 ¡Mucha suerte a todos!`
+            `🍀 @everyone`
         )
         .addFields(
             {
@@ -540,6 +541,10 @@ const buttonRow = new ActionRowBuilder().addComponents(
 );
 
 const giveawayMessage = await message.channel.send({
+    content:
+        "@everyone\n\n" +
+        "🎉 **¡NUEVO SORTEO ACTIVO!** 🎉\n" +
+        "🎁 Revisa el premio y participa usando el botón de abajo.\n",
     embeds: [createGiveawayEmbed()],
     components: [buttonRow]
 });
