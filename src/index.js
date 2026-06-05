@@ -6,6 +6,7 @@ import { parseTradeMessage } from "./parser/tradeParser.js";
 import { calculateItems, compareTrades } from "./services/calculator.js";
 import dotenv from 'dotenv';
 import { resolveCurrency } from "./parser/currencyResolver.js";
+import { findVizardRate } from "./services/currencyRates.js";
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ const client = new Client({
 let resolveItem = null;
 let itemsCache = [];
 let lastUpdate = null;
+let vizardRate = null;
 
 const VALUES_CHANNEL_ID = "1510408304046768248";
 
@@ -30,7 +32,7 @@ function resolveItems(inputItems) {
     const notFound = [];
 
     for (const input of inputItems) {
-        const currencyItem = resolveCurrency(input);
+        const currencyItem = resolveCurrency(input, vizardRate);
 
         if (currencyItem) {
             found.push(currencyItem);
@@ -56,9 +58,16 @@ async function refreshItems() {
     try {
         console.log("Actualizando items...");
 
-        itemsCache = await loadItems();
-        resolveItem = createItemResolver(itemsCache);
-        lastUpdate = new Date();
+itemsCache = await loadItems();
+
+vizardRate = findVizardRate(itemsCache);
+
+if (vizardRate) {
+    console.log(`Vizard detectado: 1 Vizard = ${vizardRate.keysPerVizard} llaves`);
+}
+
+resolveItem = createItemResolver(itemsCache);
+lastUpdate = new Date();
 
         console.log(`Items actualizados: ${itemsCache.length}`);
          console.log(`El bot esta encendido correctamente.`);
@@ -386,7 +395,7 @@ client.on("messageCreate", async (message) => {
     const parsed = parseTradeMessage(message.content);
 
 if (parsed.type === "single") {
-    const item = resolveCurrency(parsed.item) || resolveItem(parsed.item);
+    const item = resolveCurrency(parsed.item, vizardRate) || resolveItem(parsed.item);
 
     if (!item) {
 

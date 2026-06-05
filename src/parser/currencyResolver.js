@@ -1,6 +1,6 @@
 import { BOT_CONFIG } from "../config/botConfig.js";
 
-export function resolveCurrency(input = "") {
+export function resolveCurrency(input = "", vizardRate = null) {
     const text = String(input).toLowerCase().trim();
 
     const match = text.match(/^(\d+(?:\.\d+)?)\s+(.+)$/);
@@ -16,7 +16,8 @@ export function resolveCurrency(input = "") {
         return createCurrencyItem({
             name: `${amount} Llaves`,
             keys: amount,
-            scrolls: amount / scrolls.value
+            scrolls: amount / scrolls.value,
+            vizards: vizardRate ? amount * vizardRate.keyToVizard : null
         });
     }
 
@@ -24,14 +25,15 @@ export function resolveCurrency(input = "") {
         return createCurrencyItem({
             name: `${amount} Pergaminos`,
             keys: amount * scrolls.value,
-            scrolls: amount
+            scrolls: amount,
+            vizards: vizardRate ? amount * vizardRate.scrollToVizard : null
         });
     }
 
     return null;
 }
 
-function createCurrencyItem({ name, keys, scrolls }) {
+function createCurrencyItem({ name, keys, scrolls, vizards }) {
     return {
         name,
         rarity: "Moneda",
@@ -40,7 +42,7 @@ function createCurrencyItem({ name, keys, scrolls }) {
             raw: "Moneda",
             keys,
             scrolls,
-            vizards: null
+            vizards
         },
         rateOfChange: "Fijo",
         taxGems: null,
