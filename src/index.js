@@ -1,5 +1,13 @@
-import { Client, GatewayIntentBits, EmbedBuilder } from "discord.js";
-import { parseValue } from './utils/parseValue.js';
+import {
+    Client,
+    GatewayIntentBits,
+    EmbedBuilder,
+    Partials,
+    PermissionsBitField,
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle
+} from "discord.js";import { parseValue } from './utils/parseValue.js';
 import { loadItems } from "./data/sheetLoader.js";
 import { createItemResolver } from "./parser/itemResolver.js";
 import { parseTradeMessage } from "./parser/tradeParser.js";
@@ -15,15 +23,24 @@ const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.MessageContent
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMessageReactions
+    ],
+    partials: [
+        Partials.Message,
+        Partials.Channel,
+        Partials.Reaction
     ]
 });
 
+const activeGiveaways = new Map();
 let resolveItem = null;
 let itemsCache = [];
 let lastUpdate = null;
 let vizardRate = null;
 
+
+const GIVEAWAY_CHANNEL_ID = "1512586769760124928";
 const VALUES_CHANNEL_ID = "1510408304046768248";
 
 
@@ -415,9 +432,217 @@ client.once("clientReady", async () => {
     setInterval(refreshItems, 5 * 60 * 1000);
 });
 
+function parseDuration(durationText) {
+    const match = durationText.match(/^(\d+)(s|m|h|d)$/i);
+
+    if (!match) return null;
+
+    const amount = Number(match[1]);
+    const unit = match[2].toLowerCase();
+
+    if (unit === "s") return amount * 1000;
+    if (unit === "m") return amount * 60 * 1000;
+    if (unit === "h") return amount * 60 * 60 * 1000;
+    if (unit === "d") return amount * 24 * 60 * 60 * 1000;
+
+    return null;
+}
+
+function formatDuration(ms) {
+    const seconds = Math.floor(ms / 1000);
+
+    if (seconds < 60) return `${seconds} segundos`;
+    if (seconds < 3600) return `${Math.floor(seconds / 60)} minutos`;
+    if (seconds < 86400) return `${Math.floor(seconds / 3600)} horas`;
+
+    return `${Math.floor(seconds / 86400)} días`;
+}
+
+async function handleGiveaway(message) {
+
+    if (message.channel.id !== GIVEAWAY_CHANNEL_ID) {
+    await message.reply(
+        `❌ Los sorteos solo pueden crearse en <#${GIVEAWAY_CHANNEL_ID}>`
+    );
+    return true;
+}
+
+    if (!message.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
+        await message.reply("❌ Solo un administrador puede crear sorteos.");
+        return true;
+    }
+
+    const args = message.content.split(" ").slice(1);
+
+    const durationText = args.shift();
+    const prize = args.join(" ").trim();
+
+    if (!durationText || !prize) {
+        await message.reply(
+            "❌ Uso correcto:\n`!sorteo 10m Premio del sorteo`\n\nEjemplo:\n`!sorteo 1h 1000 llaves AOTR`"
+        );
+        return true;
+    }
+
+    const durationMs = parseDuration(durationText);
+
+    if (!durationMs) {
+        await message.reply(
+            "❌ Duración inválida. Usa `s`, `m`, `h` o `d`.\nEjemplos: `30s`, `10m`, `2h`, `1d`"
+        );
+        return true;
+    }
+
+    const endTime = Date.now() + durationMs;
+
+const giveawayId = `${Date.now()}_${message.id}`;
+
+const participants = new Set();
+
+const createGiveawayEmbed = () => {
+    return new EmbedBuilder()
+        .setColor(0xffd700)
+        .setTitle("🎉┃SORTEO ACTIVO")
+        .setDescription(
+            `## 🎁 Premio\n` +
+            `**${prize}**\n\n` +
+            `━━━━━━━━━━━━━━\n\n` +
+            `⏱️ **Duración:** ${formatDuration(durationMs)}\n` +
+            `🏁 **Finaliza:** <t:${Math.floor(endTime / 1000)}:R>\n\n` +
+            `🎊 **¿Cómo participar?**\n` +
+            `Presiona el botón **Participar**.\n\n` +
+            `🍀 ¡Mucha suerte a todos!`
+        )
+        .addFields(
+            {
+                name: "👥 Participantes",
+                value: `${participants.size}`,
+                inline: true
+            },
+            {
+                name: "🏆 Ganadores",
+                value: "1",
+                inline: true
+            }
+        )
+        .setFooter({
+            text: `Creado por ${message.author.username}`
+        })
+        .setTimestamp();
+};
+
+const buttonRow = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+        .setCustomId(`giveaway_join_${giveawayId}`)
+        .setLabel("Participar")
+        .setEmoji("🎉")
+        .setStyle(ButtonStyle.Success)
+);
+
+const giveawayMessage = await message.channel.send({
+    embeds: [createGiveawayEmbed()],
+    components: [buttonRow]
+});
+
+activeGiveaways.set(giveawayId, {
+    prize,
+    participants,
+    messageId: giveawayMessage.id,
+    channelId: message.channel.id,
+    createGiveawayEmbed
+});
+
+    setTimeout(async () => {
+        try {
+            const giveaway = activeGiveaways.get(giveawayId);
+
+if (!giveaway || giveaway.participants.size === 0) {
+    await message.channel.send(
+        "❌ El sorteo terminó, pero no hubo participantes."
+    );
+
+    activeGiveaways.delete(giveawayId);
+    return;
+}
+
+const participantIds = [...giveaway.participants];
+
+const winnerId =
+    participantIds[Math.floor(Math.random() * participantIds.length)];
+
+const winner = `<@${winnerId}>`;
+
+            const resultEmbed = new EmbedBuilder()
+                .setColor(0x2ecc71)
+                .setTitle("🏆┃SORTEO FINALIZADO")
+.setDescription(
+    `🎁 **Premio**\n${prize}\n\n` +
+    `━━━━━━━━━━━━━━\n\n` +
+    `🥇 **Ganador**\n${winner}\n\n` +
+    `🎉 ¡Felicidades!`
+)
+
+            await message.channel.send({
+                embeds: [resultEmbed]
+            });
+        } catch (error) {
+            console.error("Error finalizando sorteo:", error);
+            await message.channel.send("❌ Ocurrió un error al finalizar el sorteo.");
+        }
+        activeGiveaways.delete(giveawayId);
+    }, durationMs);
+
+    return true;
+}
+
+client.on("interactionCreate", async (interaction) => {
+    if (!interaction.isButton()) return;
+
+    if (!interaction.customId.startsWith("giveaway_join_")) return;
+
+    const giveawayId = interaction.customId.replace("giveaway_join_", "");
+    const giveaway = activeGiveaways.get(giveawayId);
+
+    if (!giveaway) {
+        await interaction.reply({
+            content: "❌ Este sorteo ya terminó o no está disponible.",
+            ephemeral: true
+        });
+        return;
+    }
+
+    if (giveaway.participants.has(interaction.user.id)) {
+        await interaction.reply({
+            content: "✅ Ya estás participando en este sorteo.",
+            ephemeral: true
+        });
+        return;
+    }
+
+    giveaway.participants.add(interaction.user.id);
+
+    const channel = await client.channels.fetch(giveaway.channelId);
+    const msg = await channel.messages.fetch(giveaway.messageId);
+
+    await msg.edit({
+        embeds: [giveaway.createGiveawayEmbed()]
+    });
+
+    await interaction.reply({
+        content: "🎉 Entraste al sorteo correctamente.",
+        ephemeral: true
+    });
+});
+
 client.on("messageCreate", async (message) => {
+    
     if (message.author.bot) return;
     if (!resolveItem) return;
+
+if (message.content.toLowerCase().startsWith("!sorteo")) {
+    const handled = await handleGiveaway(message);
+    if (handled) return;
+}
 
     if (message.channel.id !== VALUES_CHANNEL_ID) return;
 
