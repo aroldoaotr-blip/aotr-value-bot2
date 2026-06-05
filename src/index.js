@@ -62,6 +62,35 @@ itemsCache = await loadItems();
 
 vizardRate = findVizardRate(itemsCache);
 
+itemsCache = applyVizardConversion(itemsCache, vizardRate);
+
+resolveItem = createItemResolver(itemsCache);
+
+function applyVizardConversion(items, vizardRate) {
+    if (!vizardRate) return items;
+
+    return items.map(item => {
+        const value = { ...item.value };
+
+        if ((value.keys === null || value.keys === undefined) && value.scrolls != null) {
+            value.keys = value.scrolls * 3;
+        }
+
+        if ((value.scrolls === null || value.scrolls === undefined) && value.keys != null) {
+            value.scrolls = value.keys / 3;
+        }
+
+        if ((value.vizards === null || value.vizards === undefined) && value.keys != null) {
+            value.vizards = value.keys / vizardRate.keysPerVizard;
+        }
+
+        return {
+            ...item,
+            value
+        };
+    });
+}
+
 if (vizardRate) {
     console.log(`Vizard detectado: 1 Vizard = ${vizardRate.keysPerVizard} llaves`);
 }
