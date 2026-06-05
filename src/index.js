@@ -5,6 +5,7 @@ import { createItemResolver } from "./parser/itemResolver.js";
 import { parseTradeMessage } from "./parser/tradeParser.js";
 import { calculateItems, compareTrades } from "./services/calculator.js";
 import dotenv from 'dotenv';
+import { resolveCurrency } from "./parser/currencyResolver.js";
 
 dotenv.config();
 
@@ -29,6 +30,13 @@ function resolveItems(inputItems) {
     const notFound = [];
 
     for (const input of inputItems) {
+        const currencyItem = resolveCurrency(input);
+
+        if (currencyItem) {
+            found.push(currencyItem);
+            continue;
+        }
+
         const item = resolveItem(input);
 
         if (item) {
@@ -377,8 +385,8 @@ client.on("messageCreate", async (message) => {
 
     const parsed = parseTradeMessage(message.content);
 
-    if (parsed.type === "single") {
-        const item = resolveItem(parsed.item);
+if (parsed.type === "single") {
+    const item = resolveCurrency(parsed.item) || resolveItem(parsed.item);
 
     if (!item) {
 
