@@ -34,12 +34,29 @@ function splitItems(text = "") {
 
     const expandedItems = [];
 
+    const currencyWords = [
+        "key",
+        "keys",
+        "llave",
+        "llaves",
+        "scroll",
+        "scrolls",
+        "pergamino",
+        "pergaminos"
+    ];
+
     for (const part of parts) {
-        const match = part.match(/^(\d+)\s+(.+)$/);
+        const match = part.match(/^(\d+(?:\.\d+)?)\s+(.+)$/);
 
         if (match) {
             const quantity = Number(match[1]);
             const itemName = match[2].trim();
+            const normalizedItemName = itemName.toLowerCase();
+
+            if (currencyWords.includes(normalizedItemName)) {
+                expandedItems.push(part);
+                continue;
+            }
 
             for (let i = 0; i < quantity; i++) {
                 expandedItems.push(itemName);
