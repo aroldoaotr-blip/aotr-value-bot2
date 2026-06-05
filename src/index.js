@@ -147,16 +147,36 @@ function createItemEmbed(item) {
         });
 }
 
+function groupItems(items) {
+    const map = new Map();
+
+    for (const item of items) {
+        if (!map.has(item.name)) {
+            map.set(item.name, {
+                item,
+                quantity: 1
+            });
+        } else {
+            map.get(item.name).quantity++;
+        }
+    }
+
+    return Array.from(map.values());
+}
+
+
 function createSumEmbed(foundItems, total, notFound = []) {
-    const itemsText = foundItems.map(item => {
-        return (
-            `**${item.name}**\n` +
-            `🔑 Llaves: ${formatValue(item.value.keys)}\n` +
-            `📜 Pergaminos: ${formatValue(item.value.scrolls)}\n` +
-            `🎭 Vizard: ${formatValue(item.value.vizards)}\n` +
-            `**Demanda:** ${formatDemand(item.demand)}`
-        );
-    }).join("\n\n");
+const groupedItems = groupItems(foundItems);
+
+const itemsText = groupedItems.map(({ item, quantity }) => {
+    return (
+        `**${item.name} x${quantity}**\n` +
+        `🔑 Llaves: ${formatValue(item.value.keys)} c/u\n` +
+        `📜 Pergaminos: ${formatValue(item.value.scrolls)} c/u\n` +
+        `🎭 Vizard: ${formatValue(item.value.vizards)} c/u\n` +
+        `**Demanda:** ${formatDemand(item.demand)}`
+    );
+}).join("\n\n");
 
     const notFoundText = notFound.length
         ? `\n\n❌ **Items no encontrados:**\n${notFound.map(item => `• ${item}`).join("\n")}`
