@@ -512,7 +512,6 @@ const createGiveawayEmbed = () => {
             `🎊 **¿Cómo participar?**\n` +
             `Presiona el botón **Participar**.\n\n` +
             `🍀 ¡Mucha suerte a todos!`
-            `🍀 @everyone`
         )
         .addFields(
             {
