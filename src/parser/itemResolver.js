@@ -2,7 +2,22 @@ import Fuse from "fuse.js";
 import { SEARCH_ALIASES } from "../data/searchAliases.js";
 
 function normalizeText(text = "") {
-    function applySearchAliases(text = "") {
+    return String(text)
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/ø/g, "o")
+        .replace(/ö/g, "o")
+        .replace(/ä/g, "a")
+        .replace(/ü/g, "u")
+        .replace(/ñ/g, "n")
+        .replace(/['’]/g, "")
+        .replace(/[^a-z0-9\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+}
+
+function applySearchAliases(text = "") {
     const normalized = normalizeText(text);
     const words = normalized.split(" ").filter(Boolean);
 
@@ -46,20 +61,6 @@ function tokenSearch(items, query) {
     if (best.score < queryTokens.length) return null;
 
     return best.item;
-}
-    return String(text)
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/ø/g, "o")
-        .replace(/ö/g, "o")
-        .replace(/ä/g, "a")
-        .replace(/ü/g, "u")
-        .replace(/ñ/g, "n")
-        .replace(/['’]/g, "")
-        .replace(/[^a-z0-9\s]/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
 }
 
 function createSearchEntries(items) {
