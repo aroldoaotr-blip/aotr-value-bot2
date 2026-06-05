@@ -27,8 +27,27 @@ export function parseTradeMessage(content = "") {
 }
 
 function splitItems(text = "") {
-    return String(text)
+    const parts = String(text)
         .split("+")
         .map(item => item.trim())
         .filter(Boolean);
+
+    const expandedItems = [];
+
+    for (const part of parts) {
+        const match = part.match(/^(\d+)\s+(.+)$/);
+
+        if (match) {
+            const quantity = Number(match[1]);
+            const itemName = match[2].trim();
+
+            for (let i = 0; i < quantity; i++) {
+                expandedItems.push(itemName);
+            }
+        } else {
+            expandedItems.push(part);
+        }
+    }
+
+    return expandedItems;
 }
