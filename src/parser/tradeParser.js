@@ -27,11 +27,12 @@ export function parseTradeMessage(content = "") {
 }
 
 function splitItems(text = "") {
-    const parts = String(text)
-        .split("+")
-        .map(item => item.trim())
-        .filter(Boolean);
 
+const parts = String(text)
+    .split("+")
+    .map(item => item.trim().replace(/^(and|y)\s+/i, ""))
+    .filter(Boolean);
+        
     const expandedItems = [];
 
     const currencyWords = [

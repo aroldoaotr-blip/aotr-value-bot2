@@ -1,6 +1,7 @@
 import Fuse from "fuse.js";
 import { SEARCH_ALIASES } from "../data/searchAliases.js";
 
+
 function normalizeText(text = "") {
     return String(text)
         .toLowerCase()
@@ -14,6 +15,22 @@ function normalizeText(text = "") {
         .replace(/['’]/g, "")
         .replace(/[^a-z0-9\s]/g, " ")
         .replace(/\s+/g, " ")
+        .trim();
+}
+
+function normalizeWord(word = "") {
+    if (word.endsWith("ies")) return word.slice(0, -3) + "y";
+    if (word.endsWith("es")) return word.slice(0, -2);
+    if (word.endsWith("s") && word.length > 3) return word.slice(0, -1);
+
+    return word;
+}
+
+function normalizeSearchText(text = "") {
+    return normalizeText(text)
+        .split(" ")
+        .map(normalizeWord)
+        .join(" ")
         .trim();
 }
 
@@ -67,7 +84,7 @@ function createSearchEntries(items) {
     const entries = [];
 
     for (const item of items) {
-        const normalizedName = normalizeText(item.name);
+        const normalizedName = normalizeSearchText(item.name);
         const words = normalizedName.split(" ");
 
         entries.push({
@@ -120,7 +137,7 @@ const suggestionFuse = new Fuse(entries, {
 })
 
 function suggestItems(input, limit = 5) {
-    const query = applySearchAliases(input);
+    const query = normalizeSearchText(applySearchAliases(input));
 
     if (!query) return [];
 
@@ -142,7 +159,7 @@ function suggestItems(input, limit = 5) {
 }
 
 function resolvePerk(input) {
-    const query = normalizeText(input);
+    const query = normalizeSearchText(normalizeText(input));
 
     const wantsLevel10 = /\b10\b/.test(query);
 
@@ -184,7 +201,7 @@ function resolvePerk(input) {
 }
 
     function resolveItem(input) {
-    const query = applySearchAliases(input);
+    const query = normalizeSearchText(applySearchAliases(input));
 
     const wantsPerk10 =
     /\b10\b/.test(query) ||
