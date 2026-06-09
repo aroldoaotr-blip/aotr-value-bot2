@@ -323,24 +323,30 @@ function findWikiEntry(query) {
 }
 
 function createWikiEmbed(entry) {
+    const slot = entry.slot || "Body";
+    const rarity = entry.rarity || "Unknown";
+
+    const effects =
+        Array.isArray(entry.effects) && entry.effects.length
+            ? entry.effects.map(effect => `• ${effect}`).join("\n")
+            : "No hay información disponible.";
+
     return new EmbedBuilder()
         .setColor(0x3498db)
-        .setTitle(`📚 ${entry.name}`)
+        .setTitle(`📚 ${entry.name || "Wiki"}`)
         .addFields(
             {
                 name: "🎯 Tipo",
-                value: entry.slot,
+                value: String(slot),
                 inline: true
             },
             {
                 name: "⭐ Rareza",
-                value: entry.rarity,
+                value: String(rarity),
                 inline: true
             }
         )
-        .setDescription(
-            entry.effects.map(effect => `• ${effect}`).join("\n")
-        )
+        .setDescription(effects)
         .setFooter({
             text: "AOTR Wiki • Creado por Melevengo"
         });
