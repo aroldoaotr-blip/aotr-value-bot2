@@ -299,14 +299,23 @@ function groupTextItems(items) {
 }
 
 function findWikiEntry(query) {
-    const normalizedQuery = query.toLowerCase().trim();
+    const normalizedQuery = String(query).toLowerCase().trim();
 
-    for (const perk of Object.values(perksWiki)) {
+    for (const entry of Object.values(perksWiki)) {
+        if (!entry || !entry.name) continue;
+
+        const name = entry.name.toLowerCase();
+
+        const aliases = Array.isArray(entry.aliases)
+            ? entry.aliases.map(alias => String(alias).toLowerCase())
+            : [];
+
         if (
-            perk.name.toLowerCase() === normalizedQuery ||
-            perk.name.toLowerCase().includes(normalizedQuery)
+            name === normalizedQuery ||
+            name.includes(normalizedQuery) ||
+            aliases.includes(normalizedQuery)
         ) {
-            return perk;
+            return entry;
         }
     }
 
