@@ -606,7 +606,7 @@ async function handleGiveaway(message) {
     const args = message.content.split(" ").slice(1);
 
     const durationText = args.shift();
-    const prize = args.join(" ").trim();
+    const prize = args.join(" ").replace(/\s+/g, " ").trim();
 
     if (!durationText || !prize) {
         await message.reply(
@@ -634,16 +634,16 @@ const createGiveawayEmbed = () => {
     return new EmbedBuilder()
         .setColor(0xffd700)
         .setTitle("🎉┃SORTEO ACTIVO")
-        .setDescription(
-            `## 🎁 Premio\n` +
-            `**${prize}**\n\n` +
-            `━━━━━━━━━━━━━━\n\n` +
-            `⏱️ **Duración:** ${formatDuration(durationMs)}\n` +
-            `🏁 **Finaliza:** <t:${Math.floor(endTime / 1000)}:R>\n\n` +
-            `🎊 **¿Cómo participar?**\n` +
-            `Presiona el botón **Participar**.\n\n` +
-            `🍀 ¡Mucha suerte a todos!`
-        )
+.setDescription(
+    `🎁 **Premio**\n` +
+    `**${prize}**\n\n` +
+    `━━━━━━━━━━━━━━\n\n` +
+    `⏱️ **Duración:** ${formatDuration(durationMs)}\n` +
+    `🏁 **Finaliza:** <t:${Math.floor(endTime / 1000)}:R>\n\n` +
+    `🎊 **¿Cómo participar?**\n` +
+    `Presiona el botón **Participar**.\n\n` +
+    `🍀 ¡Mucha suerte a todos!`
+)
         .addFields(
             {
                 name: "👥 Participantes",
@@ -671,12 +671,12 @@ const buttonRow = new ActionRowBuilder().addComponents(
 );
 
 const giveawayMessage = await message.channel.send({
-    content:
-        "@everyone\n\n" +
-        "🎉 **¡NUEVO SORTEO ACTIVO!** 🎉\n" +
-        "🎁 Revisa el premio y participa usando el botón de abajo.\n",
+    content: "@everyone 🎉 **¡NUEVO SORTEO ACTIVO!**",
     embeds: [createGiveawayEmbed()],
-    components: [buttonRow]
+    components: [buttonRow],
+    allowedMentions: {
+        parse: ["everyone"]
+    }
 });
 
 activeGiveaways.set(giveawayId, {
