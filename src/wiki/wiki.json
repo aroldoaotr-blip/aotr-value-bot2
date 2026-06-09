@@ -1,0 +1,194 @@
+{
+"_BODY_PERKS": {},
+
+"enhanced_metabolism": {
+"name": "Enhanced Metabolism",
+"type": "Body",
+"rarity": "Common",
+"maxLevel": 10,
+"aliases": [
+"enhanced metabolism",
+"metabolism",
+"metabolismo mejorado"
+],
+"effects": [
+"Regeneración de vida: 2 → 3"
+]
+},
+
+"critical_hunter": {
+"name": "Critical Hunter",
+"type": "Body",
+"rarity": "Rare",
+"maxLevel": 10,
+"aliases": [
+"critical hunter",
+"hunter",
+"cazador critico"
+],
+"effects": [
+"Duración de espadas: 7.5% → 15%",
+"Probabilidad crítica: 5% → 10%"
+]
+},
+
+"resilient": {
+"name": "Resilient",
+"type": "Body",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"resilient"
+],
+"effects": [
+"Transformaciones: 1 → 2",
+"Barra de despertar: 5% → 10% más rápida"
+]
+},
+
+"solo": {
+"name": "Solo",
+"type": "Body",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"solo"
+],
+"effects": [
+"Stats ODM: +5% → +7.5%"
+]
+},
+
+"indefatigable": {
+"name": "Indefatigable",
+"type": "Body",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"indefatigable"
+],
+"effects": [
+"Transformaciones: 2 → 3",
+"Barra de despertar: 15% → 25% más rápida"
+]
+},
+
+"perfect_soul": {
+"name": "Perfect Soul",
+"type": "Body",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"perfect soul"
+],
+"effects": [
+"Stats ODM: +7.5% → +10%"
+]
+},
+
+"perfect_form": {
+"name": "Perfect Form",
+"type": "Body",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"perfect form"
+],
+"effects": [
+"Daño ODM: +7.5% → +10%",
+"Daño máximo: 70% → 50% velocidad"
+]
+},
+
+"flame_rhapsody": {
+"name": "Flame Rhapsody",
+"type": "Body",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"flame rhapsody"
+],
+"effects": [
+"Daño crítico: 2x → 2.3x",
+"Probabilidad crítica: 5% → 12.5%"
+]
+},
+
+"wind_rhapsody": {
+"name": "Wind Rhapsody",
+"type": "Body",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"wind rhapsody"
+],
+"effects": [
+"Daño crítico: 2x → 1.67x",
+"Probabilidad crítica: 2x → 2.4x"
+]
+},
+
+"tyrants_stare": {
+"name": "Tyrant's Stare",
+"type": "Body",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"tyrants stare",
+"tyrant stare"
+],
+"effects": [
+"Probabilidad crítica: 0% → 10%",
+"15% → 25% daño crítico convertido a daño bruto",
+"25% → 40% probabilidad crítica convertida a daño bruto"
+]
+},
+
+"founders_blessing": {
+"name": "Founder's Blessing",
+"type": "Body",
+"rarity": "Mythic",
+"maxLevel": 10,
+"aliases": [
+"founders blessing"
+],
+"effects": [
+"Transformaciones: 3 → 5",
+"Barra de despertar: 25% → 35% más rápida",
+"Rango titanes: +150m",
+"Stats titán: +10% → +15%"
+]
+},
+
+"heavenly_restriction": {
+"name": "Heavenly Restriction",
+"type": "Body",
+"rarity": "Mythic",
+"maxLevel": 10,
+"aliases": [
+"heavenly restriction"
+],
+"effects": [
+"Habilidades deshabilitadas",
+"Stats ODM/TS: +15% → +30% por habilidades",
+"Probabilidad de matar al herir: +10% → +20%",
+"Resistencia al daño: +10% → +15%"
+]
+},
+
+"maximum_firepower": {
+"name": "Maximum Firepower",
+"type": "Body",
+"rarity": "Mythic",
+"maxLevel": 10,
+"aliases": [
+"maximum firepower"
+],
+"effects": [
+"Velocidad lanzas: +20% → +40%",
+"Conteo lanzas: 2 → 4",
+"Stats TS: +5% → +7.5%",
+"Sin retroceso al disparar"
+]
+}
+}

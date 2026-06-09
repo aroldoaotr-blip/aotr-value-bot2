@@ -15,6 +15,7 @@ import { calculateItems, compareTrades } from "./services/calculator.js";
 import dotenv from 'dotenv';
 import { resolveCurrency } from "./parser/currencyResolver.js";
 import { findVizardRate } from "./services/currencyRates.js";
+import perksWiki from "./wiki/wiki.json" assert { type: "json" };
 
 dotenv.config();
 
@@ -45,6 +46,9 @@ const activeSimilarSearches = new Map();
 
 const GIVEAWAY_CHANNEL_ID = "1512586769760124928";
 const VALUES_CHANNEL_ID = "1510408304046768248";
+const WIKI_CHANNEL_ID = "1513808128674627616";
+
+
 
 
 function resolveItems(inputItems) {
@@ -290,6 +294,44 @@ function groupTextItems(items) {
     return Array.from(map.values());
 }
 
+function findWikiEntry(query) {
+    const normalizedQuery = query.toLowerCase().trim();
+
+    for (const perk of Object.values(perksWiki)) {
+        if (
+            perk.name.toLowerCase() === normalizedQuery ||
+            perk.name.toLowerCase().includes(normalizedQuery)
+        ) {
+            return perk;
+        }
+    }
+
+    return null;
+}
+
+function createWikiEmbed(entry) {
+    return new EmbedBuilder()
+        .setColor(0x3498db)
+        .setTitle(`📚 ${entry.name}`)
+        .addFields(
+            {
+                name: "🎯 Tipo",
+                value: entry.slot,
+                inline: true
+            },
+            {
+                name: "⭐ Rareza",
+                value: entry.rarity,
+                inline: true
+            }
+        )
+        .setDescription(
+            entry.effects.map(effect => `• ${effect}`).join("\n")
+        )
+        .setFooter({
+            text: "AOTR Wiki • Creado por Melevengo"
+        });
+}
 
 function createSumEmbed(foundItems, total, notFound = []) {
 const groupedItems = groupItems(foundItems);
@@ -744,6 +786,33 @@ client.on("interactionCreate", async (interaction) => {
 client.on("messageCreate", async (message) => {
     
     if (message.author.bot) return;
+    if (message.channel.id === WIKI_CHANNEL_ID) {
+
+    const query = message.content.trim();
+
+    const entry = findWikiEntry(query);
+
+    if (!entry) {
+        await message.reply({
+            embeds: [
+                new EmbedBuilder()
+                    .setColor(0xe74c3c)
+                    .setTitle("❌ Entrada no encontrada")
+                    .setDescription(
+                        "No encontré información para esa perk."
+                    )
+            ]
+        });
+
+        return;
+    }
+
+    await message.reply({
+        embeds: [createWikiEmbed(entry)]
+    });
+
+    return;
+}
     if (!resolveItem) return;
 
 if (message.content.toLowerCase().startsWith("!sorteo")) {
