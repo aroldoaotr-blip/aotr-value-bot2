@@ -805,6 +805,28 @@ client.on("interactionCreate", async (interaction) => {
 client.on("messageCreate", async (message) => {
     
     if (message.author.bot) return;
+    if (message.content.toLowerCase() === "!participantes") {
+    if (!message.member.permissions.has(PermissionsBitField.Flags.Administrator)) return;
+
+    const giveaways = [...activeGiveaways.values()];
+
+    if (!giveaways.length) {
+        await message.reply("❌ No hay sorteos activos guardados en memoria.");
+        return;
+    }
+
+    const giveaway = giveaways[0];
+    const ids = [...giveaway.participants];
+
+    await message.reply(
+        ids.length
+            ? `👥 **Participantes guardados:**\n${ids.map(id => `<@${id}>`).join("\n")}`
+            : "❌ Todavía no hay participantes guardados."
+    );
+
+    return;
+}
+
     if (message.channel.id === WIKI_CHANNEL_ID) {
 
     const query = message.content.trim();
