@@ -788,6 +788,7 @@ await message.reply({
 });
 
 return;
+}
 
     const parsed = parseTradeMessage(message.content);
 
