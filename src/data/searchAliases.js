@@ -81,9 +81,9 @@ export const SEARCH_ALIASES = {
     "susano": "susano",
     "ulq": "ulquiorra",
     "viz": "vizard",
-    "Attack": "ataque",
-    "Attack": "ataqu",
-    "female": "femenino",
-    "female": "mujer",
-    "armored": "armado"
+    "ataque": "Attack",
+    "ataqu": "Attack",
+    "femenino": "female",
+    "mujer": "female",
+    "armado": "armored"
 };
