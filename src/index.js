@@ -40,6 +40,9 @@ let lastUpdate = null;
 let vizardRate = null;
 
 
+const activeSimilarSearches = new map();
+
+
 const GIVEAWAY_CHANNEL_ID = "1512586769760124928";
 const VALUES_CHANNEL_ID = "1510408304046768248";
 
@@ -350,7 +353,7 @@ const notFoundText = groupedNotFound.length
         });
 }
 
-function createSimilarItemsEmbed(targetItem, similarItems) {
+function createSimilarItemsEmbed(targetItem, similarItems, percent = 10) {
     const targetValue = Number(targetItem.value.vizards);
 
 const description = similarItems.length
@@ -360,14 +363,14 @@ const description = similarItems.length
             `🎭 **${formatValue(result.value)} Vizard**`
         );
     }).join("\n\n")
-        : "No encontré items dentro del rango de ±10%.";
+        : `📊 No encontré items dentro del rango de ±${percent}%`;
 
     return new EmbedBuilder()
         .setColor(0x9b59b6)
         .setTitle(`🔍 Similares a ${targetItem.name}`)
         .setDescription(
             `🎯 **Valor objetivo:** ${formatValue(targetValue)} Vizard\n` +
-            `📊 **Rango:** ±10%\n\n` +
+           `📊 **Rango:** ±${percent}%\n\n` +
             `━━━━━━━━━━━━━━\n\n` +
             description
         )
@@ -669,6 +672,39 @@ const winner = `<@${winnerId}>`;
 client.on("interactionCreate", async (interaction) => {
     if (!interaction.isButton()) return;
 
+    if (interaction.isButton() && interaction.customId.startsWith("similar_20_")) {
+    const searchId = interaction.customId.replace("similar_20_", "");
+    const searchData = activeSimilarSearches.get(searchId);
+
+    if (!searchData) {
+        await interaction.reply({
+            content: "❌ Esta búsqueda ya no está disponible.",
+            ephemeral: true
+        });
+        return;
+    }
+
+    const targetItem = resolveItem(searchData.targetItemName);
+
+    if (!targetItem) {
+        await interaction.reply({
+            content: "❌ No pude volver a encontrar el item original.",
+            ephemeral: true
+        });
+        return;
+    }
+
+    const similarItems = findSimilarItems(targetItem, itemsCache, 10, 20);
+
+    await interaction.update({
+        embeds: [createSimilarItemsEmbed(targetItem, similarItems, 20)],
+        components: []
+    });
+
+    activeSimilarSearches.delete(searchId);
+    return;
+}
+
     if (!interaction.customId.startsWith("giveaway_join_")) return;
 
     const giveawayId = interaction.customId.replace("giveaway_join_", "");
@@ -730,15 +766,28 @@ if (similarMatch) {
         return;
     }
 
-    const similarItems = findSimilarItems(targetItem, itemsCache, 10, 10);
+const similarItems = findSimilarItems(targetItem, itemsCache, 10, 10);
 
+const searchId = `${Date.now()}_${message.id}`;
 
-    await message.reply({
-        embeds: [createSimilarItemsEmbed(targetItem, similarItems)]
-    });
+activeSimilarSearches.set(searchId, {
+    targetItemName: targetItem.name
+});
 
-    return;
-}
+const buttonRow = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+        .setCustomId(`similar_20_${searchId}`)
+        .setLabel("Ampliar al 20%")
+        .setEmoji("🔎")
+        .setStyle(ButtonStyle.Primary)
+);
+
+await message.reply({
+    embeds: [createSimilarItemsEmbed(targetItem, similarItems)],
+    components: [buttonRow]
+});
+
+return;
 
     const parsed = parseTradeMessage(message.content);
 
