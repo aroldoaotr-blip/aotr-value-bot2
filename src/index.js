@@ -15,6 +15,7 @@ import { calculateItems, compareTrades } from "./services/calculator.js";
 import dotenv from 'dotenv';
 import { resolveCurrency } from "./parser/currencyResolver.js";
 import { findVizardRate } from "./services/currencyRates.js";
+import fs from "fs";
 
 
 dotenv.config();
