@@ -603,9 +603,15 @@ async function handleGiveaway(message) {
         return true;
     }
 
-    const args = message.content.split(" ").slice(1);
+const args = message.content.split(" ").slice(1);
 
-    const durationText = args.shift();
+const durationText = args.shift();
+
+let winnerCount = 1;
+
+if (!isNaN(args[0])) {
+    winnerCount = Math.max(1, parseInt(args.shift()));
+}
     const prize = args.join(" ").replace(/\s+/g, " ").trim();
 
     if (!durationText || !prize) {
@@ -650,11 +656,11 @@ const createGiveawayEmbed = () => {
                 value: `${participants.size}`,
                 inline: true
             },
-            {
-                name: "🏆 Ganadores",
-                value: "1",
-                inline: true
-            }
+           {
+    name: "🏆 Ganadores",
+    value: String(winnerCount),
+    inline: true
+}
         )
         .setFooter({
             text: `Creado por ${message.author.username}`
@@ -681,6 +687,7 @@ const giveawayMessage = await message.channel.send({
 
 activeGiveaways.set(giveawayId, {
     prize,
+    winnerCount,
     participants,
     messageId: giveawayMessage.id,
     channelId: message.channel.id,
@@ -702,10 +709,22 @@ if (!giveaway || giveaway.participants.size === 0) {
 
 const participantIds = [...giveaway.participants];
 
-const winnerId =
-    participantIds[Math.floor(Math.random() * participantIds.length)];
+const winners = [];
 
-const winner = `<@${winnerId}>`;
+const totalWinners = Math.min(
+    giveaway.winnerCount,
+    participantIds.length
+);
+
+for (let i = 0; i < totalWinners; i++) {
+    const randomIndex = Math.floor(
+        Math.random() * participantIds.length
+    );
+
+    winners.push(`<@${participantIds[randomIndex]}>`);
+
+    participantIds.splice(randomIndex, 1);
+}
 
             const resultEmbed = new EmbedBuilder()
                 .setColor(0x2ecc71)
@@ -713,7 +732,7 @@ const winner = `<@${winnerId}>`;
 .setDescription(
     `🎁 **Premio**\n${prize}\n\n` +
     `━━━━━━━━━━━━━━\n\n` +
-    `🥇 **Ganador**\n${winner}\n\n` +
+    `🏆 **Ganadores**\n${winners.join("\n")}\n\n` +
     `🎉 ¡Felicidades!`
 )
 
