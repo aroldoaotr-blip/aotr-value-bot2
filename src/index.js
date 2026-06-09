@@ -691,21 +691,26 @@ activeGiveaways.set(giveawayId, {
     participants,
     messageId: giveawayMessage.id,
     channelId: message.channel.id,
-    createGiveawayEmbed
+    createGiveawayEmbed,
+     ended: false
 });
 
-    setTimeout(async () => {
-        try {
-            const giveaway = activeGiveaways.get(giveawayId);
+setTimeout(async () => {
+    try {
+        const giveaway = activeGiveaways.get(giveawayId);
 
-if (!giveaway || giveaway.participants.size === 0) {
-    await message.channel.send(
-        "❌ El sorteo terminó, pero no hubo participantes."
-    );
+        if (!giveaway || giveaway.ended) return;
 
-    activeGiveaways.delete(giveawayId);
-    return;
-}
+        giveaway.ended = true;
+
+        if (giveaway.participants.size === 0) {
+            await message.channel.send(
+                "❌ El sorteo terminó, pero no hubo participantes."
+            );
+
+            activeGiveaways.delete(giveawayId);
+            return;
+        }
 
 const participantIds = [...giveaway.participants];
 
