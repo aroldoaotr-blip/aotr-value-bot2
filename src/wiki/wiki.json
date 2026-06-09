@@ -190,5 +190,368 @@
 "Stats TS: +5% → +7.5%",
 "Sin retroceso al disparar"
 ]
+},
+
+"_OFFENSE_PERKS": {},
+
+"mighty": {
+"name": "Mighty",
+"type": "Offense",
+"rarity": "Common",
+"maxLevel": 10,
+"aliases": [
+"mighty"
+],
+"effects": [
+"El daño ODM aumenta en 5% → 10%"
+]
+},
+
+"cripple": {
+"name": "Cripple",
+"type": "Offense",
+"rarity": "Common",
+"maxLevel": 10,
+"aliases": [
+"cripple"
+],
+"effects": [
+"El daño crítico aumenta en 5% → 10%"
+]
+},
+
+"lucky": {
+"name": "Lucky",
+"type": "Offense",
+"rarity": "Common",
+"maxLevel": 10,
+"aliases": [
+"lucky"
+],
+"effects": [
+"La probabilidad crítica aumenta en 2.5% → 5%"
+]
+},
+
+"hollow": {
+"name": "Hollow",
+"type": "Offense",
+"rarity": "Common",
+"maxLevel": 10,
+"aliases": [
+"hollow"
+],
+"effects": [
+"La duración del balanceo de espadas aumenta en 2.5% → 5%"
+]
+},
+
+"forceful": {
+"name": "Forceful",
+"type": "Offense",
+"rarity": "Rare",
+"maxLevel": 10,
+"aliases": [
+"forceful"
+],
+"effects": [
+"El daño ODM aumenta en 6.5% → 15%"
+]
+},
+
+"mangle": {
+"name": "Mangle",
+"type": "Offense",
+"rarity": "Rare",
+"maxLevel": 10,
+"aliases": [
+"mangle"
+],
+"effects": [
+"El daño crítico aumenta en 10% → 20%"
+]
+},
+
+"blessed": {
+"name": "Blessed",
+"type": "Offense",
+"rarity": "Rare",
+"maxLevel": 10,
+"aliases": [
+"blessed"
+],
+"effects": [
+"La probabilidad crítica aumenta en 5% → 10%"
+]
+},
+
+"lightweight": {
+"name": "Lightweight",
+"type": "Offense",
+"rarity": "Rare",
+"maxLevel": 10,
+"aliases": [
+"lightweight"
+],
+"effects": [
+"La duración del balanceo de espadas aumenta en 5% → 10%"
+]
+},
+
+"peerless_strength": {
+"name": "Peerless Strength",
+"type": "Offense",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"peerless strength"
+],
+"effects": [
+"El daño ODM aumenta en 10% → 20%"
+]
+},
+
+"warrior": {
+"name": "Warrior",
+"type": "Offense",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"warrior"
+],
+"effects": [
+"El daño SHIFTER aumenta en 7.5% → 15%"
+]
+},
+
+"focus": {
+"name": "Focus",
+"type": "Offense",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"focus"
+],
+"effects": [
+"El daño crítico aumenta en 10% → 15%",
+"La probabilidad crítica aumenta en 3% → 5%"
+]
+},
+
+"mutilate": {
+"name": "Mutilate",
+"type": "Offense",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"mutilate"
+],
+"effects": [
+"El daño crítico aumenta en 20% → 35%"
+]
+},
+
+"luminous": {
+"name": "Luminous",
+"type": "Offense",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"luminous"
+],
+"effects": [
+"La probabilidad crítica aumenta en 10% → 15%"
+]
+},
+
+"reckless_abandon": {
+"name": "Reckless Abandon",
+"type": "Offense",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"reckless abandon"
+],
+"effects": [
+"El daño crítico aumenta en 20% → 30%",
+"La probabilidad crítica disminuye un 10% → 7.5%"
+]
+},
+
+"flawed_release": {
+"name": "Flawed Release",
+"type": "Offense",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"flawed release"
+],
+"effects": [
+"El daño crítico disminuye 30% → 25%",
+"La probabilidad crítica aumenta en 10% → 20%"
+]
+},
+
+"speedy": {
+"name": "Speedy",
+"type": "Offense",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"speedy"
+],
+"effects": [
+"La duración del balanceo de espadas aumenta en 10% → 15%"
+]
+},
+
+"butcher": {
+"name": "Butcher",
+"type": "Offense",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"butcher"
+],
+"effects": [
+"Las cuchillas pueden cortar 2 → 3 extremidades a la vez"
+]
+},
+
+"unparalleled_strength": {
+"name": "Unparalleled Strength",
+"type": "Offense",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"unparalleled strength"
+],
+"effects": [
+"El daño ODM aumenta en 15% → 25%"
+]
+},
+
+"warchief": {
+"name": "Warchief",
+"type": "Offense",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"warchief"
+],
+"effects": [
+"El daño SHIFTER aumenta en 12% → 20%"
+]
+},
+
+"eviscerate": {
+"name": "Eviscerate",
+"type": "Offense",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"eviscerate"
+],
+"effects": [
+"El daño crítico aumenta un 30% → 50%"
+]
+},
+
+"sanctified": {
+"name": "Sanctified",
+"type": "Offense",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"sanctified"
+],
+"effects": [
+"La probabilidad crítica aumenta en 15% → 20%"
+]
+},
+
+"peerless_focus": {
+"name": "Peerless Focus",
+"type": "Offense",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"peerless focus"
+],
+"effects": [
+"El daño crítico aumenta en 20% → 30%",
+"La probabilidad crítica aumenta en 7.5% → 10%"
+]
+},
+
+"carnifex": {
+"name": "Carnifex",
+"type": "Offense",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"carnifex"
+],
+"effects": [
+"Las cuchillas pueden cortar 3 → 5 extremidades a la vez"
+]
+},
+
+"kengo": {
+"name": "Kengo",
+"type": "Offense",
+"rarity": "Mythic",
+"maxLevel": 10,
+"aliases": [
+"kengo"
+],
+"effects": [
+"El daño ODM aumenta un 25% → 40%",
+"La durabilidad de las espadas aumenta un 10% → 20%",
+"Las cuchillas pueden cortar 2 → 4 extremidades a la vez"
+]
+},
+
+"black_flash": {
+"name": "Black Flash",
+"type": "Offense",
+"rarity": "Mythic",
+"maxLevel": 10,
+"aliases": [
+"black flash"
+],
+"effects": [
+"Cada 1% de velocidad, ganas 0.3% → 0.6% de daño crítico",
+"Phantom: Los dashes tienen un 10% más de velocidad y atraviesan titanes",
+"Inflige el daño máximo con cada crítico"
+]
+},
+
+"art_of_war": {
+"name": "Art of War",
+"type": "Offense",
+"rarity": "Mythic",
+"maxLevel": 10,
+"aliases": [
+"art of war"
+],
+"effects": [
+"La velocidad del M1 en el SHIFTER aumenta en 7.5% → 10%",
+"El daño SHIFTER aumenta en 30% → 40%"
+]
+},
+
+"everlasting_flame": {
+"name": "Everlasting Flame",
+"type": "Offense",
+"rarity": "Mythic",
+"maxLevel": 10,
+"aliases": [
+"everlasting flame"
+],
+"effects": [
+"El radio de explosión de las TS aumenta en 15% → 30% causando daño de quemadura a los titanes alcanzados",
+"Cada golpe por ODM/TS causa un 7.5% → 20% más de daño por quemadura"
+]
 }
 }
