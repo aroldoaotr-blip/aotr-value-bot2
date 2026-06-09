@@ -80,5 +80,10 @@ export const SEARCH_ALIASES = {
     "deus": "deus ex machina",
     "susano": "susano",
     "ulq": "ulquiorra",
-    "viz": "vizard"
+    "viz": "vizard",
+    "Attack": "ataque",
+    "Attack": "ataqu",
+    "female": "femenino",
+    "female": "mujer",
+    "armored": "armado"
 };
