@@ -40,7 +40,7 @@ let lastUpdate = null;
 let vizardRate = null;
 
 
-const activeSimilarSearches = new map();
+const activeSimilarSearches = new Map();
 
 
 const GIVEAWAY_CHANNEL_ID = "1512586769760124928";
