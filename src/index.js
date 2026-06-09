@@ -825,7 +825,6 @@ client.on("messageCreate", async (message) => {
 
         return;
     }
-console.log("WIKI ENTRY:", entry);
 
     await message.reply({
         embeds: [createWikiEmbed(entry)]
