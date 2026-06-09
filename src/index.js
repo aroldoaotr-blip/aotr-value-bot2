@@ -15,10 +15,13 @@ import { calculateItems, compareTrades } from "./services/calculator.js";
 import dotenv from 'dotenv';
 import { resolveCurrency } from "./parser/currencyResolver.js";
 import { findVizardRate } from "./services/currencyRates.js";
-import perksWiki from "./wiki/wiki.json" assert { type: "json" };
+
 
 dotenv.config();
 
+const perksWiki = JSON.parse(
+    fs.readFileSync("./src/wiki/wiki.json", "utf8")
+);
 
 const client = new Client({
     intents: [

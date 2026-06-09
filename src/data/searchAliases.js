@@ -1,3 +1,4 @@
+import fs from "fs";
 export const SEARCH_ALIASES = {
     // Monedas
     "llave": "key",
