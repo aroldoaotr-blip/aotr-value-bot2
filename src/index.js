@@ -345,16 +345,13 @@ const notFoundText = groupedNotFound.length
 function createSimilarItemsEmbed(targetItem, similarItems) {
     const targetValue = Number(targetItem.value.vizards);
 
-    const description = similarItems.length
-        ? similarItems.map((result, index) => {
-            const sign = result.difference >= 0 ? "+" : "";
-
-            return (
-                `**${index + 1}. ${result.item.name}**\n` +
-                `🎭 ${formatValue(result.value)} Vizard ` +
-                `(${sign}${formatValue(result.difference)})`
-            );
-        }).join("\n\n")
+const description = similarItems.length
+    ? similarItems.map((result, index) => {
+        return (
+            `**${index + 1}. ${result.item.name}**\n` +
+            `🎭 **${formatValue(result.value)} Vizard**`
+        );
+    }).join("\n\n")
         : "No encontré items dentro del rango de ±10%.";
 
     return new EmbedBuilder()
@@ -367,7 +364,7 @@ function createSimilarItemsEmbed(targetItem, similarItems) {
             description
         )
         .setFooter({
-            text: "Búsqueda basada en valores Vizard • Hoja oficial AOTR"
+            text: "Búsqueda basada en valores de Hoja oficial AOTR solo para referencias"
         });
 }
 
