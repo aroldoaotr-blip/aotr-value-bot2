@@ -218,7 +218,15 @@ function findSimilarItems(targetItem, items, limit = 10, percent = 10) {
     const min = targetValue * (1 - percent / 100);
     const max = targetValue * (1 + percent / 100);
 
-    return items
+    const uniqueItems = new Map();
+
+    for (const item of items) {
+        if (!uniqueItems.has(item.name)) {
+            uniqueItems.set(item.name, item);
+        }
+    }
+
+    return [...uniqueItems.values()]
         .filter(item => {
             if (item.name === targetItem.name) return false;
 
@@ -723,6 +731,7 @@ if (similarMatch) {
     }
 
     const similarItems = findSimilarItems(targetItem, itemsCache, 10, 10);
+
 
     await message.reply({
         embeds: [createSimilarItemsEmbed(targetItem, similarItems)]
