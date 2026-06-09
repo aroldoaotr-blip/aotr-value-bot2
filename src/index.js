@@ -210,6 +210,39 @@ function createItemEmbed(item) {
         });
 }
 
+function findSimilarItems(targetItem, items, limit = 10, percent = 10) {
+    const targetValue = Number(targetItem.value.vizards);
+
+    if (!targetValue || targetValue <= 0) return [];
+
+    const min = targetValue * (1 - percent / 100);
+    const max = targetValue * (1 + percent / 100);
+
+    return items
+        .filter(item => {
+            if (item.name === targetItem.name) return false;
+
+            const value = Number(item.value?.vizards);
+
+            if (!value || value <= 0) return false;
+
+            return value >= min && value <= max;
+        })
+        .map(item => {
+            const value = Number(item.value.vizards);
+            const difference = value - targetValue;
+
+            return {
+                item,
+                value,
+                difference,
+                absDifference: Math.abs(difference)
+            };
+        })
+        .sort((a, b) => a.absDifference - b.absDifference)
+        .slice(0, limit);
+}
+
 function groupItems(items) {
     const map = new Map();
 
@@ -306,6 +339,35 @@ const notFoundText = groupedNotFound.length
         .setFooter({
             text: `Valores tomados de la hoja oficial\n` +
                         `Diseñado por melevengo`
+        });
+}
+
+function createSimilarItemsEmbed(targetItem, similarItems) {
+    const targetValue = Number(targetItem.value.vizards);
+
+    const description = similarItems.length
+        ? similarItems.map((result, index) => {
+            const sign = result.difference >= 0 ? "+" : "";
+
+            return (
+                `**${index + 1}. ${result.item.name}**\n` +
+                `🎭 ${formatValue(result.value)} Vizard ` +
+                `(${sign}${formatValue(result.difference)})`
+            );
+        }).join("\n\n")
+        : "No encontré items dentro del rango de ±10%.";
+
+    return new EmbedBuilder()
+        .setColor(0x9b59b6)
+        .setTitle(`🔍 Similares a ${targetItem.name}`)
+        .setDescription(
+            `🎯 **Valor objetivo:** ${formatValue(targetValue)} Vizard\n` +
+            `📊 **Rango:** ±10%\n\n` +
+            `━━━━━━━━━━━━━━\n\n` +
+            description
+        )
+        .setFooter({
+            text: "Búsqueda basada en valores Vizard • Hoja oficial AOTR"
         });
 }
 
@@ -649,6 +711,28 @@ if (message.content.toLowerCase().startsWith("!sorteo")) {
 }
 
     if (message.channel.id !== VALUES_CHANNEL_ID) return;
+
+const similarMatch = message.content.match(/^(similares a|similar a|similares|similar)\s+(.+)$/i);
+
+if (similarMatch) {
+    const query = similarMatch[2].trim();
+    const targetItem = resolveCurrency(query, vizardRate) || resolveItem(query);
+
+    if (!targetItem) {
+        await message.reply({
+            embeds: [createNotFoundEmbed(query)]
+        });
+        return;
+    }
+
+    const similarItems = findSimilarItems(targetItem, itemsCache, 10, 10);
+
+    await message.reply({
+        embeds: [createSimilarItemsEmbed(targetItem, similarItems)]
+    });
+
+    return;
+}
 
     const parsed = parseTradeMessage(message.content);
 
