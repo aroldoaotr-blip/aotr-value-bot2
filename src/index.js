@@ -866,7 +866,7 @@ client.on("guildMemberAdd", async (member) => {
                 .setTitle("🎉 ¡Nuevo miembro!")
                 .setDescription(
                     `Bienvenido/a ${member} a **${member.guild.name}**.\n\n` +
-                    `📌 Revisa las reglas y disfruta la comunidad.\n` +
+                    `📌 No molestes y disfruta de la comunidad.\n` +
                     `🔍 Usa el bot para consultar valores, wiki y sorteos.`
                 )
                 .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
