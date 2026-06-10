@@ -29,7 +29,8 @@ const client = new Client({
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
-        GatewayIntentBits.GuildMessageReactions
+        GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.GuildMembers
     ],
     partials: [
         Partials.Message,
@@ -52,6 +53,9 @@ const GIVEAWAY_CHANNEL_ID = "1512586769760124928";
 const VALUES_CHANNEL_ID = "1510408304046768248";
 const WIKI_CHANNEL_ID = "1513808128674627616";
 
+const WELCOME_CHANNEL_ID = "1510406708541788251";
+const AUTO_ROLE_ID = "1511093689378672670";
+const MEMBER_COUNT_CHANNEL_ID = "1514128931169501305";
 
 
 
@@ -555,10 +559,28 @@ const notFoundText = groupedNotFound.length
         });
 }
 
+// Función para actualizar el contador de miembros en el canal designado
+
+async function updateMemberCount(guild) {
+    try {
+        const channel = guild.channels.cache.get(MEMBER_COUNT_CHANNEL_ID);
+
+        if (!channel) return;
+
+        await channel.setName(`👥・Miembros: ${guild.memberCount}`);
+    } catch (error) {
+        console.error("Error actualizando contador de miembros:", error);
+    }
+}
+
 client.once("clientReady", async () => {
     console.log(`Bot conectado como ${client.user.tag}`);
 
     await refreshItems();
+
+    for (const guild of client.guilds.cache.values()) {
+    await updateMemberCount(guild);
+}
 
     setInterval(refreshItems, 5 * 60 * 1000);
 });
@@ -824,6 +846,50 @@ client.on("interactionCreate", async (interaction) => {
         content: "🎉 Entraste al sorteo correctamente.",
         ephemeral: true
     });
+});
+
+// Evento para asignar rol automático y enviar mensaje de bienvenida
+
+client.on("guildMemberAdd", async (member) => {
+    try {
+        const role = member.guild.roles.cache.get(AUTO_ROLE_ID);
+
+        if (role) {
+            await member.roles.add(role);
+        }
+
+        const welcomeChannel = member.guild.channels.cache.get(WELCOME_CHANNEL_ID);
+
+        if (welcomeChannel) {
+            const embed = new EmbedBuilder()
+                .setColor(0x2ecc71)
+                .setTitle("🎉 ¡Nuevo miembro!")
+                .setDescription(
+                    `Bienvenido/a ${member} a **${member.guild.name}**.\n\n` +
+                    `📌 Revisa las reglas y disfruta la comunidad.\n` +
+                    `🔍 Usa el bot para consultar valores, wiki y sorteos.`
+                )
+                .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
+                .setFooter({
+                    text: `Ahora somos ${member.guild.memberCount} miembros`
+                })
+                .setTimestamp();
+
+            await welcomeChannel.send({
+                embeds: [embed]
+            });
+        }
+
+        await updateMemberCount(member.guild);
+    } catch (error) {
+        console.error("Error en guildMemberAdd:", error);
+    }
+});
+
+// Evento para actualizar el contador de miembros cuando alguien se va
+
+client.on("guildMemberRemove", async (member) => {
+    await updateMemberCount(member.guild);
 });
 
 client.on("messageCreate", async (message) => {
