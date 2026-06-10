@@ -99,4 +99,7 @@ export const SEARCH_ALIASES = {
     "collar femenino":"crystal necklace",
     "demonio":"devil",
     "angel":"angels",
+    "capa de fuego":"Scorched Cloak",
+    "capa de llamas":"Scorched Cloak",
+    "Capa chamuscada":"Scorched Cloak",
 };
