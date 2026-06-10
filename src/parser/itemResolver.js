@@ -201,7 +201,12 @@ function resolvePerk(input) {
 }
 
     function resolveItem(input) {
+
+        console.log("INPUT:", input);
+
     const query = normalizeSearchText(applySearchAliases(input));
+
+    console.log("ALIAS RESULT:", query);
 
     const wantsPerk10 =
     /\b10\b/.test(query) ||
