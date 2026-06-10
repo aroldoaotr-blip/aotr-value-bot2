@@ -86,5 +86,8 @@ export const SEARCH_ALIASES = {
     "ataqu": "Attack",
     "femenino": "female",
     "mujer": "female",
-    "armado": "armored"
+    "armado": "armored",
+    "radiante":"Radiant",
+    "diadema":"Headband"
+
 };
