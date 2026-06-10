@@ -96,5 +96,5 @@ export const SEARCH_ALIASES = {
     "collar de cristal":"crystal necklace",
     "cristal":"crystal",
     "collar":"necklace",
-
+"collar femenino":"crystal necklace",
 };
