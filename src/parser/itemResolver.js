@@ -35,18 +35,30 @@ function normalizeSearchText(text = "") {
 }
 
 function applySearchAliases(text = "") {
-    const normalized = normalizeText(text);
-    const words = normalized.split(" ").filter(Boolean);
+    let normalized = normalizeText(text);
 
-    const translatedWords = words.flatMap(word => {
-        const replacement = SEARCH_ALIASES[word];
+    // 1. Primero revisar si la frase completa existe como alias
+    if (SEARCH_ALIASES[normalized]) {
+        return normalizeText(SEARCH_ALIASES[normalized]);
+    }
 
-        if (!replacement) return [word];
+    // 2. Luego reemplazar frases largas dentro del texto
+    const aliasEntries = Object.entries(SEARCH_ALIASES)
+        .sort((a, b) => b[0].length - a[0].length);
 
-        return normalizeText(replacement).split(" ");
-    });
+    for (const [alias, replacement] of aliasEntries) {
+        const normalizedAlias = normalizeText(alias);
+        const normalizedReplacement = normalizeText(replacement);
 
-    return translatedWords.join(" ").trim();
+        const regex = new RegExp(`\\b${normalizedAlias}\\b`, "g");
+
+        normalized = normalized.replace(regex, normalizedReplacement);
+    }
+
+    // 3. Limpiar espacios
+    return normalized
+        .replace(/\s+/g, " ")
+        .trim();
 }
 
 function tokenSearch(items, query) {
