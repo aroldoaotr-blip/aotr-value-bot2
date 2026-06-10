@@ -17,6 +17,8 @@ export const SEARCH_ALIASES = {
     "cicatrices": "scars",
     "fragmento": "shard",
     "fragmentos": "shards",
+    "cicatriz femenina": "scarf",
+    "cicatri femenina": "scarf",
 
     // Cosmetics / ropa
     "traje": "attire",
