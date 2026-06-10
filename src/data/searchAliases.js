@@ -88,6 +88,10 @@ export const SEARCH_ALIASES = {
     "mujer": "female",
     "armado": "armored",
     "radiante":"Radiant",
-    "diadema":"Headband"
+    "diadema":"Headband",
+    "radiante":"Radiant",
+    "collar de cristal":"crystal necklace",
+    "cristal":"crystal",
+    "collar":"necklace",
 
 };
