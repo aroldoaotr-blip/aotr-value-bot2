@@ -107,4 +107,9 @@ export const SEARCH_ALIASES = {
     "poder de fuego máx":"Maximum Firepower",
     "poder": "power",
     "maximo": "maximum",
+    "susano wings": "susanos wings",
+"susanos wings": "susanos wings",
+"alas susano": "susanos wings",
+"alas demonio": "devils wing",
+"alas angel": "angels wings",
 };
