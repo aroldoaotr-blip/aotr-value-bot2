@@ -62,7 +62,29 @@ function applySearchAliases(text = "") {
 }
 
 function tokenSearch(items, query) {
-    const queryTokens = query.split(" ").filter(Boolean);
+    const COMMON_TOKENS = [
+        "wing",
+        "wings",
+        "attire",
+        "aura",
+        "mask",
+        "set",
+        "gear",
+        "equipment",
+        "sword",
+        "blade",
+        "cloak",
+        "scarf",
+        "hat"
+    ];
+
+    const queryTokens = query
+        .split(" ")
+        .filter(Boolean);
+
+    const importantTokens = queryTokens.filter(token =>
+        !COMMON_TOKENS.includes(token)
+    );
 
     if (!queryTokens.length) return null;
 
@@ -72,24 +94,55 @@ function tokenSearch(items, query) {
             const itemTokens = itemName.split(" ");
 
             let score = 0;
+            let matchedImportant = 0;
+            let matchedTotal = 0;
 
             for (const token of queryTokens) {
-                if (itemTokens.includes(token)) score += 3;
-                else if (itemName.includes(token)) score += 1;
+                const exactMatch = itemTokens.includes(token);
+                const partialMatch = itemName.includes(token);
+
+                if (exactMatch) {
+                    score += COMMON_TOKENS.includes(token) ? 1 : 5;
+                    matchedTotal++;
+
+                    if (!COMMON_TOKENS.includes(token)) {
+                        matchedImportant++;
+                    }
+                } else if (partialMatch) {
+                    score += COMMON_TOKENS.includes(token) ? 0.5 : 2;
+                    matchedTotal++;
+
+                    if (!COMMON_TOKENS.includes(token)) {
+                        matchedImportant++;
+                    }
+                }
             }
 
-            return { item, score };
+            return {
+                item,
+                score,
+                matchedImportant,
+                matchedTotal
+            };
         })
-        .filter(result => result.score > 0)
+        .filter(result => {
+            if (result.score <= 0) return false;
+
+            if (importantTokens.length > 0 && result.matchedImportant === 0) {
+                return false;
+            }
+
+            if (queryTokens.length >= 2 && result.matchedTotal < 2) {
+                return false;
+            }
+
+            return true;
+        })
         .sort((a, b) => b.score - a.score);
 
     if (!matches.length) return null;
 
-    const best = matches[0];
-
-    if (best.score < queryTokens.length) return null;
-
-    return best.item;
+    return matches[0].item;
 }
 
 function createSearchEntries(items) {
