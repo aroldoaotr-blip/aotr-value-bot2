@@ -1,0 +1,11 @@
+{
+  "generatedAt": "2026-08-08T18:52:37.977Z",
+  "apiKeyValue": 0.00111,
+  "counts": {
+    "total": 483,
+    "official": 398,
+    "api": 379,
+    "both": 294
+  },
+  "note": "Seed generado a partir de la hoja oficial AOTR y la API de tradeo. El histórico es determinístico (demo); el bot registra el histórico real en la base de datos."
+}

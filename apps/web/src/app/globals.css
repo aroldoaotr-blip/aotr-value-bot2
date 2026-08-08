@@ -1,0 +1,762 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #05060f;
+  --bg-soft: #0b0d1f;
+  --accent: #6366f1;
+  --accent-2: #22d3ee;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: #e5e7eb;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(
+      1000px 600px at 80% -10%,
+      rgba(139, 92, 246, 0.16),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at -10% 30%,
+      rgba(34, 211, 238, 0.1),
+      transparent 55%
+    ),
+    radial-gradient(
+      700px 700px at 50% 110%,
+      rgba(99, 102, 241, 0.12),
+      transparent 60%
+    );
+  background-attachment: fixed;
+}
+
+::selection {
+  background: rgba(99, 102, 241, 0.4);
+  color: #fff;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #07081a;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3730a3, #164e63);
+  border-radius: 8px;
+  border: 2px solid #07081a;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #4f46e5, #0891b2);
+}
+
+/* ── Utilidades de diseño ──────────────────────────────── */
+@layer components {
+  .glass {
+    @apply bg-white/[0.04] border border-white/[0.08] backdrop-blur-xl;
+  }
+
+  .glass-strong {
+    @apply bg-[#0b0d1f]/80 border border-white/[0.1] backdrop-blur-2xl;
+  }
+
+  .text-gradient {
+    background: linear-gradient(120deg, #818cf8, #22d3ee 45%, #a78bfa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(120deg, #fbbf24, #f97316);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .orb {
+    @apply rounded-full;
+    background: radial-gradient(
+      circle at 30% 30%,
+      #a5b4fc,
+      #6366f1 45%,
+      #312e81 100%
+    );
+    box-shadow:
+      0 0 40px -6px rgba(99, 102, 241, 0.8),
+      inset 0 0 30px rgba(255, 255, 255, 0.15);
+  }
+
+  .shimmer-text {
+    background: linear-gradient(
+      100deg,
+      #e5e7eb 20%,
+      #ffffff 40%,
+      #a5b4fc 50%,
+      #ffffff 60%,
+      #e5e7eb 80%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 3.5s linear infinite;
+  }
+}
+
+/* ── Efectos decorativos ───────────────────────────────── */
+.gradient-border {
+  position: relative;
+  background:
+    linear-gradient(#0b0d1f, #0b0d1f) padding-box,
+    linear-gradient(
+        135deg,
+        rgba(99, 102, 241, 0.6),
+        rgba(34, 211, 238, 0.3),
+        rgba(139, 92, 246, 0.5)
+      )
+      border-box;
+  border: 1px solid transparent;
+}
+
+.bg-aurora {
+  background:
+    radial-gradient(
+      60% 50% at 50% 0%,
+      rgba(99, 102, 241, 0.12),
+      transparent 70%
+    ),
+    radial-gradient(
+      40% 40% at 80% 20%,
+      rgba(34, 211, 238, 0.07),
+      transparent 70%
+    ),
+    radial-gradient(
+      45% 45% at 15% 25%,
+      rgba(139, 92, 246, 0.09),
+      transparent 70%
+    );
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(70% 60% at 50% 30%, black, transparent);
+}
+
+/* ── Animaciones extra ─────────────────────────────────── */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes aurora-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(4%, -6%, 0) rotate(4deg);
+  }
+}
+
+.animate-aurora {
+  animation: aurora-drift 18s ease-in-out infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Retrasos escalonados */
+.delay-1 {
+  animation-delay: 0.08s;
+}
+.delay-2 {
+  animation-delay: 0.16s;
+}
+.delay-3 {
+  animation-delay: 0.24s;
+}
+.delay-4 {
+  animation-delay: 0.32s;
+}
+.delay-5 {
+  animation-delay: 0.4s;
+}
+
+/* ══════════════════════════════════════════════════════════
+   TEMA CLARO / CÁLIDO — "ROJO CENIZA" (ember)
+   Se activa con <html data-theme="ember">
+   ══════════════════════════════════════════════════════════ */
+[data-theme="ember"] {
+  --ember-ink: #292524;
+  --ember-ink-strong: #1c1917;
+  --ember-surface: #faf6f0;
+  --ember-surface-2: #f1ebe2;
+  --ember-line: rgba(28, 25, 23, 0.12);
+}
+
+[data-theme="ember"] body {
+  background-color: var(--ember-surface);
+  color: var(--ember-ink-strong);
+  background-image:
+    radial-gradient(
+      1000px 600px at 85% -10%,
+      rgba(220, 38, 38, 0.12),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at -10% 30%,
+      rgba(249, 115, 22, 0.08),
+      transparent 55%
+    ),
+    radial-gradient(
+      700px 700px at 50% 110%,
+      rgba(180, 83, 9, 0.09),
+      transparent 60%
+    );
+}
+
+[data-theme="ember"] ::selection {
+  background: rgba(220, 38, 38, 0.25);
+  color: #1c1917;
+}
+
+/* ── texto blanco → tinta (con opacidades) ─────────────── */
+[data-theme="ember"] .text-white {
+  color: var(--ember-ink-strong);
+}
+[data-theme="ember"] .text-white\/90 {
+  color: color-mix(in srgb, var(--ember-ink) 90%, transparent);
+}
+[data-theme="ember"] .text-white\/85 {
+  color: color-mix(in srgb, var(--ember-ink) 85%, transparent);
+}
+[data-theme="ember"] .text-white\/80 {
+  color: color-mix(in srgb, var(--ember-ink) 80%, transparent);
+}
+[data-theme="ember"] .text-white\/70 {
+  color: color-mix(in srgb, var(--ember-ink) 70%, transparent);
+}
+[data-theme="ember"] .text-white\/60 {
+  color: color-mix(in srgb, var(--ember-ink) 60%, transparent);
+}
+[data-theme="ember"] .text-white\/55 {
+  color: color-mix(in srgb, var(--ember-ink) 55%, transparent);
+}
+[data-theme="ember"] .text-white\/50 {
+  color: color-mix(in srgb, var(--ember-ink) 50%, transparent);
+}
+[data-theme="ember"] .text-white\/45 {
+  color: color-mix(in srgb, var(--ember-ink) 45%, transparent);
+}
+[data-theme="ember"] .text-white\/40 {
+  color: color-mix(in srgb, var(--ember-ink) 40%, transparent);
+}
+[data-theme="ember"] .text-white\/35 {
+  color: color-mix(in srgb, var(--ember-ink) 35%, transparent);
+}
+[data-theme="ember"] .text-white\/30 {
+  color: color-mix(in srgb, var(--ember-ink) 30%, transparent);
+}
+[data-theme="ember"] .text-white\/25 {
+  color: color-mix(in srgb, var(--ember-ink) 25%, transparent);
+}
+[data-theme="ember"] ::placeholder {
+  color: color-mix(in srgb, var(--ember-ink) 35%, transparent);
+}
+
+/* ── superficies blancas → tinta translúcida ───────────── */
+[data-theme="ember"] .bg-white {
+  background-color: var(--ember-surface-2);
+}
+[data-theme="ember"] .bg-white\/10 {
+  background-color: color-mix(in srgb, var(--ember-ink) 10%, transparent);
+}
+[data-theme="ember"] .bg-white\/5 {
+  background-color: color-mix(in srgb, var(--ember-ink) 6%, transparent);
+}
+[data-theme="ember"] .bg-white\/\[0\.03\] {
+  background-color: color-mix(in srgb, var(--ember-ink) 4%, transparent);
+}
+[data-theme="ember"] .bg-white\/\[0\.04\] {
+  background-color: color-mix(in srgb, var(--ember-ink) 5%, transparent);
+}
+[data-theme="ember"] .bg-white\/\[0\.05\] {
+  background-color: color-mix(in srgb, var(--ember-ink) 6%, transparent);
+}
+[data-theme="ember"] .bg-white\/\[0\.07\] {
+  background-color: color-mix(in srgb, var(--ember-ink) 8%, transparent);
+}
+[data-theme="ember"] .bg-white\/\[0\.08\] {
+  background-color: color-mix(in srgb, var(--ember-ink) 9%, transparent);
+}
+
+/* ── bordes ─────────────────────────────────────────────── */
+[data-theme="ember"] .border-white\/10 {
+  border-color: color-mix(in srgb, var(--ember-ink) 14%, transparent);
+}
+[data-theme="ember"] .border-white\/20 {
+  border-color: color-mix(in srgb, var(--ember-ink) 24%, transparent);
+}
+[data-theme="ember"] .border-white\/25 {
+  border-color: color-mix(in srgb, var(--ember-ink) 28%, transparent);
+}
+[data-theme="ember"] .border-white\/\[0\.04\] {
+  border-color: color-mix(in srgb, var(--ember-ink) 8%, transparent);
+}
+[data-theme="ember"] .border-white\/\[0\.06\] {
+  border-color: color-mix(in srgb, var(--ember-ink) 10%, transparent);
+}
+[data-theme="ember"] .border-white\/\[0\.07\] {
+  border-color: color-mix(in srgb, var(--ember-ink) 11%, transparent);
+}
+[data-theme="ember"] .border-white\/\[0\.08\] {
+  border-color: color-mix(in srgb, var(--ember-ink) 12%, transparent);
+}
+[data-theme="ember"] .border-white\/\[0\.1\] {
+  border-color: color-mix(in srgb, var(--ember-ink) 14%, transparent);
+}
+
+/* ── fondos hex oscuros → superficies cálidas ──────────── */
+[data-theme="ember"] .bg-\[\#05060f\] {
+  background-color: var(--ember-surface-2);
+}
+[data-theme="ember"] .bg-\[\#05060f\]\/70 {
+  background-color: color-mix(in srgb, var(--ember-surface-2) 70%, transparent);
+}
+[data-theme="ember"] .bg-\[\#05060f\]\/80 {
+  background-color: color-mix(in srgb, var(--ember-surface-2) 80%, transparent);
+}
+[data-theme="ember"] .bg-\[\#0b0d1f\] {
+  background-color: var(--ember-surface-2);
+}
+[data-theme="ember"] .bg-\[\#0b0d1f\]\/80 {
+  background-color: color-mix(in srgb, var(--ember-surface-2) 80%, transparent);
+}
+[data-theme="ember"] .bg-\[\#0b0d1f\]\/95 {
+  background-color: color-mix(in srgb, var(--ember-surface-2) 95%, transparent);
+}
+[data-theme="ember"] .bg-\[\#07081a\] {
+  background-color: var(--ember-surface-2);
+}
+[data-theme="ember"] .bg-\[\#07081a\]\/95 {
+  background-color: color-mix(in srgb, var(--ember-surface-2) 95%, transparent);
+}
+/* (fix A1) el texto oscuro sobre fondo claro se mantiene oscuro: NO se sobreescribe */
+
+/* Botones con texto blanco sobre degradado: restaura el blanco (fix A1) */
+[data-theme="ember"] .bg-gradient-to-r .text-white,
+[data-theme="ember"] .bg-gradient-to-br .text-white {
+  color: #fff;
+}
+
+/* Estados hover en tema claro (fix M1) */
+[data-theme="ember"] .hover\:bg-white\/\[0\.04\]:hover {
+  background-color: color-mix(in srgb, var(--ember-ink) 5%, transparent);
+}
+[data-theme="ember"] .hover\:bg-white\/\[0\.05\]:hover {
+  background-color: color-mix(in srgb, var(--ember-ink) 7%, transparent);
+}
+[data-theme="ember"] .hover\:bg-white\/\[0\.07\]:hover {
+  background-color: color-mix(in srgb, var(--ember-ink) 9%, transparent);
+}
+[data-theme="ember"] .hover\:bg-white\/10:hover {
+  background-color: color-mix(in srgb, var(--ember-ink) 10%, transparent);
+}
+[data-theme="ember"] .hover\:border-white\/20:hover {
+  border-color: color-mix(in srgb, var(--ember-ink) 24%, transparent);
+}
+[data-theme="ember"] .hover\:border-white\/25:hover {
+  border-color: color-mix(in srgb, var(--ember-ink) 28%, transparent);
+}
+[data-theme="ember"] .focus-visible\:bg-white\/\[0\.06\]:focus-visible {
+  background-color: color-mix(in srgb, var(--ember-ink) 8%, transparent);
+}
+
+/* Superficie faltante (fix M2) */
+[data-theme="ember"] .bg-white\/\[0\.06\] {
+  background-color: color-mix(in srgb, var(--ember-ink) 7%, transparent);
+}
+[data-theme="ember"] .ring-white\/10 {
+  --tw-ring-color: color-mix(in srgb, var(--ember-ink) 12%, transparent);
+}
+
+/* ── componentes de diseño ─────────────────────────────── */
+[data-theme="ember"] .glass {
+  background-color: color-mix(in srgb, var(--ember-surface) 72%, transparent);
+  border-color: color-mix(in srgb, var(--ember-ink) 12%, transparent);
+}
+
+[data-theme="ember"] .glass-strong {
+  background-color: color-mix(in srgb, var(--ember-surface) 92%, transparent);
+  border-color: color-mix(in srgb, var(--ember-ink) 14%, transparent);
+}
+
+[data-theme="ember"] .gradient-border {
+  background:
+    linear-gradient(var(--ember-surface-2), var(--ember-surface-2)) padding-box,
+    linear-gradient(
+        135deg,
+        rgba(220, 38, 38, 0.5),
+        rgba(249, 115, 22, 0.35),
+        rgba(180, 83, 9, 0.45)
+      )
+      border-box;
+}
+
+[data-theme="ember"] .orb {
+  background: radial-gradient(
+    circle at 30% 30%,
+    #fca5a5,
+    #dc2626 45%,
+    #7f1d1d 100%
+  );
+  box-shadow:
+    0 0 40px -6px rgba(220, 38, 38, 0.6),
+    inset 0 0 30px rgba(255, 255, 255, 0.25);
+}
+
+[data-theme="ember"] .text-gradient {
+  background: linear-gradient(120deg, #dc2626, #f59e0b 45%, #9f1239);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+[data-theme="ember"] .grid-bg {
+  background-image:
+    linear-gradient(rgba(41, 37, 36, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(41, 37, 36, 0.06) 1px, transparent 1px);
+}
+
+[data-theme="ember"] .bg-aurora {
+  background:
+    radial-gradient(60% 50% at 50% 0%, rgba(220, 38, 38, 0.1), transparent 70%),
+    radial-gradient(
+      40% 40% at 80% 20%,
+      rgba(249, 115, 22, 0.08),
+      transparent 70%
+    );
+}
+
+/* ── badges (textos 300/400 nivel → tonos oscuros) ─────── */
+[data-theme="ember"] .text-emerald-300 {
+  color: #059669;
+}
+[data-theme="ember"] .text-emerald-400 {
+  color: #059669;
+}
+[data-theme="ember"] .text-emerald-200 {
+  color: #047857;
+}
+[data-theme="ember"] .text-blue-300 {
+  color: #2563eb;
+}
+[data-theme="ember"] .text-blue-200 {
+  color: #1d4ed8;
+}
+[data-theme="ember"] .text-rose-300 {
+  color: #be123c;
+}
+[data-theme="ember"] .text-rose-400 {
+  color: #be123c;
+}
+[data-theme="ember"] .text-indigo-200 {
+  color: #4338ca;
+}
+[data-theme="ember"] .text-indigo-300 {
+  color: #4f46e5;
+}
+[data-theme="ember"] .text-cyan-300 {
+  color: #0e7490;
+}
+[data-theme="ember"] .text-amber-300 {
+  color: #b45309;
+}
+[data-theme="ember"] .text-amber-400 {
+  color: #d97706;
+}
+[data-theme="ember"] .text-orange-400 {
+  color: #ea580c;
+}
+[data-theme="ember"] .text-sky-300 {
+  color: #0369a1;
+}
+[data-theme="ember"] .text-sky-300\/80 {
+  color: color-mix(in srgb, #0369a1 80%, transparent);
+}
+[data-theme="ember"] .text-violet-300 {
+  color: #6d28d9;
+}
+[data-theme="ember"] .text-violet-300\/80 {
+  color: color-mix(in srgb, #6d28d9 80%, transparent);
+}
+[data-theme="ember"] .text-indigo-300\/90 {
+  color: color-mix(in srgb, #4f46e5 90%, transparent);
+}
+[data-theme="ember"] .text-indigo-300\/80 {
+  color: color-mix(in srgb, #4f46e5 80%, transparent);
+}
+[data-theme="ember"] .text-indigo-400 {
+  color: #4f46e5;
+}
+[data-theme="ember"] .text-indigo-400\/70 {
+  color: color-mix(in srgb, #4f46e5 70%, transparent);
+}
+[data-theme="ember"] .text-emerald-300\/80 {
+  color: color-mix(in srgb, #059669 80%, transparent);
+}
+[data-theme="ember"] .text-emerald-300\/70 {
+  color: color-mix(in srgb, #059669 70%, transparent);
+}
+[data-theme="ember"] .text-emerald-200\/80 {
+  color: color-mix(in srgb, #047857 80%, transparent);
+}
+[data-theme="ember"] .text-blue-300\/70 {
+  color: color-mix(in srgb, #2563eb 70%, transparent);
+}
+[data-theme="ember"] .bg-emerald-500\/10 {
+  background-color: rgba(5, 150, 105, 0.14);
+}
+[data-theme="ember"] .bg-blue-500\/10 {
+  background-color: rgba(37, 99, 235, 0.12);
+}
+[data-theme="ember"] .bg-rose-500\/10 {
+  background-color: rgba(190, 18, 60, 0.12);
+}
+[data-theme="ember"] .bg-indigo-500\/20 {
+  background-color: rgba(79, 70, 229, 0.16);
+}
+[data-theme="ember"] .bg-indigo-500\/30 {
+  background-color: rgba(79, 70, 229, 0.22);
+}
+[data-theme="ember"] .bg-indigo-500\/\[0\.07\] {
+  background-color: rgba(79, 70, 229, 0.1);
+}
+[data-theme="ember"] .border-emerald-400\/20 {
+  border-color: rgba(5, 150, 105, 0.25);
+}
+[data-theme="ember"] .border-blue-400\/20 {
+  border-color: rgba(37, 99, 235, 0.22);
+}
+[data-theme="ember"] .border-rose-400\/20 {
+  border-color: rgba(190, 18, 60, 0.22);
+}
+[data-theme="ember"] .border-indigo-400\/40 {
+  border-color: rgba(79, 70, 229, 0.4);
+}
+[data-theme="ember"] .border-indigo-400\/50 {
+  border-color: rgba(79, 70, 229, 0.5);
+}
+
+/* ── scrollbar cálido ───────────────────────────────────── */
+[data-theme="ember"] ::-webkit-scrollbar-track {
+  background: var(--ember-surface-2);
+}
+[data-theme="ember"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #b91c1c, #c2410c);
+  border-color: var(--ember-surface-2);
+}
+[data-theme="ember"] ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #dc2626, #ea580c);
+}
+
+/* ── Avatar de item (sprite con transparencia o card propia) ── */
+.avatar-shell {
+  background:
+    radial-gradient(
+      120% 120% at 30% 20%,
+      rgba(99, 102, 241, 0.22),
+      transparent 55%
+    ),
+    radial-gradient(
+      120% 120% at 75% 85%,
+      rgba(34, 211, 238, 0.16),
+      transparent 55%
+    ),
+    rgba(11, 13, 31, 0.85);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.07),
+    0 2px 8px -2px rgba(0, 0, 0, 0.4);
+}
+
+.avatar-img {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+}
+
+/* Sprites con fondo propio (cards doradas): fondo claro para que resalten.
+   Siempre se muestran completos y centrados (object-contain). */
+.avatar-shell:has(img.avatar-opaque) {
+  background: #f4efe6;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.06),
+    0 2px 8px -2px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="ember"] .avatar-shell:has(img.avatar-opaque) {
+  background: #ffffff;
+  box-shadow:
+    inset 0 0 0 1px rgba(28, 25, 23, 0.08),
+    0 2px 8px -2px rgba(28, 25, 23, 0.15);
+}
+
+.avatar-fallback {
+  background: linear-gradient(135deg, #818cf8, #22d3ee);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+[data-theme="ember"] .avatar-shell {
+  background:
+    radial-gradient(
+      120% 120% at 30% 20%,
+      rgba(220, 38, 38, 0.16),
+      transparent 55%
+    ),
+    radial-gradient(
+      120% 120% at 75% 85%,
+      rgba(249, 115, 22, 0.12),
+      transparent 55%
+    ),
+    rgba(241, 235, 226, 0.9);
+  box-shadow:
+    inset 0 0 0 1px rgba(28, 25, 23, 0.09),
+    0 2px 8px -2px rgba(28, 25, 23, 0.18);
+}
+
+[data-theme="ember"] .avatar-img {
+  filter: drop-shadow(0 2px 4px rgba(28, 25, 23, 0.25));
+}
+
+[data-theme="ember"] .avatar-fallback {
+  background: linear-gradient(135deg, #991b1b, #c2410c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.35));
+}
+
+/* ── HERO siempre oscuro (video de batalla) ────────────── */
+.hero-dark {
+  background-color: #0b0c10;
+}
+
+/* Fade inferior del hero: funde el video con el fondo de la página */
+.hero-fade {
+  background: linear-gradient(
+    to bottom,
+    rgba(5, 6, 15, 0) 0%,
+    rgba(5, 6, 15, 0.55) 55%,
+    var(--bg) 100%
+  );
+}
+
+[data-theme="ember"] .hero-fade {
+  /* Más bajo y suave en tema claro: arranca tarde y con menos opacidad */
+  height: 6rem;
+  background: linear-gradient(
+    to bottom,
+    rgba(250, 246, 240, 0) 0%,
+    rgba(250, 246, 240, 0) 60%,
+    rgba(250, 246, 240, 0.3) 80%,
+    var(--ember-surface) 100%
+  );
+}
+@media (min-width: 640px) {
+  [data-theme="ember"] .hero-fade {
+    height: 20rem;
+  }
+}
+
+[data-theme="ember"] .hero-dark .text-white,
+[data-theme="ember"] .hero-dark .text-white\/80,
+[data-theme="ember"] .hero-dark .text-white\/70,
+[data-theme="ember"] .hero-dark .text-white\/60,
+[data-theme="ember"] .hero-dark .text-white\/55,
+[data-theme="ember"] .hero-dark .text-white\/50,
+[data-theme="ember"] .hero-dark .text-white\/45,
+[data-theme="ember"] .hero-dark .text-white\/40,
+[data-theme="ember"] .hero-dark .text-white\/30,
+[data-theme="ember"] .hero-dark .text-white\/25 {
+  color: #fff;
+}
+
+[data-theme="ember"] .hero-dark .glass {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* El dropdown de sugerencias del buscador es una superficie CLARA
+   (glass-strong): su texto vuelve a tinta aunque viva dentro del hero
+   oscuro (que sí se mantiene oscuro en tema ceniza). */
+[data-theme="ember"] .hero-dark .glass-strong {
+  background-color: color-mix(in srgb, var(--ember-surface) 92%, transparent);
+  border-color: color-mix(in srgb, var(--ember-ink) 14%, transparent);
+}
+[data-theme="ember"] .hero-dark .glass-strong .text-white {
+  color: var(--ember-ink-strong);
+}
+[data-theme="ember"] .hero-dark .glass-strong .text-white\/40 {
+  color: color-mix(in srgb, var(--ember-ink) 40%, transparent);
+}
+[data-theme="ember"] .hero-dark .glass-strong .text-white\/35 {
+  color: color-mix(in srgb, var(--ember-ink) 35%, transparent);
+}
+
+[data-theme="ember"] .hero-dark .grid-bg {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+}
+
+[data-theme="ember"] .hero-dark .shimmer-text {
+  background: linear-gradient(
+    100deg,
+    #e5e7eb 20%,
+    #ffffff 40%,
+    #fca5a5 50%,
+    #ffffff 60%,
+    #e5e7eb 80%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+[data-theme="ember"] .hero-dark ::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}

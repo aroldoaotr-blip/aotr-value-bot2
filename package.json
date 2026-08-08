@@ -1,21 +1,25 @@
 {
-  "name": "aotr-bot",
-  "version": "1.0.0",
-  "description": "",
-  "main": "src/index.js",
-  "scripts": {
-    "start": "node src/index.js"
+  "name": "aotr-value-platform",
+  "version": "3.0.0",
+  "private": true,
+  "description": "AOTR Value Platform — Discord bot + Web (Next.js) + Supabase/Prisma",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=18.18.0"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
-  "dependencies": {
-    "axios": "^1.16.1",
-    "discord.js": "^14.26.4",
-    "dotenv": "^17.4.2",
-    "fuse.js": "^7.3.0",
-    "google-spreadsheet": "^5.2.0",
-    "xlsx": "^0.18.5"
+  "scripts": {
+    "dev:bot": "npm run dev -w @aotr/bot",
+    "dev:web": "npm run dev -w @aotr/web",
+    "build:web": "npm run build -w @aotr/web",
+    "start:web": "npm run start -w @aotr/web",
+    "generate:db": "npm run generate -w @aotr/db",
+    "push:db": "npm run push -w @aotr/db",
+    "seed:db": "npm run seed -w @aotr/db",
+    "seed:data": "npm run generate-seed -w @aotr/bot",
+    "test": "npm test -w @aotr/bot",
+    "postinstall": "npm run generate:db"
   }
 }

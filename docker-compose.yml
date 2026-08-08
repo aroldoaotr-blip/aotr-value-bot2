@@ -1,0 +1,17 @@
+# PostgreSQL local para desarrollo (opcional — en producción usa Supabase)
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: aotr-local-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: aotr
+      POSTGRES_PASSWORD: aotr
+      POSTGRES_DB: aotr
+    ports:
+      - "5432:5432"
+    volumes:
+      - aotr-pg-data:/var/lib/postgresql/data
+
+volumes:
+  aotr-pg-data:

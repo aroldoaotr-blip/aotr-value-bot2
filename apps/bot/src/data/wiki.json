@@ -1,0 +1,557 @@
+{
+"_BODY_PERKS": {},
+
+"enhanced_metabolism": {
+"name": "Enhanced Metabolism",
+"type": "Body",
+"rarity": "Common",
+"maxLevel": 10,
+"aliases": [
+"enhanced metabolism",
+"metabolism",
+"metabolismo mejorado"
+],
+"effects": [
+"Regeneración de vida: 2 → 3"
+]
+},
+
+"critical_hunter": {
+"name": "Critical Hunter",
+"type": "Body",
+"rarity": "Rare",
+"maxLevel": 10,
+"aliases": [
+"critical hunter",
+"hunter",
+"cazador critico"
+],
+"effects": [
+"Duración de espadas: 7.5% → 15%",
+"Probabilidad crítica: 5% → 10%"
+]
+},
+
+"resilient": {
+"name": "Resilient",
+"type": "Body",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"resilient"
+],
+"effects": [
+"Transformaciones: 1 → 2",
+"Barra de despertar: 5% → 10% más rápida"
+]
+},
+
+"solo": {
+"name": "Solo",
+"type": "Body",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"solo"
+],
+"effects": [
+"Stats ODM: +5% → +7.5%"
+]
+},
+
+"indefatigable": {
+"name": "Indefatigable",
+"type": "Body",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"indefatigable"
+],
+"effects": [
+"Transformaciones: 2 → 3",
+"Barra de despertar: 15% → 25% más rápida"
+]
+},
+
+"perfect_soul": {
+"name": "Perfect Soul",
+"type": "Body",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"perfect soul"
+],
+"effects": [
+"Stats ODM: +7.5% → +10%"
+]
+},
+
+"perfect_form": {
+"name": "Perfect Form",
+"type": "Body",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"perfect form"
+],
+"effects": [
+"Daño ODM: +7.5% → +10%",
+"Daño máximo: 70% → 50% velocidad"
+]
+},
+
+"flame_rhapsody": {
+"name": "Flame Rhapsody",
+"type": "Body",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"flame rhapsody"
+],
+"effects": [
+"Daño crítico: 2x → 2.3x",
+"Probabilidad crítica: 5% → 12.5%"
+]
+},
+
+"wind_rhapsody": {
+"name": "Wind Rhapsody",
+"type": "Body",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"wind rhapsody"
+],
+"effects": [
+"Daño crítico: 2x → 1.67x",
+"Probabilidad crítica: 2x → 2.4x"
+]
+},
+
+"tyrants_stare": {
+"name": "Tyrant's Stare",
+"type": "Body",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"tyrants stare",
+"tyrant stare"
+],
+"effects": [
+"Probabilidad crítica: 0% → 10%",
+"15% → 25% daño crítico convertido a daño bruto",
+"25% → 40% probabilidad crítica convertida a daño bruto"
+]
+},
+
+"founders_blessing": {
+"name": "Founder's Blessing",
+"type": "Body",
+"rarity": "Mythic",
+"maxLevel": 10,
+"aliases": [
+"founders blessing"
+],
+"effects": [
+"Transformaciones: 3 → 5",
+"Barra de despertar: 25% → 35% más rápida",
+"Rango titanes: +150m",
+"Stats titán: +10% → +15%"
+]
+},
+
+"heavenly_restriction": {
+"name": "Heavenly Restriction",
+"type": "Body",
+"rarity": "Mythic",
+"maxLevel": 10,
+"aliases": [
+"heavenly restriction"
+],
+"effects": [
+"Habilidades deshabilitadas",
+"Stats ODM/TS: +15% → +30% por habilidades",
+"Probabilidad de matar al herir: +10% → +20%",
+"Resistencia al daño: +10% → +15%"
+]
+},
+
+"maximum_firepower": {
+"name": "Maximum Firepower",
+"type": "Body",
+"rarity": "Mythic",
+"maxLevel": 10,
+"aliases": [
+"maximum firepower"
+],
+"effects": [
+"Velocidad lanzas: +20% → +40%",
+"Conteo lanzas: 2 → 4",
+"Stats TS: +5% → +7.5%",
+"Sin retroceso al disparar"
+]
+},
+
+"_OFFENSE_PERKS": {},
+
+"mighty": {
+"name": "Mighty",
+"type": "Offense",
+"rarity": "Common",
+"maxLevel": 10,
+"aliases": [
+"mighty"
+],
+"effects": [
+"El daño ODM aumenta en 5% → 10%"
+]
+},
+
+"cripple": {
+"name": "Cripple",
+"type": "Offense",
+"rarity": "Common",
+"maxLevel": 10,
+"aliases": [
+"cripple"
+],
+"effects": [
+"El daño crítico aumenta en 5% → 10%"
+]
+},
+
+"lucky": {
+"name": "Lucky",
+"type": "Offense",
+"rarity": "Common",
+"maxLevel": 10,
+"aliases": [
+"lucky"
+],
+"effects": [
+"La probabilidad crítica aumenta en 2.5% → 5%"
+]
+},
+
+"hollow": {
+"name": "Hollow",
+"type": "Offense",
+"rarity": "Common",
+"maxLevel": 10,
+"aliases": [
+"hollow"
+],
+"effects": [
+"La duración del balanceo de espadas aumenta en 2.5% → 5%"
+]
+},
+
+"forceful": {
+"name": "Forceful",
+"type": "Offense",
+"rarity": "Rare",
+"maxLevel": 10,
+"aliases": [
+"forceful"
+],
+"effects": [
+"El daño ODM aumenta en 6.5% → 15%"
+]
+},
+
+"mangle": {
+"name": "Mangle",
+"type": "Offense",
+"rarity": "Rare",
+"maxLevel": 10,
+"aliases": [
+"mangle"
+],
+"effects": [
+"El daño crítico aumenta en 10% → 20%"
+]
+},
+
+"blessed": {
+"name": "Blessed",
+"type": "Offense",
+"rarity": "Rare",
+"maxLevel": 10,
+"aliases": [
+"blessed"
+],
+"effects": [
+"La probabilidad crítica aumenta en 5% → 10%"
+]
+},
+
+"lightweight": {
+"name": "Lightweight",
+"type": "Offense",
+"rarity": "Rare",
+"maxLevel": 10,
+"aliases": [
+"lightweight"
+],
+"effects": [
+"La duración del balanceo de espadas aumenta en 5% → 10%"
+]
+},
+
+"peerless_strength": {
+"name": "Peerless Strength",
+"type": "Offense",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"peerless strength"
+],
+"effects": [
+"El daño ODM aumenta en 10% → 20%"
+]
+},
+
+"warrior": {
+"name": "Warrior",
+"type": "Offense",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"warrior"
+],
+"effects": [
+"El daño SHIFTER aumenta en 7.5% → 15%"
+]
+},
+
+"focus": {
+"name": "Focus",
+"type": "Offense",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"focus"
+],
+"effects": [
+"El daño crítico aumenta en 10% → 15%",
+"La probabilidad crítica aumenta en 3% → 5%"
+]
+},
+
+"mutilate": {
+"name": "Mutilate",
+"type": "Offense",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"mutilate"
+],
+"effects": [
+"El daño crítico aumenta en 20% → 35%"
+]
+},
+
+"luminous": {
+"name": "Luminous",
+"type": "Offense",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"luminous"
+],
+"effects": [
+"La probabilidad crítica aumenta en 10% → 15%"
+]
+},
+
+"reckless_abandon": {
+"name": "Reckless Abandon",
+"type": "Offense",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"reckless abandon"
+],
+"effects": [
+"El daño crítico aumenta en 20% → 30%",
+"La probabilidad crítica disminuye un 10% → 7.5%"
+]
+},
+
+"flawed_release": {
+"name": "Flawed Release",
+"type": "Offense",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"flawed release"
+],
+"effects": [
+"El daño crítico disminuye 30% → 25%",
+"La probabilidad crítica aumenta en 10% → 20%"
+]
+},
+
+"speedy": {
+"name": "Speedy",
+"type": "Offense",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"speedy"
+],
+"effects": [
+"La duración del balanceo de espadas aumenta en 10% → 15%"
+]
+},
+
+"butcher": {
+"name": "Butcher",
+"type": "Offense",
+"rarity": "Epic",
+"maxLevel": 10,
+"aliases": [
+"butcher"
+],
+"effects": [
+"Las cuchillas pueden cortar 2 → 3 extremidades a la vez"
+]
+},
+
+"unparalleled_strength": {
+"name": "Unparalleled Strength",
+"type": "Offense",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"unparalleled strength"
+],
+"effects": [
+"El daño ODM aumenta en 15% → 25%"
+]
+},
+
+"warchief": {
+"name": "Warchief",
+"type": "Offense",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"warchief"
+],
+"effects": [
+"El daño SHIFTER aumenta en 12% → 20%"
+]
+},
+
+"eviscerate": {
+"name": "Eviscerate",
+"type": "Offense",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"eviscerate"
+],
+"effects": [
+"El daño crítico aumenta un 30% → 50%"
+]
+},
+
+"sanctified": {
+"name": "Sanctified",
+"type": "Offense",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"sanctified"
+],
+"effects": [
+"La probabilidad crítica aumenta en 15% → 20%"
+]
+},
+
+"peerless_focus": {
+"name": "Peerless Focus",
+"type": "Offense",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"peerless focus"
+],
+"effects": [
+"El daño crítico aumenta en 20% → 30%",
+"La probabilidad crítica aumenta en 7.5% → 10%"
+]
+},
+
+"carnifex": {
+"name": "Carnifex",
+"type": "Offense",
+"rarity": "Legendary",
+"maxLevel": 10,
+"aliases": [
+"carnifex"
+],
+"effects": [
+"Las cuchillas pueden cortar 3 → 5 extremidades a la vez"
+]
+},
+
+"kengo": {
+"name": "Kengo",
+"type": "Offense",
+"rarity": "Mythic",
+"maxLevel": 10,
+"aliases": [
+"kengo"
+],
+"effects": [
+"El daño ODM aumenta un 25% → 40%",
+"La durabilidad de las espadas aumenta un 10% → 20%",
+"Las cuchillas pueden cortar 2 → 4 extremidades a la vez"
+]
+},
+
+"black_flash": {
+"name": "Black Flash",
+"type": "Offense",
+"rarity": "Mythic",
+"maxLevel": 10,
+"aliases": [
+"black flash"
+],
+"effects": [
+"Cada 1% de velocidad, ganas 0.3% → 0.6% de daño crítico",
+"Phantom: Los dashes tienen un 10% más de velocidad y atraviesan titanes",
+"Inflige el daño máximo con cada crítico"
+]
+},
+
+"art_of_war": {
+"name": "Art of War",
+"type": "Offense",
+"rarity": "Mythic",
+"maxLevel": 10,
+"aliases": [
+"art of war"
+],
+"effects": [
+"La velocidad del M1 en el SHIFTER aumenta en 7.5% → 10%",
+"El daño SHIFTER aumenta en 30% → 40%"
+]
+},
+
+"everlasting_flame": {
+"name": "Everlasting Flame",
+"type": "Offense",
+"rarity": "Mythic",
+"maxLevel": 10,
+"aliases": [
+"everlasting flame"
+],
+"effects": [
+"El radio de explosión de las TS aumenta en 15% → 30% causando daño de quemadura a los titanes alcanzados",
+"Cada golpe por ODM/TS causa un 7.5% → 20% más de daño por quemadura"
+]
+}
+}

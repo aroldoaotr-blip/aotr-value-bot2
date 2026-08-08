@@ -1,0 +1,49 @@
+// Estado global del bot (cache en memoria)
+
+import { GiveawayManager } from "../services/giveaways.js";
+
+export const state = {
+  itemsCache: [], // items oficiales (hoja AOTR)
+  resolveItem: null, // resolver sobre itemsCache
+  vizardRate: null,
+  apiMap: new Map(), // compactKey -> { value, keys, scrolls, demand, status, rateOfChange }
+  apiKeyRatio: null,
+  lastUpdate: null,
+  startedAt: Date.now(),
+  giveaways: new GiveawayManager(),
+  activeSimilar: new Map(), // ctxId -> targetItemName
+  activeCurrency: new Map(), // ctxId -> itemName
+  activeHistory: new Map(), // ctxId -> itemName
+  activeTrades: new Map(), // ctxId -> { leftText, rightText }
+  dbReady: false
+};
+
+export function setItems(items, vizardRate) {
+  state.itemsCache = items;
+  state.vizardRate = vizardRate;
+  state.lastUpdate = new Date();
+}
+
+export function getApiRow(normalizedName) {
+  return state.apiMap.get(normalizedName) ?? null;
+}
+
+export function upsertApiRows(rows, rates) {
+  // rates: { keysPerVizard, keysPerScroll } (tasas del admin o por defecto)
+  const keysPerVizard = rates?.keysPerVizard ?? 900.9;
+  const keysPerScroll = rates?.keysPerScroll ?? 3;
+  state.apiKeyRatio = 1 / keysPerVizard;
+  state.apiMap.clear();
+  for (const row of rows) {
+    // row.value viene en vizard → llaves = viz × keysPerVizard
+    const keys = row.value != null ? row.value * keysPerVizard : null;
+    state.apiMap.set(row.normalized, {
+      value: row.value,
+      keys,
+      scrolls: keys != null ? keys / keysPerScroll : null,
+      demand: row.demand,
+      status: row.status,
+      rateOfChange: row.rateOfChange
+    });
+  }
+}

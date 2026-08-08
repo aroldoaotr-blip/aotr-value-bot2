@@ -1,0 +1,121 @@
+// AOTR Value Platform — Esquema unificado (Supabase / PostgreSQL)
+// Bot + Web comparten esta base de datos.
+// ── Oficial = hoja oficial AOTR (Google Sheets)
+// ── Trade   = API de precios de tradeo (Supabase externo)
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Item {
+  id           String  @id
+  name         String
+  normalized   String  @unique
+  slug         String  @unique
+  category     String?
+  rarityLabel  String?
+  rarityPct    Float?
+  status       String?
+  obtainedFrom String?
+  emoji        String?
+
+  // ── Fuente oficial (hoja AOTR) ─────────────────────────
+  officialKeys    Json? // number | { min, max }
+  officialScrolls Json?
+  officialVizards Json?
+  officialDemand  String?
+  officialRate    String?
+  officialTaxGems Float?
+  officialTaxGold Float?
+  sheet           String? // Hoja de Excel de origen
+  existingAmount  String? // Cantidad existente registrada en la hoja
+
+  // ── Fuente trade (API externa) ─────────────────────────
+  apiValue        Float?
+  apiDemand       Int?
+  apiRateOfChange String?
+  apiPrestige     Int?
+  apiTaxGems      Float?
+  apiTaxGold      Float?
+  apiUpdatedAt    DateTime?
+  apiId           String? // id del item en la API externa
+
+  // official | api | both
+  source    String   @default("seed")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  history PriceHistory[]
+
+  @@index([category])
+  @@index([status])
+  @@index([apiValue])
+  @@index([source])
+}
+
+model PriceHistory {
+  id              Int      @id @default(autoincrement())
+  itemId          String
+  item            Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  apiValue        Float?
+  officialVizards Float?
+  demand          Int?
+  recordedAt      DateTime @default(now())
+
+  @@unique([itemId, recordedAt])
+  @@index([itemId, recordedAt])
+}
+
+model SyncLog {
+  id         Int      @id @default(autoincrement())
+  source     String // "official" | "trade"
+  status     String // "ok" | "error"
+  rows       Int?
+  error      String?
+  durationMs Int?
+  startedAt  DateTime @default(now())
+
+  @@index([source, startedAt])
+}
+
+// ── Tasas de conversión configurables (admin) ────────────
+// 1 Vizard = keysPerVizard llaves
+// 1 Pergamino = keysPerScroll llaves  (3 llaves por defecto)
+// Fuente de verdad única: bot + web + seed la leen de aquí.
+model RateConfig {
+  id            String   @id @default("default")
+  // Alineado con la API de tradeo (1 viz = 900.9 llaves) — editable por admin
+  keysPerVizard Float    @default(900.9)
+  keysPerScroll Float    @default(3)
+  updatedAt     DateTime @updatedAt
+}
+
+model GuildConfig {
+  id                String          @id @default(cuid())
+  guildId           String          @unique
+  defaultPrefix     String          @default("!")
+  officialChannelId String?
+  tradeChannelId    String?
+  updatedAt         DateTime        @updatedAt
+  channels          ChannelConfig[]
+}
+
+model ChannelConfig {
+  id        String      @id @default(cuid())
+  guildId   String
+  channelId String
+  // "official" | "trade"
+  role      String?
+  // Prefijo único por canal (opcional, hereda el global si es null)
+  prefix    String?
+  guild     GuildConfig @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+
+  @@unique([guildId, channelId])
+  @@index([guildId])
+}
