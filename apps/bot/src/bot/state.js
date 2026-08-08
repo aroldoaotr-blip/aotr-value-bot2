@@ -15,7 +15,10 @@ export const state = {
   activeCurrency: new Map(), // ctxId -> itemName
   activeHistory: new Map(), // ctxId -> itemName
   activeTrades: new Map(), // ctxId -> { leftText, rightText }
-  dbReady: false
+  dbReady: false,
+  setItems, // método sobre el estado (eventos/scripts lo llaman como state.setItems)
+  getApiRow, // método sobre el estado (handlers/buttons lo llaman como state.getApiRow)
+  upsertApiRows // método sobre el estado (sync lo llama como state.upsertApiRows)
 };
 
 export function setItems(items, vizardRate) {
