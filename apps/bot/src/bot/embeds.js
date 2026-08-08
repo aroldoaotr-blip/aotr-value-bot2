@@ -9,17 +9,38 @@ import {
 } from "discord.js";
 import { BRANDING } from "../config/constants.js";
 
+// Formato de Vizard — mismo criterio que la web (apps/web/src/lib/format.ts):
+// hasta 2 decimales, compacto para miles/millones y 4 decimales si es < 0.01.
 export function formatValue(value) {
   if (value === null || value === undefined || value === 0) return "N/A";
 
-  const formatNumber = (number) =>
-    Number(number).toLocaleString("en-US", { maximumFractionDigits: 2 });
+  const formatNumber = (number) => {
+    if (Math.abs(number) >= 1_000_000) return `${(number / 1_000_000).toFixed(1)}M`;
+    if (Math.abs(number) >= 1_000) return `${(number / 1_000).toFixed(1)}k`;
+    if (Math.abs(number) < 1) return number.toFixed(number < 0.01 ? 4 : 2);
+    return Number(number.toFixed(2)).toString();
+  };
 
   if (typeof value === "object") {
     return `${formatNumber(value.min)} - ${formatNumber(value.max)}`;
   }
 
   return formatNumber(value);
+}
+
+// Redondeo de llaves/pergaminos a enteros — mismo criterio que la web:
+// sube cuando la parte decimal >= 0.45 (5.45 → 6, 6.67 → 7) y se queda
+// abajo cuando es menor (5.29 → 5, 5.01 → 5).
+export function formatRounded(value) {
+  if (value === null || value === undefined || value === 0) return "N/A";
+
+  const round = (n) => (n - Math.floor(n) >= 0.45 ? Math.ceil(n) : Math.floor(n));
+
+  if (typeof value === "object") {
+    return `${round(value.min)} - ${round(value.max)}`;
+  }
+
+  return round(value);
 }
 
 export function formatDemand(demand) {
@@ -48,8 +69,8 @@ export function createItemEmbed(item, { apiRow = null, keyRatio = null, historyS
   const isApi = Boolean(apiRow);
 
   const officialSection = isOfficial
-    ? `🔑 **Llaves:** ${formatValue(item.value.keys)}\n` +
-      `📜 **Pergaminos:** ${formatValue(item.value.scrolls)}\n` +
+    ? `🔑 **Llaves:** ${formatRounded(item.value.keys)}\n` +
+      `📜 **Pergaminos:** ${formatRounded(item.value.scrolls)}\n` +
       `🎭 **Vizard:** ${formatValue(item.value.vizards)}\n` +
       `**Demanda:** ${formatDemand(item.demand)}\n` +
       `**Estado:** ${item.rateOfChange ?? "N/A"}`
@@ -57,8 +78,8 @@ export function createItemEmbed(item, { apiRow = null, keyRatio = null, historyS
 
   const apiSection = isApi
     ? `🎭 **Valor (viz):** ${formatValue(apiRow.value)}\n` +
-      `🔑 **Llaves:** ${formatValue(apiRow.keys)}\n` +
-      `📜 **Pergaminos:** ${formatValue(apiRow.scrolls)}\n` +
+      `🔑 **Llaves:** ${formatRounded(apiRow.keys)}\n` +
+      `📜 **Pergaminos:** ${formatRounded(apiRow.scrolls)}\n` +
       `**Demanda:** ${formatDemand(apiRow.demand)}\n` +
       `**Estado:** ${apiRow.rateOfChange ?? "N/A"}\n` +
       (apiRow.status ? `**Disponibilidad:** ${apiRow.status}` : "")
@@ -131,8 +152,8 @@ export function createSumEmbed(groupedItems, total, notFoundText = "", keyRatio 
 
       return (
         `**${item.name} x${quantity}**\n` +
-        `🔑 Llaves: ${formatValue(totalKeys)}\n` +
-        `📜 Pergaminos: ${formatValue(totalScrolls)}\n` +
+        `🔑 Llaves: ${formatRounded(totalKeys)}\n` +
+        `📜 Pergaminos: ${formatRounded(totalScrolls)}\n` +
         `🎭 Vizard: ${formatValue(totalVizards)}\n` +
         `**Demanda:** ${formatDemand(item.demand)}`
       );
@@ -148,8 +169,8 @@ export function createSumEmbed(groupedItems, total, notFoundText = "", keyRatio 
       {
         name: "📊 Totales",
         value:
-          `🔑 **Llaves:** ${formatValue(total.totalKeys)}\n` +
-          `📜 **Pergaminos:** ${formatValue(total.totalScrolls)}\n` +
+          `🔑 **Llaves:** ${formatRounded(total.totalKeys)}\n` +
+          `📜 **Pergaminos:** ${formatRounded(total.totalScrolls)}\n` +
           `🎭 **Vizard:** ${formatValue(total.totalVizards)}`,
         inline: false
       }
@@ -236,8 +257,8 @@ export function createTradeEmbed(comparison, notFoundText = "", primary = "offic
       {
         name: "📊 Total de tu oferta",
         value:
-          `🔑 **Llaves:** ${formatValue(comparison.left.totalKeys)}\n` +
-          `📜 **Pergaminos:** ${formatValue(comparison.left.totalScrolls)}\n` +
+          `🔑 **Llaves:** ${formatRounded(comparison.left.totalKeys)}\n` +
+          `📜 **Pergaminos:** ${formatRounded(comparison.left.totalScrolls)}\n` +
           `🎭 **Vizard:** ${formatValue(comparison.left.totalVizards)}`,
         inline: false
       },
@@ -246,8 +267,8 @@ export function createTradeEmbed(comparison, notFoundText = "", primary = "offic
       {
         name: "📊 Total de su oferta",
         value:
-          `🔑 **Llaves:** ${formatValue(comparison.right.totalKeys)}\n` +
-          `📜 **Pergaminos:** ${formatValue(comparison.right.totalScrolls)}\n` +
+          `🔑 **Llaves:** ${formatRounded(comparison.right.totalKeys)}\n` +
+          `📜 **Pergaminos:** ${formatRounded(comparison.right.totalScrolls)}\n` +
           `🎭 **Vizard:** ${formatValue(comparison.right.totalVizards)}`,
         inline: false
       },
@@ -256,8 +277,8 @@ export function createTradeEmbed(comparison, notFoundText = "", primary = "offic
         name: `${resultEmoji} Resultado`,
         value:
           `**${resultText}**\n\n` +
-          `🔑 Llaves: **${comparison.keysDifference >= 0 ? "+" : ""}${formatValue(comparison.keysDifference)}**\n` +
-          `📜 Pergaminos: **${comparison.scrollsDifference >= 0 ? "+" : ""}${formatValue(comparison.scrollsDifference)}**\n` +
+          `🔑 Llaves: **${comparison.keysDifference >= 0 ? "+" : ""}${formatRounded(comparison.keysDifference)}**\n` +
+          `📜 Pergaminos: **${comparison.scrollsDifference >= 0 ? "+" : ""}${formatRounded(comparison.scrollsDifference)}**\n` +
           `🎭 Vizard: **${comparison.vizardsDifference >= 0 ? "+" : ""}${formatValue(comparison.vizardsDifference)}**\n\n` +
           `📈 Porcentaje: **${comparison.percentage.toFixed(2)}%**` +
           (notFoundText ? `\n\n${notFoundText}` : ""),

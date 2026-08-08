@@ -5,7 +5,6 @@ import * as THREE from "three";
 import {
   Component,
   Suspense,
-  useEffect,
   useMemo,
   useRef,
   type ReactNode,
@@ -14,7 +13,7 @@ import {
 const HERO_VIDEO = "3R1mMK7t36o"; // "attack of titans frag 20 sec" (Aroldo Jerez)
 
 // ── Vapor (partículas ascendentes) ───────────────────────
-function Steam({ count = 220 }: { count?: number }) {
+function Steam({ count = 50 }: { count?: number }) {
   const ref = useRef<THREE.Points>(null);
   const { positions, speeds } = useMemo(() => {
     const pos = new Float32Array(count * 3);
@@ -51,10 +50,10 @@ function Steam({ count = 220 }: { count?: number }) {
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
       <pointsMaterial
-        size={0.42}
+        size={0.3}
         color="#d6d3d1"
         transparent
-        opacity={0.18}
+        opacity={0.07}
         sizeAttenuation
         depthWrite={false}
         blending={THREE.AdditiveBlending}
@@ -64,7 +63,7 @@ function Steam({ count = 220 }: { count?: number }) {
 }
 
 // ── Brasas (rojo ceniza) ─────────────────────────────────
-function Embers({ count = 120 }: { count?: number }) {
+function Embers({ count = 28 }: { count?: number }) {
   const ref = useRef<THREE.Points>(null);
   const { positions, speeds } = useMemo(() => {
     const pos = new Float32Array(count * 3);
@@ -104,84 +103,12 @@ function Embers({ count = 120 }: { count?: number }) {
         size={0.09}
         color="#f97316"
         transparent
-        opacity={0.75}
+        opacity={0.3}
         sizeAttenuation
         depthWrite={false}
         blending={THREE.AdditiveBlending}
       />
     </points>
-  );
-}
-
-// ── Cables ODM (líneas con trazo animado) ────────────────
-const ODM_LINES: [number, number, number][][] = [
-  [
-    [-7, 1.2, 0.5],
-    [-3.5, 2.8, 0.2],
-    [0, 3.8, -0.4],
-    [3.8, 2.4, -1.2],
-    [7.2, 0.6, -0.6],
-  ],
-  [
-    [-7.6, -0.6, 1],
-    [-4, 0.6, 0.6],
-    [0.4, 1.8, -0.2],
-    [4.6, 0.2, -1],
-    [7.8, -1, -0.4],
-  ],
-  [
-    [-5.8, 3, -1.5],
-    [-2.2, 4, -1],
-    [2.2, 4.6, -1.8],
-    [6, 3.2, -1.2],
-  ],
-];
-
-function OdmLines() {
-  const lines = useMemo(() => {
-    return ODM_LINES.map((points, i) => {
-      const curve = new THREE.CatmullRomCurve3(
-        points.map((p) => new THREE.Vector3(...p)),
-      );
-      const pts = curve.getPoints(48);
-      const geo = new THREE.BufferGeometry().setFromPoints(pts);
-
-      const material = new THREE.LineDashedMaterial({
-        color: i === 0 ? "#fbbf24" : "#f59e0b",
-        dashSize: 0.22,
-        gapSize: 0.16,
-        transparent: true,
-        opacity: 0.4,
-      });
-
-      const line = new THREE.Line(geo, material);
-      line.computeLineDistances();
-      return line;
-    });
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      lines.forEach((line) => {
-        line.geometry?.dispose();
-        (line.material as THREE.Material | undefined)?.dispose();
-      });
-    };
-  }, [lines]);
-
-  useFrame((state) => {
-    lines.forEach((line, i) => {
-      const mat = line.material as THREE.LineDashedMaterial;
-      mat.scale = 1 + Math.sin(state.clock.elapsedTime * 1.5 + i * 1.2) * 0.08;
-    });
-  });
-
-  return (
-    <group>
-      {lines.map((line, i) => (
-        <primitive key={i} object={line} />
-      ))}
-    </group>
   );
 }
 
@@ -259,7 +186,6 @@ export default function Hero3D() {
         >
           <Suspense fallback={null}>
             <Rig>
-              <OdmLines />
               <Steam />
               <Embers />
             </Rig>
