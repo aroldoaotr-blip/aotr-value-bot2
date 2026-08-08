@@ -1,6 +1,11 @@
 # AOTR Bot — Dockerfile para Railway
-FROM node:22-alpine AS base
+# node:22-slim (Debian/glibc): Prisma requiere OpenSSL 1.1+ que Alpine/musl no provee
+FROM node:22-slim AS base
 WORKDIR /app
+
+# OpenSSL + certificados (requeridos por el engine de Prisma)
+RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
 # Dependencias con cache layer
 COPY package.json package-lock.json* ./
