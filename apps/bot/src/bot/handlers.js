@@ -13,11 +13,15 @@ import {
   itemEmbedButtons,
   similarEmbedButtons,
   tradeEmbedButtons,
-  giveawayButton
+  giveawayButton,
 } from "./embeds.js";
 import { resolveCurrency } from "../core/currency.js";
 import { parseTradeMessage, splitItems } from "../core/parser.js";
-import { calculateItems, compareTrades, getItemMainValue } from "../core/calculator.js";
+import {
+  calculateItems,
+  compareTrades,
+  getItemMainValue,
+} from "../core/calculator.js";
 import { state } from "./state.js";
 import { prisma } from "@aotr/db";
 import { compactKey } from "../core/normalize.js";
@@ -26,7 +30,7 @@ import {
   setChannelRole,
   setChannelPrefix,
   setDefaultPrefix,
-  channelRoleOf
+  channelRoleOf,
 } from "../services/prefixService.js";
 import { syncAll } from "../services/sync.js";
 import { getWikiEntries } from "../data/wiki.js";
@@ -154,7 +158,7 @@ export async function getHistorySpark(itemName) {
       where: { itemId: stableId(normalized) },
       orderBy: { recordedAt: "asc" },
       take: 30,
-      select: { apiValue: true }
+      select: { apiValue: true },
     });
 
     if (rows.length < 2) return null;
@@ -166,7 +170,10 @@ export async function getHistorySpark(itemName) {
     const bars = "▁▂▃▄▅▆▇█";
 
     const spark = values
-      .map((v) => bars[Math.max(0, Math.min(7, Math.round(((v - min) / range) * 7)))])
+      .map(
+        (v) =>
+          bars[Math.max(0, Math.min(7, Math.round(((v - min) / range) * 7)))],
+      )
       .join("");
 
     const change = values[values.length - 1] - values[0];
@@ -179,7 +186,8 @@ export async function getHistorySpark(itemName) {
 
 // ── Valor ────────────────────────────────────────────────
 export async function cmdValor(ctx, input) {
-  const item = resolveCurrency(input, state.vizardRate) || state.resolveItem(input);
+  const item =
+    resolveCurrency(input, state.vizardRate) || state.resolveItem(input);
 
   if (!item) {
     const suggestions = state.resolveItem.suggest(input, 5);
@@ -198,12 +206,12 @@ export async function cmdValor(ctx, input) {
     apiRow,
     keyRatio: state.apiKeyRatio,
     historySpark,
-    primary
+    primary,
   });
 
   return ctx.reply({
     embeds: [embed],
-    components: [itemEmbedButtons(ctxId, item, apiRow)]
+    components: [itemEmbedButtons(ctxId, item, apiRow)],
   });
 }
 
@@ -216,17 +224,26 @@ export async function cmdSuma(ctx, input) {
       embeds: [
         createNotFoundEmbed(
           notFound.join(" + "),
-          state.resolveItem.suggest(notFound[0] ?? "", 5)
-        )
-      ]
+          state.resolveItem.suggest(notFound[0] ?? "", 5),
+        ),
+      ],
     });
   }
 
   const total = calculateItems(foundItems);
-  const notFoundTextValue = notFound.length ? `❌ **No encontrados:**\n${notFoundText(notFound)}` : "";
+  const notFoundTextValue = notFound.length
+    ? `❌ **No encontrados:**\n${notFoundText(notFound)}`
+    : "";
 
   return ctx.reply({
-    embeds: [createSumEmbed(groupItems(foundItems), total, notFoundTextValue, state.apiKeyRatio)]
+    embeds: [
+      createSumEmbed(
+        groupItems(foundItems),
+        total,
+        notFoundTextValue,
+        state.apiKeyRatio,
+      ),
+    ],
   });
 }
 
@@ -246,7 +263,7 @@ export async function cmdTrade(ctx, leftText, rightText) {
 
   return ctx.reply({
     embeds: [createTradeEmbed(comparison, notFoundText(notFound), source)],
-    components: [tradeEmbedButtons(ctxId)]
+    components: [tradeEmbedButtons(ctxId)],
   });
 }
 
@@ -262,7 +279,7 @@ export function buildComparison(leftResolved, rightResolved, source) {
         const value = {
           keys: apiRow.keys,
           scrolls: apiRow.scrolls,
-          vizards: apiRow.value
+          vizards: apiRow.value,
         };
 
         return { ...item, value, __source: "api" };
@@ -276,19 +293,25 @@ export function buildComparison(leftResolved, rightResolved, source) {
 
 // ── Similares ────────────────────────────────────────────
 export async function cmdSimilares(ctx, input, percent = 10) {
-  const targetItem = resolveCurrency(input, state.vizardRate) || state.resolveItem(input);
+  const targetItem =
+    resolveCurrency(input, state.vizardRate) || state.resolveItem(input);
 
   if (!targetItem) {
     return ctx.reply({ embeds: [createNotFoundEmbed(input)] });
   }
 
-  const similarItems = findSimilarItems(targetItem, state.itemsCache, 10, percent);
+  const similarItems = findSimilarItems(
+    targetItem,
+    state.itemsCache,
+    10,
+    percent,
+  );
   const ctxId = newCtxId();
   state.activeSimilar.set(ctxId, targetItem.name);
 
   return ctx.reply({
     embeds: [createSimilarEmbed(targetItem, similarItems, percent)],
-    components: [similarEmbedButtons(ctxId)]
+    components: [similarEmbedButtons(ctxId)],
   });
 }
 
@@ -304,7 +327,9 @@ export async function cmdWiki(ctx, query) {
       ? e.aliases.map((a) => String(a).toLowerCase())
       : [];
     return (
-      name === normalizedQuery || name.includes(normalizedQuery) || aliases.includes(normalizedQuery)
+      name === normalizedQuery ||
+      name.includes(normalizedQuery) ||
+      aliases.includes(normalizedQuery)
     );
   });
 
@@ -323,7 +348,7 @@ export async function cmdSorteo(ctx, durationText, prize, winnerCount = 1) {
 
   if (!durationMs || !prize) {
     return ctx.reply(
-      "❌ Uso correcto:\n`!sorteo 10m Premio del sorteo`\nEjemplo:\n`!sorteo 1h 1000 llaves AOTR`"
+      "❌ Uso correcto:\n`!sorteo 10m Premio del sorteo`\nEjemplo:\n`!sorteo 1h 1000 llaves AOTR`",
     );
   }
 
@@ -338,7 +363,7 @@ export async function cmdSorteo(ctx, durationText, prize, winnerCount = 1) {
     durationText: formatDuration(durationMs),
     creator: ctx.author.username,
     channelId: ctx.channel.id,
-    ended: false
+    ended: false,
   };
 
   state.giveaways.create(giveawayId, giveaway);
@@ -347,7 +372,7 @@ export async function cmdSorteo(ctx, durationText, prize, winnerCount = 1) {
     content: "@everyone 🎉 **¡NUEVO SORTEO ACTIVO!**",
     embeds: [createGiveawayEmbed(giveaway, giveawayId)],
     components: [giveawayButton(giveawayId)],
-    allowedMentions: { parse: ["everyone"] }
+    allowedMentions: { parse: ["everyone"] },
   });
 
   giveaway.messageId = message.id;
@@ -358,18 +383,22 @@ export async function cmdSorteo(ctx, durationText, prize, winnerCount = 1) {
 
     try {
       if (result.none) {
-        await ctx.channel.send("❌ El sorteo terminó, pero no hubo participantes.");
+        await ctx.channel.send(
+          "❌ El sorteo terminó, pero no hubo participantes.",
+        );
         return;
       }
       await ctx.channel.send({
-        embeds: [createGiveawayResultEmbed(giveaway.prize, result.winners)]
+        embeds: [createGiveawayResultEmbed(giveaway.prize, result.winners)],
       });
     } catch (error) {
       console.error("Error finalizando sorteo:", error);
     }
   }, durationMs);
 
-  return ctx.reply(`✅ Sorteo creado: **${giveaway.prize}** (termina ${formatDuration(durationMs)}).`);
+  return ctx.reply(
+    `✅ Sorteo creado: **${giveaway.prize}** (termina ${formatDuration(durationMs)}).`,
+  );
 }
 
 // ── Participantes ────────────────────────────────────────
@@ -388,7 +417,7 @@ export async function cmdParticipantes(ctx) {
   return ctx.reply(
     ids.length
       ? `👥 **Participantes guardados:**\n${ids.map((id) => `<@${id}>`).join("\n")}`
-      : "❌ Todavía no hay participantes guardados."
+      : "❌ Todavía no hay participantes guardados.",
   );
 }
 
@@ -399,7 +428,9 @@ export async function cmdConfig(ctx, sub, args) {
   }
 
   if (!state.dbReady) {
-    return ctx.reply("❌ La base de datos no está configurada (falta DATABASE_URL).");
+    return ctx.reply(
+      "❌ La base de datos no está configurada (falta DATABASE_URL).",
+    );
   }
 
   if (sub === "canal") {
@@ -412,7 +443,7 @@ export async function cmdConfig(ctx, sub, args) {
 
     await setChannelRole(ctx.guild.id, channel.id, role);
     return ctx.reply(
-      `✅ Canal ${channel} configurado como **${role === "official" ? "🟢 Oficial (hoja AOTR)" : "🔵 Trade (API)"}**.`
+      `✅ Canal ${channel} configurado como **${role === "official" ? "🟢 Oficial (hoja AOTR)" : "🔵 Precios recomendados"}**.`,
     );
   }
 
@@ -420,30 +451,36 @@ export async function cmdConfig(ctx, sub, args) {
     const prefix = args.prefix;
     const channel = args.channel;
 
-    if (!prefix) return ctx.reply("❌ Indica un prefijo (ej: `!`, `.`, `aotr!`).");
+    if (!prefix)
+      return ctx.reply("❌ Indica un prefijo (ej: `!`, `.`, `aotr!`).");
 
     if (channel) {
       await setChannelPrefix(ctx.guild.id, channel.id, prefix);
-      return ctx.reply(`✅ Prefijo \`${prefix}\` asignado al canal ${channel}.`);
+      return ctx.reply(
+        `✅ Prefijo \`${prefix}\` asignado al canal ${channel}.`,
+      );
     }
 
     await setDefaultPrefix(ctx.guild.id, prefix);
-    return ctx.reply(`✅ Prefijo global \`${prefix}\` configurado para este servidor.`);
+    return ctx.reply(
+      `✅ Prefijo global \`${prefix}\` configurado para este servidor.`,
+    );
   }
 
   if (sub === "ver") {
     const config = await getGuildConfig(ctx.guild.id, { force: true });
-    const channels = config.channels
-      .map(
-        (c) =>
-          `<#${c.channelId}> → **${c.role === "official" ? "🟢 oficial" : "🔵 trade"}**${c.prefix ? ` (prefijo \`${c.prefix}\`)` : ""}`
-      )
-      .join("\n") || "Ninguno configurado";
+    const channels =
+      config.channels
+        .map(
+          (c) =>
+            `<#${c.channelId}> → **${c.role === "official" ? "🟢 oficial" : "🔵 trade"}**${c.prefix ? ` (prefijo \`${c.prefix}\`)` : ""}`,
+        )
+        .join("\n") || "Ninguno configurado";
 
     return ctx.reply(
       `⚙️ **Configuración de ${ctx.guild.name}**\n\n` +
         `**Prefijo global:** \`${config.defaultPrefix}\`\n\n` +
-        `**Canales:**\n${channels}`
+        `**Canales:**\n${channels}`,
     );
   }
 
@@ -460,7 +497,7 @@ export async function cmdSync(ctx, which = "all") {
 
   const results = await syncAll({
     official: which === "all" || which === "official",
-    trade: which === "all" || which === "trade"
+    trade: which === "all" || which === "trade",
   });
 
   const lines = Object.entries(results)
@@ -488,8 +525,8 @@ export async function cmdStats(ctx) {
         prisma.syncLog.findMany({
           orderBy: { startedAt: "desc" },
           take: 5,
-          select: { source: true, status: true, rows: true, startedAt: true }
-        })
+          select: { source: true, status: true, rows: true, startedAt: true },
+        }),
       ]);
       counts = { official, api, both };
       lastSyncs = syncLogs;
@@ -509,9 +546,9 @@ export async function cmdStats(ctx) {
         vizardRate: state.vizardRate,
         keyRatio: state.apiKeyRatio,
         uptime,
-        config
-      })
-    ]
+        config,
+      }),
+    ],
   });
 }
 
@@ -540,8 +577,8 @@ export async function cmdAyuda(ctx) {
           `**🎉 Sorteos** (admin)\n\`${prefix}sorteo 10m premio\`\n\n` +
           `**⚙️ Config** (admin)\n\`${prefix}config canal <#canal> <oficial|trade>\`\n\`${prefix}config prefijo <prefijo> [canal]\`\n\n` +
           `**🔄 Sync** (admin)\n\`${prefix}sync all|official|trade\`\n\n` +
-          `**📊 Stats**\n\`${prefix}stats\``
-      }
-    ]
+          `**📊 Stats**\n\`${prefix}stats\``,
+      },
+    ],
   });
 }
