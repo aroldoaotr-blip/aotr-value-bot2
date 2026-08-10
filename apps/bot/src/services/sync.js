@@ -53,6 +53,15 @@ async function logSync(source, status, rows = null, error = null, durationMs = n
         durationMs
       }
     });
+
+    // Retención: mantener solo los últimos 30 registros (el admin muestra hasta 30)
+    const keep = await prisma.syncLog.findMany({
+      orderBy: { id: "desc" },
+      take: 30,
+      select: { id: true }
+    });
+    const keepIds = keep.map((k) => k.id);
+    await prisma.syncLog.deleteMany({ where: { id: { notIn: keepIds } } });
   } catch (e) {
     console.error("⚠️ No se pudo registrar el sync_log:", e.message);
   }

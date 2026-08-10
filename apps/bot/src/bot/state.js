@@ -1,6 +1,7 @@
 // Estado global del bot (cache en memoria)
 
 import { GiveawayManager } from "../services/giveaways.js";
+import { compactKey } from "../core/normalize.js";
 
 export const state = {
   itemsCache: [], // items oficiales (hoja AOTR)
@@ -40,7 +41,11 @@ export function upsertApiRows(rows, rates) {
   for (const row of rows) {
     // row.value viene en vizard → llaves = viz × keysPerVizard
     const keys = row.value != null ? row.value * keysPerVizard : null;
-    state.apiMap.set(row.normalized, {
+    // La clave SIEMPRE es compactKey (sin espacios): es la que usan las
+    // búsquedas (state.getApiRow(compactKey(name))). row.normalized viene
+    // de normalizeSearchText (con espacios) y NO sirve como llave del mapa.
+    const key = compactKey(row.name ?? row.normalized ?? "");
+    state.apiMap.set(key, {
       value: row.value,
       keys,
       scrolls: keys != null ? keys / keysPerScroll : null,

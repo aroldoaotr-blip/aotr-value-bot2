@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Loader2, LogOut, RotateCcw, Save, ShieldCheck } from "lucide-react";
+import { CheckCircle2, Loader2, LogOut, RefreshCw, RotateCcw, Save, ShieldCheck } from "lucide-react";
 import {
   clearLocalRates,
   DEFAULT_RATES,
@@ -13,6 +13,25 @@ import {
 import { Avatar } from "@/components/Avatar";
 import { cn } from "@/lib/format";
 
+interface SyncLogEntry {
+  id: number;
+  source: string;
+  status: string;
+  rows: number | null;
+  durationMs: number | null;
+  startedAt: string;
+}
+
+function timeAgo(iso: string): string {
+  const diff = Date.now() - new Date(iso).getTime();
+  const minutes = Math.floor(diff / 60000);
+  if (minutes < 1) return "hace un momento";
+  if (minutes < 60) return `hace ${minutes} min`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `hace ${hours} h`;
+  return `hace ${Math.floor(hours / 24)} d`;
+}
+
 export default function AdminPage() {
   const router = useRouter();
   const [authed, setAuthed] = useState<boolean | null>(null);
@@ -22,6 +41,9 @@ export default function AdminPage() {
   const [message, setMessage] = useState("");
   const [persisted, setPersisted] = useState(false);
   const [example, setExample] = useState<{ name: string; emoji: string | null } | null>(null);
+  const [syncing, setSyncing] = useState(false);
+  const [syncMsg, setSyncMsg] = useState<string | null>(null);
+  const [syncLog, setSyncLog] = useState<SyncLogEntry[]>([]);
 
   const rates: Rates = useMemo(() => {
     const kv = Number(keysPerVizard);
@@ -74,6 +96,14 @@ export default function AdminPage() {
       })
       .catch(() => router.replace("/administrador/login"));
   }, [router]);
+
+  // Historial de sincronizaciones (últimas 30) + auto-refresh cada 15 s
+  useEffect(() => {
+    if (authed !== true) return;
+    loadSyncLog();
+    const id = setInterval(loadSyncLog, 15000);
+    return () => clearInterval(id);
+  }, [authed]);
 
   if (authed === null) {
     return (
@@ -136,6 +166,41 @@ export default function AdminPage() {
     clearLocalRates();
     setMessage("Tasas restauradas a los valores por defecto.");
     setStatus("saved");
+  }
+
+  async function loadSyncLog() {
+    try {
+      const res = await fetch("/api/sync-log");
+      const data = await res.json();
+      if (Array.isArray(data.logs)) setSyncLog(data.logs);
+    } catch {
+      /* mantener lo que haya */
+    }
+  }
+
+  // Fuerza la actualización de las 2 listas (los mismos scripts del bot)
+  async function forceSync() {
+    setSyncing(true);
+    setSyncMsg(null);
+    try {
+      const res = await fetch("/api/sync", { method: "POST" });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Error al sincronizar");
+      const parts = (data.results as { source: string; status: string; rows: number | null }[]).map(
+        (r) => {
+          const label = r.source === "official" ? "🟢 Oficial" : "🔵 Trade";
+          if (r.status === "skipped") return `${label}: ⚠️ omitida (sync en curso)`;
+          if (r.status !== "ok") return `${label}: ✗ error`;
+          return `${label}: ${r.rows ?? 0} items`;
+        }
+      );
+      setSyncMsg(`✅ Sincronización completada — ${parts.join(" · ")}`);
+    } catch (error) {
+      setSyncMsg(`❌ ${error instanceof Error ? error.message : "No se pudo sincronizar."}`);
+    } finally {
+      setSyncing(false);
+      loadSyncLog();
+    }
   }
 
   const vizInKeys = 1 * rates.keysPerVizard;
@@ -255,6 +320,79 @@ export default function AdminPage() {
         {status === "error" && (
           <span className="text-sm text-rose-400">⚠️ {message}</span>
         )}
+      </div>
+
+      {/* Sincronización de precios */}
+      <div className="glass mt-6 rounded-2xl p-5">
+        <div className="flex items-center gap-2">
+          <RefreshCw className="h-4 w-4 text-indigo-300" />
+          <h2 className="text-sm font-bold uppercase tracking-widest text-white/70">
+            Sincronización de precios
+          </h2>
+        </div>
+        <p className="mt-1 text-xs text-white/50">
+          Fuerza la actualización de las 2 listas (hoja oficial + API de tradeo) en la base de
+          datos. Usa los mismos scripts del bot; puede tardar hasta 1 minuto.
+        </p>
+
+        <button
+          onClick={forceSync}
+          disabled={syncing}
+          className="mt-3 flex items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-5 py-2.5 text-sm font-bold text-white transition-all hover:brightness-110 disabled:opacity-40"
+        >
+          {syncing ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <RefreshCw className="h-4 w-4" />
+          )}
+          {syncing ? "Sincronizando…" : "Forzar actualización de las 2 listas"}
+        </button>
+
+        {syncMsg && (
+          <p
+            className={cn(
+              "mt-3 text-sm",
+              syncMsg.startsWith("✅") ? "text-emerald-400" : "text-rose-400"
+            )}
+          >
+            {syncMsg}
+          </p>
+        )}
+
+        <div className="mt-5">
+          <div className="flex items-center justify-between">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-white/40">
+              📋 Últimas actualizaciones
+            </p>
+            <span className="text-[10px] text-white/30">se conservan las últimas 30</span>
+          </div>
+          <div className="mt-2 max-h-72 space-y-1 overflow-y-auto pr-1">
+            {syncLog.length === 0 && (
+              <p className="text-xs text-white/40">
+                Todavía no hay sincronizaciones registradas.
+              </p>
+            )}
+            {syncLog.map((log) => (
+              <div
+                key={log.id}
+                className="flex items-center justify-between gap-2 rounded-lg border border-white/5 bg-white/[0.03] px-3 py-1.5 text-xs"
+              >
+                <span className="flex min-w-0 items-center gap-2">
+                  <span>{log.source === "official" ? "🟢" : "🔵"}</span>
+                  <span className="font-medium text-white/80">
+                    {log.source === "official" ? "Oficial (hoja)" : "Trade (API)"}
+                  </span>
+                  {log.status === "ok" ? (
+                    <span className="text-emerald-400">✓ {log.rows ?? 0} items</span>
+                  ) : (
+                    <span className="text-rose-400">✗ error</span>
+                  )}
+                </span>
+                <span className="shrink-0 text-white/35">{timeAgo(log.startedAt)}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {!persisted && (

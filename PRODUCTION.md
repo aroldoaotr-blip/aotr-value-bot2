@@ -125,7 +125,10 @@ curl https://tu-dominio/api/rates
 
 - **Cambiar el valor del viz/scroll**: `/administrador` → guarda → se aplica a bot + web
   (se escribe en `RateConfig`).
-- **Forzar sync**: `!sync` en Discord (o el botón del admin si lo agregamos).
+- **Forzar sync desde el admin**: `/administrador` → botón **"Forzar actualización de las 2 listas"**
+  → ejecuta los mismos scripts del bot (`POST /api/sync`, hasta 300s). Funciona aunque el bot esté caído.
+- **Ver últimas actualizaciones**: el admin muestra las últimas 30 sincronizaciones
+  (`SyncLog` — bot + web las escriben; se borran las más viejas automáticamente).
 
 ---
 
