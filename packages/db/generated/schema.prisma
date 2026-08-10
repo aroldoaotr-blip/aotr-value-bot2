@@ -20,8 +20,11 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  // Conexión directa (sin pooler) para migraciones: `prisma db push` / `migrate`
+  // usan DIRECT_URL; el runtime (web/bot) usa DATABASE_URL.
+  directUrl = env("DIRECT_URL")
 }
 
 // ── LISTA 1 · Precios oficiales (hoja AOTR) ─────────────────────────

@@ -4,20 +4,20 @@ import { DEFAULT_RATES, type Rates } from "@/lib/rates";
 
 export const dynamic = "force-dynamic";
 
-async function dbRates(): Promise<Rates | null> {
-  if (!process.env.DATABASE_URL) return null;
+async function dbRates(): Promise<{ rates: Rates | null; error: string | null }> {
+  if (!process.env.DATABASE_URL) return { rates: null, error: null };
   try {
     const { getRates } = await import("@aotr/db");
-    return await getRates();
+    return { rates: await getRates(), error: null };
   } catch (error) {
     console.warn("⚠️ api/rates: no se pudo leer la BD:", error);
-    return null;
+    return { rates: null, error: error instanceof Error ? error.message : String(error) };
   }
 }
 
 export async function GET() {
-  const fromDb = await dbRates();
-  return NextResponse.json({ rates: fromDb ?? DEFAULT_RATES, persisted: !!fromDb });
+  const { rates, error } = await dbRates();
+  return NextResponse.json({ rates: rates ?? DEFAULT_RATES, persisted: !!rates, error });
 }
 
 export async function POST(request: Request) {
