@@ -30,6 +30,9 @@ import {
   setChannelRole,
   setChannelPrefix,
   setDefaultPrefix,
+  setWelcomeChannel,
+  clearWelcomeChannel,
+  welcomeChannelOf,
   channelRoleOf,
 } from "../services/prefixService.js";
 import { syncAll } from "../services/sync.js";
@@ -508,6 +511,45 @@ export async function cmdConfig(ctx, sub, args) {
     );
   }
 
+  if (sub === "bienvenida") {
+    const channel = args.channel;
+    const probar = args.probar ?? true;
+
+    if (!channel) {
+      await clearWelcomeChannel(ctx.guild.id);
+      return ctx.reply(
+        "✅ Canal de bienvenidas desactivado (se quita la configuración de este servidor).",
+      );
+    }
+
+    await setWelcomeChannel(ctx.guild.id, channel.id);
+
+    const embed = {
+      color: 0x2ecc71,
+      title: "🎉 ¡Nuevo miembro!",
+      description:
+        `Bienvenido/a **Prueba** a **${ctx.guild.name}**.\n\n` +
+        `📌 No molestes y disfruta de la comunidad.\n` +
+        `🔍 Usa el bot para consultar valores, wiki y sorteos.`,
+      footer: { text: `Ahora somos ${ctx.guild.memberCount} miembros` },
+      timestamp: new Date().toISOString(),
+    };
+
+    let testInfo = "";
+    if (probar) {
+      try {
+        await channel.send({ embeds: [embed] });
+        testInfo = "\n📨 Se envió un mensaje de prueba al canal.";
+      } catch (error) {
+        testInfo = `\n⚠️ No pude enviar el mensaje de prueba: ${error.message}`;
+      }
+    }
+
+    return ctx.reply(
+      `✅ Canal de bienvenidas configurado: ${channel}.${testInfo}`,
+    );
+  }
+
   if (sub === "ver") {
     const config = await getGuildConfig(ctx.guild.id, { force: true });
     const channels =
@@ -518,10 +560,15 @@ export async function cmdConfig(ctx, sub, args) {
         )
         .join("\n") || "Ninguno configurado";
 
+    const welcome = config.welcomeChannelId
+      ? `<#${config.welcomeChannelId}>`
+      : "Ninguno (usa /config bienvenida)";
+
     return ctx.reply(
       `⚙️ **Configuración de ${ctx.guild.name}**\n\n` +
         `**Prefijo global:** \`${config.defaultPrefix}\`\n\n` +
-        `**Canales:**\n${channels}`,
+        `**Canales:**\n${channels}\n\n` +
+        `**Canal de bienvenidas:** ${welcome}`,
     );
   }
 
@@ -621,7 +668,7 @@ export async function cmdAyuda(ctx) {
           `**🔍 Similares**\n\`${prefix}similares <item>\`\n\n` +
           `**📚 Wiki**\n\`${prefix}wiki <perk>\`\n\n` +
           `**🎉 Sorteos** (admin)\n\`${prefix}sorteo 10m premio\`\n\n` +
-          `**⚙️ Config** (admin)\n\`${prefix}config canal <#canal> <oficial|trade>\`\n\`${prefix}config prefijo <prefijo> [canal]\`\n\n` +
+          `**⚙️ Config** (admin)\n\`${prefix}config canal <#canal> <oficial|trade>\`\n\`${prefix}config prefijo <prefijo> [canal]\`\n\`${prefix}config bienvenida <#canal>\` (opcional: probar)\n\n` +
           `**🔄 Sync** (admin)\n\`${prefix}sync all|official|trade\`\n\n` +
           `**📊 Stats**\n\`${prefix}stats\``,
       },

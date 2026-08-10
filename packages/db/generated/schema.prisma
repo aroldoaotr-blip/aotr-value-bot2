@@ -140,6 +140,9 @@ model GuildConfig {
   defaultPrefix     String          @default("!")
   officialChannelId String?
   tradeChannelId    String?
+  // Canal donde se envían los mensajes de bienvenida a nuevos miembros
+  // (configurable con /config bienvenida)
+  welcomeChannelId  String?
   updatedAt         DateTime        @updatedAt
   channels          ChannelConfig[]
 }

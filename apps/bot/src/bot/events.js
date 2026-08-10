@@ -14,7 +14,8 @@ import { DEFAULTS } from "../config/constants.js";
 import {
   getGuildConfig,
   prefixFromConfig,
-  channelRoleOf
+  channelRoleOf,
+  welcomeChannelOf
 } from "../services/prefixService.js";
 
 const WIKI_CHANNEL_ID = process.env.WIKI_CHANNEL_ID ?? null;
@@ -302,7 +303,8 @@ export function registerEvents(client) {
         const args = {
           channel: interaction.options.getChannel("canal"),
           role: interaction.options.getString("rol"),
-          prefix: interaction.options.getString("prefijo")
+          prefix: interaction.options.getString("prefijo"),
+          probar: interaction.options.getBoolean("probar")
         };
         return await cmdConfig(ctx, sub, args);
       }
@@ -323,22 +325,50 @@ export function registerEvents(client) {
       const role = AUTO_ROLE_ID && member.guild.roles.cache.get(AUTO_ROLE_ID);
       if (role) await member.roles.add(role);
 
-      const welcomeChannel = WELCOME_CHANNEL_ID && member.guild.channels.cache.get(WELCOME_CHANNEL_ID);
-      if (welcomeChannel) {
-        const { EmbedBuilder } = await import("discord.js");
-        const embed = new EmbedBuilder()
-          .setColor(0x2ecc71)
-          .setTitle("🎉 ¡Nuevo miembro!")
-          .setDescription(
-            `Bienvenido/a ${member} a **${member.guild.name}**.\n\n` +
-              `📌 No molestes y disfruta de la comunidad.\n` +
-              `🔍 Usa el bot para consultar valores, wiki y sorteos.`
-          )
-          .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
-          .setFooter({ text: `Ahora somos ${member.guild.memberCount} miembros` })
-          .setTimestamp();
+      // Canal de bienvenidas: BD por servidor → fallback env → ninguno
+      let welcomeChannelId = null;
+      try {
+        const config = await getGuildConfig(member.guild.id);
+        welcomeChannelId = welcomeChannelOf(config, WELCOME_CHANNEL_ID);
+      } catch {
+        welcomeChannelId = WELCOME_CHANNEL_ID;
+      }
 
-        await welcomeChannel.send({ embeds: [embed] });
+      if (!welcomeChannelId) {
+        console.log(
+          `ℹ️ ${member.user.tag} entró a ${member.guild.name}, pero no hay canal de bienvenidas ` +
+            "configurado (usa /config bienvenida #canal).",
+        );
+      } else {
+        let welcomeChannel = member.guild.channels.cache.get(welcomeChannelId);
+        if (!welcomeChannel) {
+          // Fuera de caché (p. ej. bot recién arrancado): intentar fetch
+          welcomeChannel = await member.guild.channels
+            .fetch(welcomeChannelId)
+            .catch(() => null);
+        }
+
+        if (!welcomeChannel) {
+          console.warn(
+            `⚠️ Canal de bienvenidas ${welcomeChannelId} no encontrado en ${member.guild.name} ` +
+              "(¿fue borrado? revísalo con /config ver).",
+          );
+        } else {
+          const { EmbedBuilder } = await import("discord.js");
+          const embed = new EmbedBuilder()
+            .setColor(0x2ecc71)
+            .setTitle("🎉 ¡Nuevo miembro!")
+            .setDescription(
+              `Bienvenido/a ${member} a **${member.guild.name}**.\n\n` +
+                `📌 No molestes y disfruta de la comunidad.\n` +
+                `🔍 Usa el bot para consultar valores, wiki y sorteos.`,
+            )
+            .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
+            .setFooter({ text: `Ahora somos ${member.guild.memberCount} miembros` })
+            .setTimestamp();
+
+          await welcomeChannel.send({ embeds: [embed] });
+        }
       }
 
       await updateMemberCount(client, member.guild);

@@ -7663,6 +7663,7 @@ export namespace Prisma {
     defaultPrefix: string | null
     officialChannelId: string | null
     tradeChannelId: string | null
+    welcomeChannelId: string | null
     updatedAt: Date | null
   }
 
@@ -7672,6 +7673,7 @@ export namespace Prisma {
     defaultPrefix: string | null
     officialChannelId: string | null
     tradeChannelId: string | null
+    welcomeChannelId: string | null
     updatedAt: Date | null
   }
 
@@ -7681,6 +7683,7 @@ export namespace Prisma {
     defaultPrefix: number
     officialChannelId: number
     tradeChannelId: number
+    welcomeChannelId: number
     updatedAt: number
     _all: number
   }
@@ -7692,6 +7695,7 @@ export namespace Prisma {
     defaultPrefix?: true
     officialChannelId?: true
     tradeChannelId?: true
+    welcomeChannelId?: true
     updatedAt?: true
   }
 
@@ -7701,6 +7705,7 @@ export namespace Prisma {
     defaultPrefix?: true
     officialChannelId?: true
     tradeChannelId?: true
+    welcomeChannelId?: true
     updatedAt?: true
   }
 
@@ -7710,6 +7715,7 @@ export namespace Prisma {
     defaultPrefix?: true
     officialChannelId?: true
     tradeChannelId?: true
+    welcomeChannelId?: true
     updatedAt?: true
     _all?: true
   }
@@ -7792,6 +7798,7 @@ export namespace Prisma {
     defaultPrefix: string
     officialChannelId: string | null
     tradeChannelId: string | null
+    welcomeChannelId: string | null
     updatedAt: Date
     _count: GuildConfigCountAggregateOutputType | null
     _min: GuildConfigMinAggregateOutputType | null
@@ -7818,6 +7825,7 @@ export namespace Prisma {
     defaultPrefix?: boolean
     officialChannelId?: boolean
     tradeChannelId?: boolean
+    welcomeChannelId?: boolean
     updatedAt?: boolean
     channels?: boolean | GuildConfig$channelsArgs<ExtArgs>
     _count?: boolean | GuildConfigCountOutputTypeDefaultArgs<ExtArgs>
@@ -7829,6 +7837,7 @@ export namespace Prisma {
     defaultPrefix?: boolean
     officialChannelId?: boolean
     tradeChannelId?: boolean
+    welcomeChannelId?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["guildConfig"]>
 
@@ -7838,6 +7847,7 @@ export namespace Prisma {
     defaultPrefix?: boolean
     officialChannelId?: boolean
     tradeChannelId?: boolean
+    welcomeChannelId?: boolean
     updatedAt?: boolean
   }
 
@@ -7858,6 +7868,7 @@ export namespace Prisma {
       defaultPrefix: string
       officialChannelId: string | null
       tradeChannelId: string | null
+      welcomeChannelId: string | null
       updatedAt: Date
     }, ExtArgs["result"]["guildConfig"]>
     composites: {}
@@ -8258,6 +8269,7 @@ export namespace Prisma {
     readonly defaultPrefix: FieldRef<"GuildConfig", 'String'>
     readonly officialChannelId: FieldRef<"GuildConfig", 'String'>
     readonly tradeChannelId: FieldRef<"GuildConfig", 'String'>
+    readonly welcomeChannelId: FieldRef<"GuildConfig", 'String'>
     readonly updatedAt: FieldRef<"GuildConfig", 'DateTime'>
   }
     
@@ -9654,6 +9666,7 @@ export namespace Prisma {
     defaultPrefix: 'defaultPrefix',
     officialChannelId: 'officialChannelId',
     tradeChannelId: 'tradeChannelId',
+    welcomeChannelId: 'welcomeChannelId',
     updatedAt: 'updatedAt'
   };
 
@@ -10270,6 +10283,7 @@ export namespace Prisma {
     defaultPrefix?: StringFilter<"GuildConfig"> | string
     officialChannelId?: StringNullableFilter<"GuildConfig"> | string | null
     tradeChannelId?: StringNullableFilter<"GuildConfig"> | string | null
+    welcomeChannelId?: StringNullableFilter<"GuildConfig"> | string | null
     updatedAt?: DateTimeFilter<"GuildConfig"> | Date | string
     channels?: ChannelConfigListRelationFilter
   }
@@ -10280,6 +10294,7 @@ export namespace Prisma {
     defaultPrefix?: SortOrder
     officialChannelId?: SortOrderInput | SortOrder
     tradeChannelId?: SortOrderInput | SortOrder
+    welcomeChannelId?: SortOrderInput | SortOrder
     updatedAt?: SortOrder
     channels?: ChannelConfigOrderByRelationAggregateInput
   }
@@ -10293,6 +10308,7 @@ export namespace Prisma {
     defaultPrefix?: StringFilter<"GuildConfig"> | string
     officialChannelId?: StringNullableFilter<"GuildConfig"> | string | null
     tradeChannelId?: StringNullableFilter<"GuildConfig"> | string | null
+    welcomeChannelId?: StringNullableFilter<"GuildConfig"> | string | null
     updatedAt?: DateTimeFilter<"GuildConfig"> | Date | string
     channels?: ChannelConfigListRelationFilter
   }, "id" | "guildId">
@@ -10303,6 +10319,7 @@ export namespace Prisma {
     defaultPrefix?: SortOrder
     officialChannelId?: SortOrderInput | SortOrder
     tradeChannelId?: SortOrderInput | SortOrder
+    welcomeChannelId?: SortOrderInput | SortOrder
     updatedAt?: SortOrder
     _count?: GuildConfigCountOrderByAggregateInput
     _max?: GuildConfigMaxOrderByAggregateInput
@@ -10318,6 +10335,7 @@ export namespace Prisma {
     defaultPrefix?: StringWithAggregatesFilter<"GuildConfig"> | string
     officialChannelId?: StringNullableWithAggregatesFilter<"GuildConfig"> | string | null
     tradeChannelId?: StringNullableWithAggregatesFilter<"GuildConfig"> | string | null
+    welcomeChannelId?: StringNullableWithAggregatesFilter<"GuildConfig"> | string | null
     updatedAt?: DateTimeWithAggregatesFilter<"GuildConfig"> | Date | string
   }
 
@@ -10912,6 +10930,7 @@ export namespace Prisma {
     defaultPrefix?: string
     officialChannelId?: string | null
     tradeChannelId?: string | null
+    welcomeChannelId?: string | null
     updatedAt?: Date | string
     channels?: ChannelConfigCreateNestedManyWithoutGuildInput
   }
@@ -10922,6 +10941,7 @@ export namespace Prisma {
     defaultPrefix?: string
     officialChannelId?: string | null
     tradeChannelId?: string | null
+    welcomeChannelId?: string | null
     updatedAt?: Date | string
     channels?: ChannelConfigUncheckedCreateNestedManyWithoutGuildInput
   }
@@ -10932,6 +10952,7 @@ export namespace Prisma {
     defaultPrefix?: StringFieldUpdateOperationsInput | string
     officialChannelId?: NullableStringFieldUpdateOperationsInput | string | null
     tradeChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    welcomeChannelId?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     channels?: ChannelConfigUpdateManyWithoutGuildNestedInput
   }
@@ -10942,6 +10963,7 @@ export namespace Prisma {
     defaultPrefix?: StringFieldUpdateOperationsInput | string
     officialChannelId?: NullableStringFieldUpdateOperationsInput | string | null
     tradeChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    welcomeChannelId?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     channels?: ChannelConfigUncheckedUpdateManyWithoutGuildNestedInput
   }
@@ -10952,6 +10974,7 @@ export namespace Prisma {
     defaultPrefix?: string
     officialChannelId?: string | null
     tradeChannelId?: string | null
+    welcomeChannelId?: string | null
     updatedAt?: Date | string
   }
 
@@ -10961,6 +10984,7 @@ export namespace Prisma {
     defaultPrefix?: StringFieldUpdateOperationsInput | string
     officialChannelId?: NullableStringFieldUpdateOperationsInput | string | null
     tradeChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    welcomeChannelId?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -10970,6 +10994,7 @@ export namespace Prisma {
     defaultPrefix?: StringFieldUpdateOperationsInput | string
     officialChannelId?: NullableStringFieldUpdateOperationsInput | string | null
     tradeChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    welcomeChannelId?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -11662,6 +11687,7 @@ export namespace Prisma {
     defaultPrefix?: SortOrder
     officialChannelId?: SortOrder
     tradeChannelId?: SortOrder
+    welcomeChannelId?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -11671,6 +11697,7 @@ export namespace Prisma {
     defaultPrefix?: SortOrder
     officialChannelId?: SortOrder
     tradeChannelId?: SortOrder
+    welcomeChannelId?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -11680,6 +11707,7 @@ export namespace Prisma {
     defaultPrefix?: SortOrder
     officialChannelId?: SortOrder
     tradeChannelId?: SortOrder
+    welcomeChannelId?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -12535,6 +12563,7 @@ export namespace Prisma {
     defaultPrefix?: string
     officialChannelId?: string | null
     tradeChannelId?: string | null
+    welcomeChannelId?: string | null
     updatedAt?: Date | string
   }
 
@@ -12544,6 +12573,7 @@ export namespace Prisma {
     defaultPrefix?: string
     officialChannelId?: string | null
     tradeChannelId?: string | null
+    welcomeChannelId?: string | null
     updatedAt?: Date | string
   }
 
@@ -12569,6 +12599,7 @@ export namespace Prisma {
     defaultPrefix?: StringFieldUpdateOperationsInput | string
     officialChannelId?: NullableStringFieldUpdateOperationsInput | string | null
     tradeChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    welcomeChannelId?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -12578,6 +12609,7 @@ export namespace Prisma {
     defaultPrefix?: StringFieldUpdateOperationsInput | string
     officialChannelId?: NullableStringFieldUpdateOperationsInput | string | null
     tradeChannelId?: NullableStringFieldUpdateOperationsInput | string | null
+    welcomeChannelId?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

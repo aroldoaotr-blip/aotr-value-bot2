@@ -136,6 +136,24 @@ export const COMMANDS = [
         ),
     )
     .addSubcommand((s) =>
+      s
+        .setName("bienvenida")
+        .setDescription(
+          "Asigna el canal de bienvenidas para nuevos miembros (sin canal = quitar)",
+        )
+        .addChannelOption((o) =>
+          o
+            .setName("canal")
+            .setDescription("Canal de bienvenidas (deja vacío para quitar)")
+            .setRequired(false),
+        )
+        .addBooleanOption((o) =>
+          o
+            .setName("probar")
+            .setDescription("Envía un mensaje de prueba al canal (default true)"),
+        ),
+    )
+    .addSubcommand((s) =>
       s.setName("ver").setDescription("Muestra la configuración actual"),
     ),
 

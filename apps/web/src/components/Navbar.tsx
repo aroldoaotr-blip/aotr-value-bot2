@@ -99,9 +99,6 @@ export function Navbar() {
             ) : (
               <Flame className="h-3.5 w-3.5 text-orange-400" />
             )}
-            <span className="hidden lg:inline">
-              {ember ? "Tema espacio" : "Tema ceniza"}
-            </span>
           </button>
 
           {/*           <Link

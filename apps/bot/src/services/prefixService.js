@@ -82,3 +82,25 @@ export function channelRoleOf(config, channelId) {
   const channel = config.channels.find((c) => c.channelId === channelId);
   return channel?.role ?? null;
 }
+
+// ── Canal de bienvenidas ──────────────────────────────────
+// Se guarda por servidor; si no está configurado se usa el fallback de env.
+export function welcomeChannelOf(config, fallback = null) {
+  return config?.welcomeChannelId ?? fallback;
+}
+
+export async function setWelcomeChannel(guildId, channelId) {
+  await prisma.guildConfig.update({
+    where: { guildId },
+    data: { welcomeChannelId: channelId }
+  });
+  await invalidateGuildConfig(guildId);
+}
+
+export async function clearWelcomeChannel(guildId) {
+  await prisma.guildConfig.update({
+    where: { guildId },
+    data: { welcomeChannelId: null }
+  });
+  await invalidateGuildConfig(guildId);
+}

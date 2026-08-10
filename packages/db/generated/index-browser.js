@@ -204,6 +204,7 @@ exports.Prisma.GuildConfigScalarFieldEnum = {
   defaultPrefix: 'defaultPrefix',
   officialChannelId: 'officialChannelId',
   tradeChannelId: 'tradeChannelId',
+  welcomeChannelId: 'welcomeChannelId',
   updatedAt: 'updatedAt'
 };
 
