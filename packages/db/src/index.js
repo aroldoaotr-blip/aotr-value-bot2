@@ -1,15 +1,12 @@
-import { createRequire } from "node:module";
+import { PrismaClient } from "../generated/index.js";
 
-const require = createRequire(import.meta.url);
-const { PrismaClient } = require("../generated");
-
-// Singleton compartido (evita múltiples clientes en dev/hot-reload)
+// Singleton compartido
 const globalForPrisma = globalThis;
 
 export const prisma =
   globalForPrisma.__aotrPrisma ??
   new PrismaClient({
-    log: process.env.NODE_ENV === "development" ? ["warn", "error"] : ["error"]
+    log: process.env.NODE_ENV === "development" ? ["warn", "error"] : ["error"],
   });
 
 if (process.env.NODE_ENV !== "production") {
@@ -30,7 +27,9 @@ export async function getRates({ force = false } = {}) {
     return ratesCache;
   }
   try {
-    const row = await prisma.rateConfig.findUnique({ where: { id: "default" } });
+    const row = await prisma.rateConfig.findUnique({
+      where: { id: "default" },
+    });
     const rates = row
       ? { keysPerVizard: row.keysPerVizard, keysPerScroll: row.keysPerScroll }
       : { ...DEFAULT_RATES };
@@ -38,7 +37,10 @@ export async function getRates({ force = false } = {}) {
     ratesAt = Date.now();
     return rates;
   } catch (error) {
-    console.warn("⚠️ No se pudo leer RateConfig, usando tasas por defecto:", error?.message);
+    console.warn(
+      "⚠️ No se pudo leer RateConfig, usando tasas por defecto:",
+      error?.message,
+    );
     return { ...DEFAULT_RATES };
   }
 }
@@ -46,15 +48,23 @@ export async function getRates({ force = false } = {}) {
 export async function setRates({ keysPerVizard, keysPerScroll }) {
   const keysPerV = Number(keysPerVizard);
   const keysPerS = Number(keysPerScroll);
-  if (!Number.isFinite(keysPerV) || keysPerV <= 0 || !Number.isFinite(keysPerS) || keysPerS <= 0) {
+  if (
+    !Number.isFinite(keysPerV) ||
+    keysPerV <= 0 ||
+    !Number.isFinite(keysPerS) ||
+    keysPerS <= 0
+  ) {
     throw new Error("Las tasas deben ser números positivos");
   }
   const row = await prisma.rateConfig.upsert({
     where: { id: "default" },
     create: { id: "default", keysPerVizard: keysPerV, keysPerScroll: keysPerS },
-    update: { keysPerVizard: keysPerV, keysPerScroll: keysPerS }
+    update: { keysPerVizard: keysPerV, keysPerScroll: keysPerS },
   });
-  ratesCache = { keysPerVizard: row.keysPerVizard, keysPerScroll: row.keysPerScroll };
+  ratesCache = {
+    keysPerVizard: row.keysPerVizard,
+    keysPerScroll: row.keysPerScroll,
+  };
   ratesAt = Date.now();
   return ratesCache;
 }
