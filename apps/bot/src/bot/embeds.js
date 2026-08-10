@@ -144,7 +144,7 @@ export function createItemEmbed(
     ? null
     : !isOfficial
       ? "`No disponible en la hoja oficial`"
-      : `🔑 **${formatRounded(item.value.keys)}**\n · 📜 **${formatRounded(item.value.scrolls)}**\n · 🎭 **${formatValue(item.value.vizards)}**\n` +
+      : `🔑LLaves: **${formatRounded(item.value.keys)}**\n 📜Pergaminos: **${formatRounded(item.value.scrolls)}**\n 🎭Viz: **${formatValue(item.value.vizards)}**\n` +
         `**Demanda:** ${demandBar(item.demand) ?? item.demand ?? "N/A"}\n` +
         `**Estado:** ${item.rateOfChange ?? "N/A"}\n` +
         (taxLine(item.taxGems, item.taxGold)
@@ -156,7 +156,7 @@ export function createItemEmbed(
     ? null
     : !isApi
       ? "`No disponible en la API de tradeo`"
-      : `🔑 **${formatRounded(apiRow.keys)}**\n · 📜 **${formatRounded(apiRow.scrolls)}**\n · 🎭 **${formatValue(apiRow.value)}**\n` +
+      : `🔑LLaves: **${formatRounded(apiRow.keys)}**\n 📜Pergaminos: **${formatRounded(apiRow.scrolls)}**\n 🎭Viz: **${formatValue(apiRow.value)}**\n` +
         `**Demanda:** ${demandBar(apiRow.demand) ?? "N/A"}\n` +
         `**Estado:** ${apiRow.rateOfChange ?? "N/A"}${apiRow.status ? ` · ${apiRow.status}` : ""}\n` +
         (taxLine(apiRow.taxGems, apiRow.taxGold)
