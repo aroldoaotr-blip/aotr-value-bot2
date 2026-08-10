@@ -104,3 +104,24 @@ export async function clearWelcomeChannel(guildId) {
   });
   await invalidateGuildConfig(guildId);
 }
+
+// ── Canal contador de miembros ───────────────────────────
+export function memberCountChannelOf(config, fallback = null) {
+  return config?.memberCountChannelId ?? fallback;
+}
+
+export async function setMemberCountChannel(guildId, channelId) {
+  await prisma.guildConfig.update({
+    where: { guildId },
+    data: { memberCountChannelId: channelId }
+  });
+  await invalidateGuildConfig(guildId);
+}
+
+export async function clearMemberCountChannel(guildId) {
+  await prisma.guildConfig.update({
+    where: { guildId },
+    data: { memberCountChannelId: null }
+  });
+  await invalidateGuildConfig(guildId);
+}

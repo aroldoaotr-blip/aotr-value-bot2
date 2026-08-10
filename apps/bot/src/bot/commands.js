@@ -154,6 +154,19 @@ export const COMMANDS = [
         ),
     )
     .addSubcommand((s) =>
+      s
+        .setName("contador")
+        .setDescription(
+          "Asigna el canal con el contador de miembros (vacío = quitar)",
+        )
+        .addChannelOption((o) =>
+          o
+            .setName("canal")
+            .setDescription("Canal del contador (normalmente de voz)")
+            .setRequired(false),
+        ),
+    )
+    .addSubcommand((s) =>
       s.setName("ver").setDescription("Muestra la configuración actual"),
     ),
 

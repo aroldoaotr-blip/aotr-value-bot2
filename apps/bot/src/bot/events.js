@@ -15,7 +15,8 @@ import {
   getGuildConfig,
   prefixFromConfig,
   channelRoleOf,
-  welcomeChannelOf
+  welcomeChannelOf,
+  memberCountChannelOf
 } from "../services/prefixService.js";
 
 const WIKI_CHANNEL_ID = process.env.WIKI_CHANNEL_ID ?? null;
@@ -110,11 +111,31 @@ async function getChannelContext(guildId, channelId) {
 }
 
 async function updateMemberCount(client, guild) {
-  if (!MEMBER_COUNT_CHANNEL_ID) return;
+  // Canal del contador: BD por servidor → fallback env → ninguno
+  let channelId = null;
   try {
-    const channel = guild.channels.cache.get(MEMBER_COUNT_CHANNEL_ID);
+    if (state.dbReady) {
+      const config = await getGuildConfig(guild.id);
+      channelId = memberCountChannelOf(config, MEMBER_COUNT_CHANNEL_ID);
+    } else {
+      channelId = MEMBER_COUNT_CHANNEL_ID;
+    }
+  } catch {
+    channelId = MEMBER_COUNT_CHANNEL_ID;
+  }
+
+  if (!channelId) return;
+
+  try {
+    let channel = guild.channels.cache.get(channelId);
+    if (!channel) {
+      // Fuera de caché (p. ej. bot recién arrancado): intentar fetch
+      channel = await guild.channels.fetch(channelId).catch(() => null);
+    }
     if (!channel) return;
-    await channel.setName(`👥・Miembros: ${guild.memberCount}`);
+    const newName = `👥・Miembros: ${guild.memberCount}`;
+    if (channel.name === newName) return; // ya está actualizado (evita rate-limit)
+    await channel.setName(newName);
   } catch (error) {
     console.error("Error actualizando contador de miembros:", error.message);
   }

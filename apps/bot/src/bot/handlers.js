@@ -32,6 +32,8 @@ import {
   setDefaultPrefix,
   setWelcomeChannel,
   clearWelcomeChannel,
+  setMemberCountChannel,
+  clearMemberCountChannel,
   welcomeChannelOf,
   channelRoleOf,
 } from "../services/prefixService.js";
@@ -550,6 +552,35 @@ export async function cmdConfig(ctx, sub, args) {
     );
   }
 
+  if (sub === "contador") {
+    const channel = args.channel;
+
+    if (!channel) {
+      await clearMemberCountChannel(ctx.guild.id);
+      return ctx.reply(
+        "✅ Contador de miembros desactivado (se quita la configuración de este servidor).",
+      );
+    }
+
+    await setMemberCountChannel(ctx.guild.id, channel.id);
+
+    // Prueba: renombrar el canal con el conteo actual
+    const newName = `👥・Miembros: ${ctx.guild.memberCount}`;
+    let testInfo = "";
+    try {
+      if (channel.name !== newName) {
+        await channel.setName(newName);
+      }
+      testInfo = `\n📋 Canal actualizado a \`${newName}\` como prueba.`;
+    } catch (error) {
+      testInfo = `\n⚠️ Configurado, pero no pude renombrar el canal: ${error.message}`;
+    }
+
+    return ctx.reply(
+      `✅ Canal del contador de miembros configurado: ${channel}.${testInfo}`,
+    );
+  }
+
   if (sub === "ver") {
     const config = await getGuildConfig(ctx.guild.id, { force: true });
     const channels =
@@ -564,11 +595,16 @@ export async function cmdConfig(ctx, sub, args) {
       ? `<#${config.welcomeChannelId}>`
       : "Ninguno (usa /config bienvenida)";
 
+    const memberCount = config.memberCountChannelId
+      ? `<#${config.memberCountChannelId}>`
+      : "Ninguno (usa /config contador)";
+
     return ctx.reply(
       `⚙️ **Configuración de ${ctx.guild.name}**\n\n` +
         `**Prefijo global:** \`${config.defaultPrefix}\`\n\n` +
         `**Canales:**\n${channels}\n\n` +
-        `**Canal de bienvenidas:** ${welcome}`,
+        `**Canal de bienvenidas:** ${welcome}\n` +
+        `**Contador de miembros:** ${memberCount}`,
     );
   }
 
@@ -668,7 +704,7 @@ export async function cmdAyuda(ctx) {
           `**🔍 Similares**\n\`${prefix}similares <item>\`\n\n` +
           `**📚 Wiki**\n\`${prefix}wiki <perk>\`\n\n` +
           `**🎉 Sorteos** (admin)\n\`${prefix}sorteo 10m premio\`\n\n` +
-          `**⚙️ Config** (admin)\n\`${prefix}config canal <#canal> <oficial|trade>\`\n\`${prefix}config prefijo <prefijo> [canal]\`\n\`${prefix}config bienvenida <#canal>\` (opcional: probar)\n\n` +
+          `**⚙️ Config** (admin)\n\`${prefix}config canal <#canal> <oficial|trade>\`\n\`${prefix}config prefijo <prefijo> [canal]\`\n\`${prefix}config bienvenida <#canal>\` (opcional: probar)\n\`${prefix}config contador <#canal>\` (contador de miembros)\n\n` +
           `**🔄 Sync** (admin)\n\`${prefix}sync all|official|trade\`\n\n` +
           `**📊 Stats**\n\`${prefix}stats\``,
       },

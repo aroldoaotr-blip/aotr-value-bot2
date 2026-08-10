@@ -135,16 +135,19 @@ model RateConfig {
 
 // ── Configuración por servidor (bot) ─────────────────────────────────
 model GuildConfig {
-  id                String          @id @default(cuid())
-  guildId           String          @unique
-  defaultPrefix     String          @default("!")
-  officialChannelId String?
-  tradeChannelId    String?
+  id                   String          @id @default(cuid())
+  guildId              String          @unique
+  defaultPrefix        String          @default("!")
+  officialChannelId    String?
+  tradeChannelId       String?
   // Canal donde se envían los mensajes de bienvenida a nuevos miembros
   // (configurable con /config bienvenida)
-  welcomeChannelId  String?
-  updatedAt         DateTime        @updatedAt
-  channels          ChannelConfig[]
+  welcomeChannelId     String?
+  // Canal (normalmente de voz) cuyo nombre muestra el contador de miembros
+  // (configurable con /config contador)
+  memberCountChannelId String?
+  updatedAt            DateTime        @updatedAt
+  channels             ChannelConfig[]
 }
 
 model ChannelConfig {

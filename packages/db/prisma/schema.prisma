@@ -143,6 +143,9 @@ model GuildConfig {
   // Canal donde se envían los mensajes de bienvenida a nuevos miembros
   // (configurable con /config bienvenida)
   welcomeChannelId String?
+  // Canal (normalmente de voz) cuyo nombre muestra el contador de miembros
+  // (configurable con /config contador)
+  memberCountChannelId String?
   updatedAt         DateTime @updatedAt
   channels          ChannelConfig[]
 }
