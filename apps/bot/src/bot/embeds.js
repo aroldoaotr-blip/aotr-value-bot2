@@ -191,20 +191,12 @@ export function itemEmbedButtons(ctxId, item, apiRow, visible = "both") {
     rows.push(sourceRow);
   }
 
-  const currencyRow = new ActionRowBuilder();
-  if (item.value) {
-    currencyRow.addComponents(
-      new ButtonBuilder().setCustomId(`curr_${ctxId}_keys`).setLabel("Llaves").setEmoji("🔑").setStyle(ButtonStyle.Secondary),
-      new ButtonBuilder().setCustomId(`curr_${ctxId}_scrolls`).setLabel("Pergaminos").setEmoji("📜").setStyle(ButtonStyle.Secondary),
-      new ButtonBuilder().setCustomId(`curr_${ctxId}_vizards`).setLabel("Vizard").setEmoji("🎭").setStyle(ButtonStyle.Primary)
-    );
-  }
-
-  currencyRow.addComponents(
+  // Los 3 precios ya se muestran siempre en el embed → solo acciones útiles
+  const actionsRow = new ActionRowBuilder().addComponents(
     new ButtonBuilder().setCustomId(`similar_${ctxId}`).setLabel("Similares ±10%").setEmoji("🔍").setStyle(ButtonStyle.Secondary),
     new ButtonBuilder().setCustomId(`history_${ctxId}`).setLabel("Histórico").setEmoji("📈").setStyle(ButtonStyle.Secondary)
   );
-  rows.push(currencyRow);
+  rows.push(actionsRow);
 
   return rows;
 }

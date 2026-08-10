@@ -135,44 +135,6 @@ export async function handleButton(interaction) {
     });
   }
 
-  // 💱 Cambiar moneda destacada (ctxId ya no contiene guiones bajos — fix A1)
-  if (customId.startsWith("curr_")) {
-    const parts = customId.split("_");
-    const ctxId = parts[1];
-    const unit = parts[2];
-
-    const entry = state.activeCurrency.get(ctxId);
-    if (!entry) {
-      return interaction.reply({ content: "❌ Esta búsqueda ya no está disponible.", ephemeral: true });
-    }
-    const itemName = typeof entry === "string" ? entry : entry.name;
-    const visible = typeof entry === "string" ? "both" : entry.visible;
-
-    const item = state.resolveItem(itemName);
-    if (!item) {
-      return interaction.reply({ content: "❌ No pude volver a encontrar el item.", ephemeral: true });
-    }
-
-    const apiRow = state.getApiRow(compactKey(item.name));
-    const embed = createItemEmbed(item, {
-      apiRow,
-      keyRatio: state.apiKeyRatio,
-      visible,
-      primary: visible === "trade" ? "trade" : "official",
-    });
-
-    embed.setDescription(
-      `💱 **Unidad activa:** ${
-        unit === "keys" ? "🔑 Llaves" : unit === "scrolls" ? "📜 Pergaminos" : "🎭 Vizard"
-      }\n` + (embed.data.description ?? "")
-    );
-
-    return interaction.update({
-      embeds: [embed],
-      components: itemEmbedButtons(ctxId, item, apiRow, visible)
-    });
-  }
-
   // 🔍 Similares (±10% desde el embed de valor, ±20% desde el comando)
   if (customId.startsWith("similar20_")) {
     return handleSimilar(interaction, customId.replace("similar20_", ""), 20);
