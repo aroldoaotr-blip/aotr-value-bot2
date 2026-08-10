@@ -5,6 +5,13 @@ import metaSeed from "./seed/meta.json";
 // ═════════════════════════════════════════════════════════
 // Fuente de datos: si DATABASE_URL está configurada usa Supabase
 // (vía Prisma) con caché TTL; si no, usa el seed local real.
+//
+// La BD tiene 2 listas de precios independientes:
+//   · OfficialPrice → precios oficiales (hoja AOTR)
+//   · TradePrice    → precios de tradeo (API externa)
+// Aquí se fusionan por id (stableId del nombre) en el shape plano
+// que consumen las páginas. Lo único compartido entre listas es
+// la imagen (emoji de la API) y la identidad (id/name/slug).
 // ═════════════════════════════════════════════════════════
 
 const CACHE_TTL = 5 * 60 * 1000; // 5 min (alineado con revalidate)
@@ -17,73 +24,86 @@ function toVal(json: any): any {
   return json === null || json === undefined ? null : json;
 }
 
-function mapDbRow(row: any): Item {
-  const keyRatio = seed.apiKeyValue;
+// Fusiona una fila oficial (o) y una de trade (t) en el Item de la web.
+// Si una de las dos no existe (item solo en una lista), la otra queda null.
+function mapDbRow(o: any, t: any): Item {
+  const official = o ?? null;
+  const trade = t ?? null;
+
   return {
-    id: row.id,
-    name: row.name,
-    normalized: row.normalized,
-    slug: row.slug,
-    category: row.category,
-    rarityLabel: row.rarityLabel,
-    rarityPct: row.rarityPct,
-    status: row.status,
-    obtainedFrom: row.obtainedFrom,
-    emoji: row.emoji,
-    demandApi: row.apiDemand,
-    demandOfficial: row.officialDemand,
-    valueOfficial: {
-      keys: toVal(row.officialKeys),
-      scrolls: toVal(row.officialScrolls),
-      vizards: toVal(row.officialVizards)
-    },
-    apiValue: row.apiValue,
-    apiKeys: row.apiValue != null && keyRatio ? row.apiValue / keyRatio : null,
-    apiScrolls:
-      row.apiValue != null && keyRatio ? row.apiValue / keyRatio / 3 : null,
-    rateOfChange: row.apiRateOfChange,
-    taxGems: row.apiTaxGems ?? row.officialTaxGems,
-    taxGold: row.apiTaxGold ?? row.officialTaxGold,
-    source: row.source,
+    id: official?.id ?? trade?.id,
+    name: official?.name ?? trade?.name,
+    normalized: official?.normalized ?? trade?.normalized,
+    slug: official?.slug ?? trade?.slug,
+    category: official?.category ?? trade?.category,
+    rarityLabel: official?.rarityLabel ?? null,
+    rarityPct: trade?.rarityPct ?? null,
+    status: trade?.status ?? null,
+    obtainedFrom: trade?.obtainedFrom ?? null,
+    // La imagen es lo único compartido: emoji de la API aplicado al item oficial
+    emoji: trade?.emoji ?? null,
+    demandApi: trade?.demand ?? null,
+    demandOfficial: official?.demand ?? null,
+    valueOfficial: official
+      ? {
+          keys: toVal(official.keys),
+          scrolls: toVal(official.scrolls),
+          vizards: toVal(official.vizards)
+        }
+      : null,
+    apiValue: trade?.value ?? null,
+    apiKeys: trade?.keys ?? null,
+    apiScrolls: trade?.scrolls ?? null,
+    rateOfChange: trade?.rateOfChange ?? null,
+    taxGems: trade?.taxGems ?? official?.taxGems ?? null,
+    taxGold: trade?.taxGold ?? official?.taxGold ?? null,
+    source: official && trade ? "both" : official ? "official" : "api",
     history: [],
 
-    // Fuente oficial (hoja AOTR)
-    sheet: toVal(row.sheet),
-    existingAmount: toVal(row.existingAmount),
-    officialRate: toVal(row.officialRate),
-    officialTaxGems: toVal(row.officialTaxGems),
-    officialTaxGold: toVal(row.officialTaxGold),
+    // ── Fuente oficial (hoja AOTR) ─────────────────────────
+    sheet: toVal(official?.sheet),
+    existingAmount: toVal(official?.existingAmount),
+    officialRate: toVal(official?.rateOfChange),
+    officialTaxGems: toVal(official?.taxGems),
+    officialTaxGold: toVal(official?.taxGold),
 
-    // Fuente trade (API externa)
-    apiId: toVal(row.apiId),
-    prestige: toVal(row.apiPrestige),
-    updatedAt: row.apiUpdatedAt ? row.apiUpdatedAt.toISOString() : null,
-    apiTaxGems: toVal(row.apiTaxGems),
-    apiTaxGold: toVal(row.apiTaxGold)
+    // ── Fuente trade (API externa) ────────────────────────
+    apiId: toVal(trade?.apiId),
+    prestige: toVal(trade?.prestige),
+    updatedAt: trade?.apiUpdatedAt ? new Date(trade.apiUpdatedAt).toISOString() : null,
+    apiTaxGems: toVal(trade?.taxGems),
+    apiTaxGold: toVal(trade?.taxGold)
   };
 }
 
 async function loadFromDb(): Promise<Item[]> {
   const { prisma } = await import("@aotr/db");
 
-  const [rows, historyRows] = await Promise.all([
-    prisma.item.findMany({ orderBy: { name: "asc" } }),
-    prisma.priceHistory.findMany({
+  const [officialRows, tradeRows, historyRows] = await Promise.all([
+    prisma.officialPrice.findMany(),
+    prisma.tradePrice.findMany(),
+    prisma.tradePriceHistory.findMany({
       where: { recordedAt: { gte: new Date(Date.now() - HISTORY_DAYS * 86400000) } },
       orderBy: { recordedAt: "asc" },
-      select: { itemId: true, apiValue: true, recordedAt: true }
+      select: { itemId: true, value: true, recordedAt: true }
     })
   ]);
 
-  const items = rows.map(mapDbRow);
+  const officialById = new Map(officialRows.map((r: any) => [r.id, r]));
+  const tradeById = new Map(tradeRows.map((r: any) => [r.id, r]));
 
-  // Agrupar histórico por item (una sola consulta para todo)
+  // Unión de ambas listas: items que existen en cualquiera de las dos
+  const ids = new Set([...officialById.keys(), ...tradeById.keys()]);
+
+  const items: Item[] = [...ids].map((id) => mapDbRow(officialById.get(id), tradeById.get(id)));
+
+  // Histórico (es de la lista de tradeo) — una sola consulta para todo
   if (historyRows.length) {
     const historyByItem = new Map<string, HistoryPoint[]>();
     for (const h of historyRows) {
-      if (h.apiValue === null) continue;
+      if (h.value === null) continue;
       const list = historyByItem.get(h.itemId) ?? [];
-      list.push({ ts: h.recordedAt.toISOString(), value: h.apiValue });
+      list.push({ ts: h.recordedAt.toISOString(), value: h.value });
       historyByItem.set(h.itemId, list);
     }
 
@@ -92,6 +112,7 @@ async function loadFromDb(): Promise<Item[]> {
     }
   }
 
+  items.sort((a, b) => a.name.localeCompare(b.name));
   return items;
 }
 

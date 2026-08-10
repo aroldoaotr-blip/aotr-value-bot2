@@ -7,6 +7,7 @@ import { Minus, Plus, Scale, Search, Trash2, X, Zap } from "lucide-react";
 import type { ItemSource, ValueOrRange } from "@/lib/types";
 import { cn, formatCompact, midOf } from "@/lib/format";
 import { DEFAULT_RATES, getLocalRates, type Rates } from "@/lib/rates";
+import { usePriceSource } from "@/lib/price-source";
 import { Avatar } from "./Avatar";
 
 type LightItem = {
@@ -231,8 +232,19 @@ export function CompareTool() {
   const [rightQ, setRightQ] = useState("");
   const [left, setLeft] = useState<Entry[]>([]);
   const [right, setRight] = useState<Entry[]>([]);
+  const { source: ctxSource, setSource: setCtxSource } = usePriceSource();
   const [source, setSource] = useState<"official" | "trade">("official");
   const [rates, setRates] = useState<Rates>(DEFAULT_RATES);
+
+  // Sigue el deslizable global (navbar / precios) cuando cambia
+  useEffect(() => {
+    setSource(ctxSource);
+  }, [ctxSource]);
+
+  const changeSource = (s: "official" | "trade") => {
+    setSource(s);
+    setCtxSource(s);
+  };
 
   useEffect(() => {
     fetch("/api/items?light=1")
@@ -391,7 +403,7 @@ export function CompareTool() {
           ).map(([key, label]) => (
             <button
               key={key}
-              onClick={() => setSource(key)}
+              onClick={() => changeSource(key)}
               className={cn(
                 "rounded-lg px-3.5 py-1.5 text-xs font-semibold transition-all",
                 source === key ? "bg-indigo-500/30 text-white" : "text-white/45 hover:text-white"

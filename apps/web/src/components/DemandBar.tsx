@@ -1,8 +1,27 @@
 import { cn, effectiveDemand } from "@/lib/format";
 import type { Item } from "@/lib/types";
 
-export function DemandBar({ item, className }: { item: Item; className?: string }) {
-  const demand = effectiveDemand(item);
+// source: "official" usa la demanda de la hoja · "trade" la de la API ·
+// sin source usa la mejor disponible (API primero, igual que antes).
+export function DemandBar({
+  item,
+  className,
+  source,
+}: {
+  item: Item;
+  className?: string;
+  source?: "official" | "trade";
+}) {
+  const demand =
+    source === "official"
+      ? (() => {
+          const parsed = parseInt(String(item.demandOfficial ?? ""));
+          return Number.isNaN(parsed) ? null : parsed;
+        })()
+      : source === "trade"
+        ? item.demandApi
+        : effectiveDemand(item);
+
   if (demand === null) {
     return <span className="text-xs text-white/40">—</span>;
   }

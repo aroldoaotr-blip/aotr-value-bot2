@@ -26,56 +26,57 @@ import { DemandBar } from "./DemandBar";
 import { SourceBadge, StatusBadge, RateBadge } from "./Badges";
 import { Sparkline } from "./Sparkline";
 import { PriceChart } from "./PriceChart";
+import {
+  usePriceSource,
+  PriceSourceToggle,
+  type PriceSource,
+} from "@/lib/price-source";
 
 const PAGE_SIZE = 40;
 
 type ViewMode = "cards" | "table";
 
-type SortKey = "name" | "api-desc" | "official-desc" | "demand-desc";
+type SortKey = "name" | "value-desc" | "demand-desc";
 
-// Filtro de valores: "all" muestra los 3 precios por fuente; una moneda
-// específica muestra solo ese precio (sin conversión).
-type PriceCurrency = "all" | "keys" | "scrolls" | "vizards";
+// Valor comparable de la lista activa (para ordenar)
+function activeValue(item: Item, source: PriceSource): number {
+  if (source === "trade") return item.apiValue ?? -1;
+  const vo = item.valueOfficial;
+  const viz = midOf(vo?.vizards ?? null);
+  if (viz != null) return viz;
+  const keys = midOf(vo?.keys ?? null);
+  return keys != null ? keys / DEFAULT_RATES.keysPerVizard : -1;
+}
 
-const CURRENCY_ICONS: Record<Exclude<PriceCurrency, "all">, string> = {
-  keys: "🔑",
-  scrolls: "📜",
-  vizards: "🎭",
-};
+function activeDemand(item: Item, source: PriceSource): number {
+  if (source === "trade") return item.demandApi ?? -1;
+  const parsed = parseInt(String(item.demandOfficial ?? ""));
+  return Number.isNaN(parsed) ? -1 : parsed;
+}
 
-function sortItems(items: Item[], sort: SortKey): Item[] {
+function sortItems(items: Item[], sort: SortKey, source: PriceSource): Item[] {
   const sorted = [...items];
   switch (sort) {
     case "name":
       return sorted.sort((a, b) => a.name.localeCompare(b.name));
-    case "api-desc":
-      return sorted.sort((a, b) => (b.apiValue ?? -1) - (a.apiValue ?? -1));
-    case "official-desc":
-      return sorted.sort(
-        (a, b) =>
-          (midOf(a.valueOfficial?.keys ?? null) ?? -1) -
-          (midOf(b.valueOfficial?.keys ?? null) ?? -1),
-      );
+    case "value-desc":
+      return sorted.sort((a, b) => activeValue(b, source) - activeValue(a, source));
     case "demand-desc":
       return sorted.sort(
-        (a, b) =>
-          (b.demandApi ?? 0) - (a.demandApi ?? 0) ||
-          a.name.localeCompare(b.name),
+        (a, b) => activeDemand(b, source) - activeDemand(a, source) || a.name.localeCompare(b.name),
       );
   }
 }
 
 export function PriceExplorer({ items }: { items: Item[] }) {
+  const { source: listSource } = usePriceSource();
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
-  const [source, setSource] = useState<"all" | "official" | "api" | "both">(
-    "all",
-  );
   const [sort, setSort] = useState<SortKey>("name");
   const [page, setPage] = useState(1);
   const [modal, setModal] = useState<Item | null>(null);
   const [rates, setRates] = useState<Rates>(DEFAULT_RATES);
-  const [currency, setCurrency] = useState<PriceCurrency>("all");
+  const [view, setView] = useState<ViewMode>("cards");
 
   // Cargar tasas de conversión (localStorage del admin primero, luego BD vía API)
   useEffect(() => {
@@ -94,7 +95,6 @@ export function PriceExplorer({ items }: { items: Item[] }) {
       }
     })();
   }, []);
-  const [view, setView] = useState<ViewMode>("cards");
 
   // Restaurar vista guardada (tarjetas / detalle)
   useEffect(() => {
@@ -142,22 +142,26 @@ export function PriceExplorer({ items }: { items: Item[] }) {
     return [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 14);
   }, [items]);
 
+  // La lista activa: solo items que existen en esa fuente
+  const listItems = useMemo(() => {
+    return listSource === "official"
+      ? items.filter((i) => i.source !== "api")
+      : items.filter((i) => i.source !== "official");
+  }, [items, listSource]);
+
   const filtered = useMemo(() => {
-    let list = items;
+    let list = listItems;
 
     if (query.trim()) {
-      list = searchItems(items, query, 500);
+      list = searchItems(listItems, query, 500);
     }
 
     if (category !== "all") {
       list = list.filter((i) => (i.category ?? "Sin categoría") === category);
     }
-    if (source !== "all") {
-      list = list.filter((i) => i.source === source);
-    }
 
-    return sortItems(list, sort);
-  }, [items, query, category, source, sort]);
+    return sortItems(list, sort, listSource);
+  }, [listItems, query, category, sort, listSource]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages);
@@ -168,50 +172,38 @@ export function PriceExplorer({ items }: { items: Item[] }) {
 
   useEffect(() => {
     setPage(1);
-  }, [query, category, source, sort]);
+  }, [query, category, sort, listSource]);
 
   return (
     <div>
+      {/* ── Deslizable de lista (arriba de todo) ───────── */}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-white/40">
+            Lista de precios
+          </p>
+          <PriceSourceToggle className="mt-2" />
+        </div>
+        <p className="text-xs text-white/40">
+          {listSource === "official"
+            ? `🟢 ${listItems.length} items de la hoja oficial AOTR`
+            : `🔵 ${listItems.length} items de la API de tradeo`}
+        </p>
+      </div>
+
       {/* ── Controles ─────────────────────────────────── */}
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
+      <div className="mt-4 flex flex-col gap-3 lg:flex-row lg:items-center">
         <div className="relative flex-1">
           <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/35" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder={`Buscar en ${items.length} items…`}
+            placeholder={`Buscar en ${listItems.length} items…`}
             className="glass w-full rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-white/35 outline-none transition-all focus:border-indigo-400/50"
           />
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs font-medium text-white/40">
-            Lista de precios:
-          </span>
-          <div className="glass flex rounded-xl p-1">
-            {(
-              [
-                ["all", "Todos"],
-                ["both", "Doble"],
-                ["official", "🟢 Oficial"],
-                ["api", "🔵 Trade"],
-              ] as const
-            ).map(([key, label]) => (
-              <button
-                key={key}
-                onClick={() => setSource(key)}
-                className={cn(
-                  "rounded-lg px-3 py-1.5 text-xs font-semibold transition-all",
-                  source === key
-                    ? "bg-indigo-500/30 text-white"
-                    : "text-white/45 hover:text-white",
-                )}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-
           <div className="glass flex items-center gap-2 rounded-xl px-3 py-2">
             <ArrowUpDown className="h-3.5 w-3.5 text-white/35" />
             <select
@@ -220,8 +212,9 @@ export function PriceExplorer({ items }: { items: Item[] }) {
               className="bg-transparent text-xs font-medium text-white/80 outline-none [&>option]:bg-[#0b0d1f]"
             >
               <option value="name">Nombre</option>
-              <option value="api-desc">Valor API (mayor)</option>
-              <option value="official-desc">Valor oficial (mayor)</option>
+              <option value="value-desc">
+                Valor ({listSource === "official" ? "🟢 oficial" : "🔵 tradeo"} mayor)
+              </option>
               <option value="demand-desc">Demanda</option>
             </select>
           </div>
@@ -252,45 +245,17 @@ export function PriceExplorer({ items }: { items: Item[] }) {
         </div>
       </div>
 
-      {/* ── Filtro de valores (todos / una moneda) ─────── */}
-      <div className="mt-4 flex flex-wrap items-center gap-3">
-        <span className="text-xs font-medium text-white/40">Mostrar precios:</span>
-        <div className="glass flex rounded-xl p-1">
-          {(
-            [
-              ["all", "Todos"],
-              ["keys", "🔑 Llaves"],
-              ["scrolls", "📜 Pergaminos"],
-              ["vizards", "🎭 Vizard"],
-            ] as const
-          ).map(([key, label]) => (
-            <button
-              key={key}
-              onClick={() => setCurrency(key)}
-              className={cn(
-                "rounded-lg px-3 py-1.5 text-xs font-semibold transition-all",
-                currency === key
-                  ? "bg-indigo-500/30 text-white"
-                  : "text-white/45 hover:text-white",
-              )}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* ── Categorías: carrusel deslizable ───────────── */}
       <CategoryCarousel
         categories={categories}
-        total={items.length}
+        total={listItems.length}
         active={category}
         onSelect={setCategory}
       />
       {/* ── Resultado ─────────────────────────────────── */}
       <p className="mt-5 text-xs text-white/40">
-        {filtered.length} items encontrados
-        {source !== "all" ? " · filtro por fuente activo" : ""}
+        {filtered.length} items en la lista{" "}
+        {listSource === "official" ? "🟢 oficial" : "🔵 de tradeo"}
         {category !== "all" ? ` · ${category}` : ""}
       </p>
       {view === "cards" ? (
@@ -333,36 +298,27 @@ export function PriceExplorer({ items }: { items: Item[] }) {
                 )}
               </div>
 
-              <div
-                className={cn(
-                  "mt-2.5",
-                  currency === "all"
-                    ? "w-full space-y-1.5"
-                    : "flex flex-wrap items-center justify-center gap-1.5",
-                )}
-              >
-                <SourcePrices
-                  item={item}
-                  source="official"
-                  rates={rates}
-                  currency={currency}
-                />
-                <SourcePrices item={item} source="api" rates={rates} currency={currency} />
+              <div className="mt-2.5 w-full">
+                <SourcePrices item={item} source={listSource} rates={rates} />
               </div>
 
               <div className="mt-2 flex w-full items-center justify-center">
-                <DemandBar item={item} />
+                <DemandBar item={item} source={listSource} />
               </div>
 
               <div className="mt-2 flex w-full items-center justify-between gap-1.5">
                 <RateBadge
-                  rate={item.rateOfChange}
+                  rate={
+                    listSource === "official" ? item.officialRate : item.rateOfChange
+                  }
                   className="max-w-[55%] truncate"
                 />
-                <Sparkline
-                  data={item.history.map((h) => ({ value: h.value }))}
-                  className="h-7 w-16 shrink-0"
-                />
+                {listSource === "trade" && (
+                  <Sparkline
+                    data={item.history.map((h) => ({ value: h.value }))}
+                    className="h-7 w-16 shrink-0"
+                  />
+                )}
               </div>
             </button>
           ))}
@@ -371,18 +327,16 @@ export function PriceExplorer({ items }: { items: Item[] }) {
         /* Vista detalle: tabla completa con todas las métricas */
         <div className="glass mt-3 overflow-hidden rounded-2xl">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[760px] text-left text-sm">
+            <table className="w-full min-w-[640px] text-left text-sm">
               <thead>
                 <tr className="border-b border-white/[0.07] text-[11px] uppercase tracking-wider text-white/40">
                   <th className="px-4 py-3 font-medium">Item</th>
                   <th className="px-3 py-3 font-medium">Categoría</th>
                   <th className="px-3 py-3 font-medium">Demanda</th>
                   <th className="px-3 py-3 text-right font-medium">
-                    🟢 Oficial
+                    {listSource === "official" ? "🟢 Precio oficial" : "🔵 Precio de tradeo"}
                   </th>
-                  <th className="px-3 py-3 text-right font-medium">🔵 Trade</th>
                   <th className="px-3 py-3 font-medium">Estado</th>
-                  <th className="px-4 py-3 font-medium">Tendencia</th>
                 </tr>
               </thead>
               <tbody>
@@ -423,32 +377,20 @@ export function PriceExplorer({ items }: { items: Item[] }) {
                       {item.category ?? "—"}
                     </td>
                     <td className="px-3 py-3">
-                      <DemandBar item={item} />
+                      <DemandBar item={item} source={listSource} />
                     </td>
                     <td className="px-3 py-3 text-right">
-                  <SourcePricesCell
-                    item={item}
-                    source="official"
-                    rates={rates}
-                    currency={currency}
-                  />
-                </td>
-                <td className="px-3 py-3 text-right">
-                  <SourcePricesCell
-                    item={item}
-                    source="api"
-                    rates={rates}
-                    currency={currency}
-                  />
-                </td>
-                    <td className="px-3 py-3">
-                      <StatusBadge status={item.status} />
-                      <RateBadge rate={item.rateOfChange} className="mt-1" />
+                      <SourcePricesCell item={item} source={listSource} rates={rates} />
                     </td>
-                    <td className="px-4 py-3">
-                      <Sparkline
-                        data={item.history.map((h) => ({ value: h.value }))}
-                      />
+                    <td className="px-3 py-3">
+                      {listSource === "official" ? (
+                        <RateBadge rate={item.officialRate} />
+                      ) : (
+                        <>
+                          <StatusBadge status={item.status} />
+                          <RateBadge rate={item.rateOfChange} className="mt-1" />
+                        </>
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -487,7 +429,7 @@ export function PriceExplorer({ items }: { items: Item[] }) {
           <p className="text-3xl">🔍</p>
           <p className="mt-2 font-semibold text-white">Sin resultados</p>
           <p className="mt-1 text-sm text-white/45">
-            Prueba con otro nombre, categoría o quita los filtros.
+            Prueba con otro nombre, categoría o cambia de lista con el deslizable.
           </p>
         </div>
       )}{" "}
@@ -506,46 +448,23 @@ export function PriceExplorer({ items }: { items: Item[] }) {
 }
 
 // ── Precios de una fuente en las 3 monedas ──────────────
-// Muestra 🔑 llaves · 📜 pergaminos · 🎭 vizard de una lista
-// (oficial o trade). Si la fuente solo trae un precio, deriva
-// los demás con las tasas del admin (RateConfig).
+// Muestra 🔑 llaves · 📜 pergaminos · 🎭 vizard de la lista activa.
 function SourcePrices({
   item,
   source,
   rates,
-  currency,
 }: {
   item: Item;
-  source: "official" | "api";
+  source: PriceSource;
   rates: Rates;
-  currency: PriceCurrency;
 }) {
-  const keys = roundValue(sourceValue(item, source, "keys", rates));
-  const scrolls = roundValue(sourceValue(item, source, "scrolls", rates));
-  const vizards = sourceValue(item, source, "vizards", rates);
+  const src = source === "official" ? "official" : "api";
+  const keys = roundValue(sourceValue(item, src, "keys", rates));
+  const scrolls = roundValue(sourceValue(item, src, "scrolls", rates));
+  const vizards = sourceValue(item, src, "vizards", rates);
   if (keys === null && scrolls === null && vizards === null) return null;
 
   const isOfficial = source === "official";
-
-  // Filtro por moneda: una sola línea compacta, sin conversión
-  if (currency !== "all") {
-    const value =
-      currency === "keys" ? keys : currency === "scrolls" ? scrolls : vizards;
-    if (value === null || value === undefined) return null;
-    return (
-      <span
-        className={cn(
-          "rounded-lg border px-2 py-1 text-xs font-bold",
-          isOfficial
-            ? "border-emerald-400/20 bg-emerald-500/10 text-emerald-300"
-            : "border-blue-400/20 bg-blue-500/10 text-blue-300",
-        )}
-      >
-        {isOfficial ? "🟢" : "🔵"} {formatRange(value)}{" "}
-        {CURRENCY_ICONS[currency]}
-      </span>
-    );
-  }
 
   return (
     <div
@@ -566,8 +485,8 @@ function SourcePrices({
       </p>
       <p
         className={cn(
-          "mt-0.5 text-xs font-semibold leading-snug",
-          isOfficial ? "text-emerald-200" : "text-blue-200",
+          "mt-0.5 text-sm font-semibold leading-snug",
+          isOfficial ? "text-emerald-100" : "text-blue-100",
         )}
       >
         🔑 {formatRange(keys)} · 📜 {formatRange(scrolls)} · 🎭{" "}
@@ -582,16 +501,15 @@ function SourcePricesCell({
   item,
   source,
   rates,
-  currency,
 }: {
   item: Item;
-  source: "official" | "api";
+  source: PriceSource;
   rates: Rates;
-  currency: PriceCurrency;
 }) {
-  const keys = roundValue(sourceValue(item, source, "keys", rates));
-  const scrolls = roundValue(sourceValue(item, source, "scrolls", rates));
-  const vizards = sourceValue(item, source, "vizards", rates);
+  const src = source === "official" ? "official" : "api";
+  const keys = roundValue(sourceValue(item, src, "keys", rates));
+  const scrolls = roundValue(sourceValue(item, src, "scrolls", rates));
+  const vizards = sourceValue(item, src, "vizards", rates);
   if (keys === null && scrolls === null && vizards === null) {
     return <span className="text-xs text-white/25">—</span>;
   }
@@ -599,20 +517,6 @@ function SourcePricesCell({
   const isOfficial = source === "official";
   const tone = isOfficial ? "text-emerald-300" : "text-blue-300";
   const toneSub = isOfficial ? "text-emerald-300/70" : "text-blue-300/70";
-
-  // Filtro por moneda: un solo valor alineado a la derecha
-  if (currency !== "all") {
-    const value =
-      currency === "keys" ? keys : currency === "scrolls" ? scrolls : vizards;
-    if (value === null || value === undefined) {
-      return <span className="text-xs text-white/25">—</span>;
-    }
-    return (
-      <span className={cn("whitespace-nowrap font-semibold", tone)}>
-        {CURRENCY_ICONS[currency]} {formatRange(value)}
-      </span>
-    );
-  }
 
   return (
     <div className="space-y-1 text-xs">
@@ -699,7 +603,7 @@ function CategoryCarousel({
   );
 }
 
-// ── Modal de detalle ─────────────────────────────────────
+// ── Modal de detalle (muestra AMBAS listas — comparación) ─
 function ItemModal({
   item,
   items,

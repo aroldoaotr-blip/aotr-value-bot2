@@ -1,7 +1,13 @@
-// AOTR Value Platform — Esquema unificado (Supabase / PostgreSQL)
+// AOTR Value Platform — Esquema de 2 listas de precios independientes
 // Bot + Web comparten esta base de datos.
-// ── Oficial = hoja oficial AOTR (Google Sheets)
-// ── Trade   = API de precios de tradeo (Supabase externo)
+//
+// ── OfficialPrice  = precios oficiales (hoja AOTR / Excel)
+// ── TradePrice     = precios de tradeo (API externa)
+//
+// Cada lista tiene SU propio histórico y su propio script de sync.
+// Lo único compartido entre listas es:
+//   · id = stableId(nombre normalizado)  → llave de join (mismo item)
+//   · la imagen (emoji) que trae la API → la web la aplica al item oficial
 
 generator client {
   provider = "prisma-client-js"
@@ -13,65 +19,87 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Item {
-  id            String   @id
-  name          String
-  normalized    String   @unique
-  slug          String   @unique
-  category      String?
-  rarityLabel   String?
-  rarityPct     Float?
-  status        String?
-  obtainedFrom  String?
-  emoji         String?
+// ── LISTA 1 · Precios oficiales (hoja AOTR) ─────────────────────────
+model OfficialPrice {
+  id             String   @id // stableId(nombre) — llave compartida con TradePrice
+  name           String
+  normalized     String   @unique
+  slug           String   @unique
+  category       String?
+  rarityLabel    String?
+  demand         String?
+  // Los 3 precios — pueden ser número o rango { min, max } según la hoja
+  keys           Json?
+  scrolls        Json?
+  vizards        Json?
+  rateOfChange   String?
+  taxGems        Float?
+  taxGold        Float?
+  sheet          String? // Hoja de Excel de origen
+  existingAmount String? // Cantidad existente registrada en la hoja
+  updatedAt      DateTime @updatedAt
 
-  // ── Fuente oficial (hoja AOTR) ─────────────────────────
-  officialKeys    Json? // number | { min, max }
-  officialScrolls Json?
-  officialVizards Json?
-  officialDemand  String?
-  officialRate    String?
-  officialTaxGems Float?
-  officialTaxGold Float?
-  sheet           String? // Hoja de Excel de origen
-  existingAmount  String? // Cantidad existente registrada en la hoja
-
-  // ── Fuente trade (API externa) ─────────────────────────
-  apiValue        Float?
-  apiDemand       Int?
-  apiRateOfChange String?
-  apiPrestige     Int?
-  apiTaxGems      Float?
-  apiTaxGold      Float?
-  apiUpdatedAt    DateTime?
-  apiId           String? // id del item en la API externa
-
-  // official | api | both
-  source    String   @default("seed")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  history PriceHistory[]
+  history OfficialPriceHistory[]
 
   @@index([category])
-  @@index([status])
-  @@index([apiValue])
-  @@index([source])
 }
 
-model PriceHistory {
-  id               Int      @id @default(autoincrement())
-  itemId           String
-  item             Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
-  apiValue         Float?
-  officialVizards  Float?
-  demand           Int?
-  recordedAt       DateTime @default(now())
+model OfficialPriceHistory {
+  id         Int      @id @default(autoincrement())
+  itemId     String // stableId del item (mid de rango si aplica)
+  item       OfficialPrice @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  keys       Float?
+  scrolls    Float?
+  vizards    Float?
+  recordedAt DateTime @default(now())
 
   @@unique([itemId, recordedAt])
   @@index([itemId, recordedAt])
 }
 
+// ── LISTA 2 · Precios de tradeo (API externa) ────────────────────────
+model TradePrice {
+  id           String   @id // stableId(nombre) — misma llave que OfficialPrice
+  name         String
+  normalized   String   @unique
+  slug         String   @unique
+  category     String?
+  rarityPct    Float?
+  emoji        String? // imagen compartida → https://www.aotrvalue.com + emoji
+  value        Float? // viz original de la API
+  keys         Float? // calculado: viz × keysPerVizard (tasas del admin)
+  scrolls      Float? // calculado: keys / keysPerScroll
+  demand       Int?
+  rateOfChange String?
+  prestige     Int?
+  status       String?
+  obtainedFrom String?
+  taxGems      Float?
+  taxGold      Float?
+  apiId        String? // id del item en la API externa
+  apiUpdatedAt DateTime? // fecha de actualización según la API
+  updatedAt    DateTime @updatedAt
+
+  history TradePriceHistory[]
+
+  @@index([category])
+  @@index([status])
+  @@index([value])
+}
+
+model TradePriceHistory {
+  id         Int      @id @default(autoincrement())
+  itemId     String // stableId del item
+  item       TradePrice @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  value      Float? // viz
+  demand     Int?
+  recordedAt DateTime @default(now())
+
+  @@unique([itemId, recordedAt])
+  @@index([itemId, recordedAt])
+}
+
+// ── Bitácora de sincronización ───────────────────────────────────────
 model SyncLog {
   id         Int      @id @default(autoincrement())
   source     String // "official" | "trade"
@@ -84,10 +112,11 @@ model SyncLog {
   @@index([source, startedAt])
 }
 
-// ── Tasas de conversión configurables (admin) ────────────
+// ── Tasas de conversión configurables (admin) ────────────────────────
 // 1 Vizard = keysPerVizard llaves
-// 1 Pergamino = keysPerScroll llaves  (3 llaves por defecto)
+// 1 Pergamino = keysPerScroll llaves (3 llaves por defecto)
 // Fuente de verdad única: bot + web + seed la leen de aquí.
+// Se aplican a AMBAS listas para completar/calcular los 3 precios.
 model RateConfig {
   id            String   @id @default("default")
   // Alineado con la API de tradeo (1 viz = 900.9 llaves) — editable por admin
@@ -96,6 +125,7 @@ model RateConfig {
   updatedAt     DateTime @updatedAt
 }
 
+// ── Configuración por servidor (bot) ─────────────────────────────────
 model GuildConfig {
   id                String @id @default(cuid())
   guildId           String @unique

@@ -121,17 +121,17 @@ export default async function HomePage() {
                 {
                   icon: "🤖",
                   title: "El bot sincroniza",
-                  text: "Cada 30 minutos descarga los 379 precios de tradeo de la API y refresca la hoja oficial AOTR."
+                  text: "Cada 30 minutos descarga los precios de tradeo de la API y refresca la hoja oficial AOTR: 2 scripts, 2 listas, 2 históricos."
                 },
                 {
                   icon: "🗄️",
-                  title: "Se almacena en Supabase",
-                  text: "Items unificados + histórico de precios por item. Bot y web leen la misma base de datos."
+                  title: "Se almacenan 2 listas",
+                  text: "Una tabla para precios oficiales (hoja) y otra para precios de tradeo (API), cada una con su histórico. Bot y web leen la misma base de datos."
                 },
                 {
                   icon: "🌐",
-                  title: "Tú consultas en la web o Discord",
-                  text: "La web muestra ambos precios lado a lado; el bot responde en tus canales con los mismos datos."
+                  title: "Tú eliges la lista",
+                  text: "En la web alterna entre la lista oficial y la de tradeo con el deslizable; el bot responde en tus canales con los mismos datos."
                 }
               ].map((step, i) => (
                 <Reveal key={step.title} delay={i * 0.12}>

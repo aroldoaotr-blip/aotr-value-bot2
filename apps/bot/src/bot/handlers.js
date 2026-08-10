@@ -59,6 +59,17 @@ function formatDuration(ms) {
   return `${Math.floor(seconds / 86400)} días`;
 }
 
+function formatLastUpdate(date) {
+  if (!date) return null;
+  const diff = Date.now() - new Date(date).getTime();
+  const minutes = Math.floor(diff / 60000);
+  if (minutes < 1) return "hace un momento";
+  if (minutes < 60) return `hace ${minutes} min`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `hace ${hours} h`;
+  return `hace ${Math.floor(hours / 24)} d`;
+}
+
 function isAdmin(ctx) {
   return ctx.member?.permissions?.has("Administrator") ?? false;
 }
@@ -154,16 +165,16 @@ export async function getHistorySpark(itemName) {
     const { stableId } = await import("../core/normalize.js");
     const normalized = compactKey(itemName);
     void normalized;
-    const rows = await prisma.priceHistory.findMany({
+    const rows = await prisma.tradePriceHistory.findMany({
       where: { itemId: stableId(normalized) },
       orderBy: { recordedAt: "asc" },
       take: 30,
-      select: { apiValue: true },
+      select: { value: true },
     });
 
     if (rows.length < 2) return null;
 
-    const values = rows.map((r) => r.apiValue);
+    const values = rows.map((r) => r.value);
     const min = Math.min(...values);
     const max = Math.max(...values);
     const range = max - min || 1;
@@ -185,6 +196,8 @@ export async function getHistorySpark(itemName) {
 }
 
 // ── Valor ────────────────────────────────────────────────
+// El canal decide la lista visible: canal trade → solo API, canal oficial
+// → solo hoja, sin canal configurado → ambas. Los botones permiten cambiar.
 export async function cmdValor(ctx, input) {
   const item =
     resolveCurrency(input, state.vizardRate) || state.resolveItem(input);
@@ -196,26 +209,37 @@ export async function cmdValor(ctx, input) {
 
   const apiRow = state.getApiRow(compactKey(item.name));
   const ctxId = newCtxId();
-  state.activeCurrency.set(ctxId, item.name);
+  const visible =
+    ctx.channelRole === "trade"
+      ? "trade"
+      : ctx.channelRole === "official"
+        ? "official"
+        : "both";
+
+  state.activeCurrency.set(ctxId, { name: item.name, visible });
   state.activeSimilar.set(ctxId, item.name);
 
   const historySpark = await getHistorySpark(item.name);
 
-  const primary = ctx.channelRole === "trade" ? "trade" : "official";
+  const primary = visible === "trade" ? "trade" : "official";
   const embed = createItemEmbed(item, {
     apiRow,
     keyRatio: state.apiKeyRatio,
     historySpark,
     primary,
+    visible,
+    lastUpdate: formatLastUpdate(state.lastUpdate),
   });
 
   return ctx.reply({
     embeds: [embed],
-    components: [itemEmbedButtons(ctxId, item, apiRow)],
+    components: itemEmbedButtons(ctxId, item, apiRow, visible),
   });
 }
 
 // ── Suma ─────────────────────────────────────────────────
+// En un canal de tradeo suma con precios de la API; en uno oficial (o sin
+// configurar) con la hoja oficial.
 export async function cmdSuma(ctx, input) {
   const { found: foundItems, notFound } = resolveItems(splitItems(input));
 
@@ -230,7 +254,23 @@ export async function cmdSuma(ctx, input) {
     });
   }
 
-  const total = calculateItems(foundItems);
+  let items = foundItems;
+  let source = "official";
+  if (ctx.channelRole === "trade") {
+    source = "trade";
+    items = foundItems.map((item) => {
+      if (item.isCurrency) return item;
+      const apiRow = state.getApiRow(compactKey(item.name));
+      if (!apiRow?.value) return item;
+      return {
+        ...item,
+        value: { keys: apiRow.keys, scrolls: apiRow.scrolls, vizards: apiRow.value },
+        __source: "api",
+      };
+    });
+  }
+
+  const total = calculateItems(items);
   const notFoundTextValue = notFound.length
     ? `❌ **No encontrados:**\n${notFoundText(notFound)}`
     : "";
@@ -238,10 +278,11 @@ export async function cmdSuma(ctx, input) {
   return ctx.reply({
     embeds: [
       createSumEmbed(
-        groupItems(foundItems),
+        groupItems(items),
         total,
         notFoundTextValue,
         state.apiKeyRatio,
+        source,
       ),
     ],
   });
@@ -518,17 +559,22 @@ export async function cmdStats(ctx) {
 
   if (state.dbReady) {
     try {
-      const [official, api, both, syncLogs] = await Promise.all([
-        prisma.item.count({ where: { source: { not: "api" } } }),
-        prisma.item.count({ where: { source: { not: "official" } } }),
-        prisma.item.count({ where: { source: "both" } }),
+      const [officialRows, tradeRows, syncLogs] = await Promise.all([
+        prisma.officialPrice.findMany({ select: { id: true } }),
+        prisma.tradePrice.findMany({ select: { id: true } }),
         prisma.syncLog.findMany({
           orderBy: { startedAt: "desc" },
           take: 5,
           select: { source: true, status: true, rows: true, startedAt: true },
         }),
       ]);
-      counts = { official, api, both };
+      const officialIds = new Set(officialRows.map((r) => r.id));
+      const tradeIds = new Set(tradeRows.map((r) => r.id));
+      counts = {
+        official: officialIds.size,
+        api: tradeIds.size,
+        both: [...officialIds].filter((id) => tradeIds.has(id)).length,
+      };
       lastSyncs = syncLogs;
       config = await getGuildConfig(ctx.guild.id, { force: true });
     } catch {

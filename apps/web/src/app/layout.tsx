@@ -3,6 +3,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { SplashScreen } from "@/components/SplashScreen";
+import { Providers } from "@/components/Providers";
 
 export const metadata: Metadata = {
   title: "AOTR Values — Precios en tiempo real",
@@ -34,10 +35,12 @@ export default function RootLayout({
         />
       </head>
       <body className="relative min-h-screen antialiased">
-        <SplashScreen />
-        <Navbar />
-        <main className="relative z-10">{children}</main>
-        <Footer />
+        <Providers>
+          <SplashScreen />
+          <Navbar />
+          <main className="relative z-10">{children}</main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

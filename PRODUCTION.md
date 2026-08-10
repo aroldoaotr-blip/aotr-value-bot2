@@ -20,7 +20,10 @@ API de tradeo ──────┘                                             
 - La **web** lee de Supabase y refresca su caché cada ≤5 min (`revalidate` + TTL interno).
   ⇒ **Los precios en la web y en el bot quedan actualizados cada 30 minutos** (la web refleja
   el sync con hasta 5 min de retraso por su caché).
-- El **histórico** (`PriceHistory`) se registra en cada sync de tradeo y se limpia a los 60 días (alineado con lo que muestra la web).
+- La BD tiene **2 listas de precios independientes** (`OfficialPrice` de la hoja y `TradePrice` de la API),
+cada una con **su propio histórico** (`OfficialPriceHistory` con las 3 monedas y `TradePriceHistory` con viz),
+registrado en cada sync y limpio a los 60 días (alineado con lo que muestra la web). Las listas solo
+comparten el `id = stableId(nombre)` (join) y la imagen (emoji de la API → item oficial en la web).
 - El **valor de las monedas** (1 viz = 900.9 llaves, 1 pergamino = 3 llaves) vive en la tabla
   `RateConfig` y se edita desde `/administrador` (afecta a bot + web al instante).
 
@@ -101,7 +104,7 @@ API de tradeo ──────┘                                             
 
 5. **Deploy**. Verifica:
    - `https://tu-dominio/` → home con hero y buscador.
-   - `https://tu-dominio/precios` → 483 items con las dos listas de precios.
+   - `https://tu-dominio/precios` → items con las dos listas de precios (oficial ≈ 398 · trade ≈ 379).
    - `https://tu-dominio/item/12-fps` → detalle con datos de hoja + API.
    - `https://tu-dominio/admin` → redirige al login.
 

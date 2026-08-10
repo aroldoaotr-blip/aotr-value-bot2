@@ -102,16 +102,17 @@ export async function handleButton(interaction) {
     return interaction.reply({ content: "🎉 Entraste al sorteo correctamente.", ephemeral: true });
   }
 
-  // 💱 Cambiar moneda destacada (ctxId ya no contiene guiones bajos — fix A1)
-  if (customId.startsWith("curr_")) {
+  // 🔄 Cambiar la lista visible del item (oficial ↔ tradeo)
+  if (customId.startsWith("item_src_")) {
     const parts = customId.split("_");
-    const ctxId = parts[1];
-    const unit = parts[2];
+    const ctxId = parts[2];
+    const target = parts[3]; // "official" | "trade"
 
-    const itemName = state.activeCurrency.get(ctxId);
-    if (!itemName) {
+    const entry = state.activeCurrency.get(ctxId);
+    if (!entry) {
       return interaction.reply({ content: "❌ Esta búsqueda ya no está disponible.", ephemeral: true });
     }
+    const itemName = typeof entry === "string" ? entry : entry.name;
 
     const item = state.resolveItem(itemName);
     if (!item) {
@@ -119,7 +120,46 @@ export async function handleButton(interaction) {
     }
 
     const apiRow = state.getApiRow(compactKey(item.name));
-    const embed = createItemEmbed(item, { apiRow, keyRatio: state.apiKeyRatio });
+    const embed = createItemEmbed(item, {
+      apiRow,
+      keyRatio: state.apiKeyRatio,
+      visible: target,
+      primary: target,
+    });
+
+    state.activeCurrency.set(ctxId, { name: itemName, visible: target });
+
+    return interaction.update({
+      embeds: [embed],
+      components: itemEmbedButtons(ctxId, item, apiRow, target),
+    });
+  }
+
+  // 💱 Cambiar moneda destacada (ctxId ya no contiene guiones bajos — fix A1)
+  if (customId.startsWith("curr_")) {
+    const parts = customId.split("_");
+    const ctxId = parts[1];
+    const unit = parts[2];
+
+    const entry = state.activeCurrency.get(ctxId);
+    if (!entry) {
+      return interaction.reply({ content: "❌ Esta búsqueda ya no está disponible.", ephemeral: true });
+    }
+    const itemName = typeof entry === "string" ? entry : entry.name;
+    const visible = typeof entry === "string" ? "both" : entry.visible;
+
+    const item = state.resolveItem(itemName);
+    if (!item) {
+      return interaction.reply({ content: "❌ No pude volver a encontrar el item.", ephemeral: true });
+    }
+
+    const apiRow = state.getApiRow(compactKey(item.name));
+    const embed = createItemEmbed(item, {
+      apiRow,
+      keyRatio: state.apiKeyRatio,
+      visible,
+      primary: visible === "trade" ? "trade" : "official",
+    });
 
     embed.setDescription(
       `💱 **Unidad activa:** ${
@@ -129,7 +169,7 @@ export async function handleButton(interaction) {
 
     return interaction.update({
       embeds: [embed],
-      components: [itemEmbedButtons(ctxId, item, apiRow)]
+      components: itemEmbedButtons(ctxId, item, apiRow, visible)
     });
   }
 
@@ -173,7 +213,8 @@ export async function handleButton(interaction) {
   // 📈 Histórico del item
   if (customId.startsWith("history_")) {
     const ctxId = customId.replace("history_", "");
-    const itemName = state.activeHistory.get(ctxId) ?? state.activeCurrency.get(ctxId);
+    const entry = state.activeHistory.get(ctxId) ?? state.activeCurrency.get(ctxId);
+    const itemName = typeof entry === "string" ? entry : entry?.name;
 
     if (!itemName) {
       return interaction.reply({ content: "❌ Esta búsqueda ya no está disponible.", ephemeral: true });

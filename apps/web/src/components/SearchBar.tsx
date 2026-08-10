@@ -3,7 +3,9 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Search } from "lucide-react";
-import { cn, formatVizard } from "@/lib/format";
+import { cn, formatCompact, formatVizard, midOf } from "@/lib/format";
+import { usePriceSource } from "@/lib/price-source";
+import type { PriceSource } from "@/lib/price-source";
 
 // Límite de sugerencias visibles en el dropdown
 const MAX_SUGGESTIONS = 3;
@@ -21,6 +23,7 @@ export function SearchBar({
   placeholder?: string;
 }) {
   const router = useRouter();
+  const { source: listSource } = usePriceSource();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Item[]>([]);
   const [open, setOpen] = useState(false);
@@ -147,9 +150,7 @@ export function SearchBar({
                     </p>
                     <p className="truncate text-xs text-white/40">
                       {item.category ?? "—"}
-                      {item.apiValue !== null
-                        ? ` · ${formatVizard(item.apiValue)}`
-                        : ""}
+                      {searchPriceLine(item, listSource)}
                     </p>
                   </div>
                   <SourceBadge source={item.source} />
@@ -170,4 +171,23 @@ export function SearchBar({
       )}
     </div>
   );
+}
+
+// Precio de la lista activa para la línea del dropdown.
+function searchPriceLine(item: Item, source: PriceSource): string {
+  if (source === "trade") {
+    return item.apiValue !== null ? ` · 🔵 ${formatVizard(item.apiValue)}` : "";
+  }
+
+  const vo = item.valueOfficial;
+  if (!vo) return "";
+  if (vo.vizards != null) {
+    const viz = typeof vo.vizards === "number" ? vo.vizards : midOf(vo.vizards);
+    if (viz != null) return ` · 🟢 ${formatVizard(viz)}`;
+  }
+  if (vo.keys != null) {
+    const keys = typeof vo.keys === "number" ? vo.keys : midOf(vo.keys);
+    if (keys != null) return ` · 🟢 ${formatCompact(keys)} llaves`;
+  }
+  return "";
 }

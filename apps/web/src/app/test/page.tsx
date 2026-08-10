@@ -269,39 +269,86 @@ function readSchema(): string {
   }
 }
 
-const ITEM_FIELDS: { group: string; fields: [string, string, string][] }[] = [
+// 2 listas de precios independientes, cada una con SU histórico.
+// Solo comparten: id = stableId(nombre) (llave de join) y la imagen
+// (emoji de la API → se aplica al item oficial en la web).
+const TABLES: { model: string; accent: string; groups: { group: string; fields: [string, string, string][] }[] }[] = [
   {
-    group: "Identidad",
-    fields: [
-      ["id", "String @id", "stableId(compactKey(name)) — determinística"],
-      ["name", "String", "Nombre visible del item"],
-      ["normalized", "String @unique", "Texto normalizado (búsqueda)"],
-      ["slug", "String @unique", "URL amigable"],
-      ["category", "String?", "Categoría (API o hoja)"],
-      ["emoji", "String?", "Path de imagen /item.png"],
-      ["source", "String", "official | api | both"]
+    model: "OfficialPrice",
+    accent: "text-emerald-300",
+    groups: [
+      {
+        group: "Identidad",
+        fields: [
+          ["id", "String @id", "stableId(compactKey(name)) — llave compartida"],
+          ["name / normalized / slug", "String", "Nombre, búsqueda y URL"],
+          ["category", "String?", "Categoría de la HOJA (ya no pelea con la API)"]
+        ]
+      },
+      {
+        group: "Precios (3 monedas)",
+        fields: [
+          ["keys", "Json?", "number | {min,max} | null"],
+          ["scrolls", "Json?", "derivado: keys ÷ 3"],
+          ["vizards", "Json?", "derivado: keys ÷ ratio"]
+        ]
+      },
+      {
+        group: "Detalle de la hoja",
+        fields: [
+          ["rarityLabel / demand", "String?", "Rareza y demanda de la hoja"],
+          ["rateOfChange", "String?", "Tendencia (Stable, Rising…)"],
+          ["taxGems / taxGold", "Float?", "Taxes de la hoja"],
+          ["sheet / existingAmount", "String?", "Hoja de origen y cantidad existente"]
+        ]
+      }
     ]
   },
   {
-    group: "Fuente oficial (hoja AOTR)",
-    fields: [
-      ["officialKeys", "Json?", "number | {min,max} | null"],
-      ["officialScrolls", "Json?", "derivado: keys ÷ 3"],
-      ["officialVizards", "Json?", "derivado: keys ÷ ratio"],
-      ["officialDemand", "String?", "Demanda de la hoja"],
-      ["officialRate", "String?", "Rate of change"],
-      ["officialTaxGems / TaxGold", "Float?", "Taxes de la hoja"]
+    model: "TradePrice",
+    accent: "text-sky-300",
+    groups: [
+      {
+        group: "Identidad + imagen",
+        fields: [
+          ["id", "String @id", "stableId(nombre) — MISMA llave que OfficialPrice"],
+          ["name / normalized / slug", "String", "Nombre, búsqueda y URL"],
+          ["emoji", "String?", "Imagen compartida → aotrvalue.com + emoji"],
+          ["category", "String?", "Categoría de la API"]
+        ]
+      },
+      {
+        group: "Precios (3 monedas)",
+        fields: [
+          ["value", "Float?", "Valor crudo en VIZARD (de la API)"],
+          ["keys", "Float?", "calculado: viz × keysPerVizard"],
+          ["scrolls", "Float?", "calculado: keys ÷ keysPerScroll"]
+        ]
+      },
+      {
+        group: "Detalle de la API",
+        fields: [
+          ["demand / rateOfChange", "Int? / String?", "Demanda y tendencia"],
+          ["prestige / status", "Int? / String?", "Prestigio y disponibilidad"],
+          ["obtainedFrom", "String?", "Cómo se obtiene"],
+          ["taxGems / taxGold", "Float?", "Taxes de la API"],
+          ["apiId / apiUpdatedAt", "String? / DateTime?", "Id y fecha de la API"]
+        ]
+      }
     ]
   },
   {
-    group: "Fuente trade (API externa)",
-    fields: [
-      ["apiValue", "Float?", "Valor crudo en VIZARD"],
-      ["apiDemand", "Int?", "Demanda numérica"],
-      ["apiRateOfChange", "String?", "Tendencia (Stable, Rising…)"],
-      ["apiPrestige", "Int?", "Prestigio del item"],
-      ["apiTaxGems / apiTaxGold", "Float?", "Taxes de la API"],
-      ["apiUpdatedAt", "DateTime?", "Última actualización en la API"]
+    model: "Históricos",
+    accent: "text-violet-300",
+    groups: [
+      {
+        group: "Cada lista tiene el suyo",
+        fields: [
+          ["OfficialPriceHistory", "model", "keys · scrolls · vizards por sync (30 min)"],
+          ["TradePriceHistory", "model", "value (viz) por sync (30 min)"],
+          ["itemId + recordedAt", "@unique", "una instantánea por item por sync"]
+        ]
+      }
     ]
   }
 ];
@@ -483,8 +530,11 @@ export default async function TestPage() {
                 Arquitectura de <span className="text-violet-300">la base de datos</span>
               </h2>
               <p className="mt-1 text-sm text-white/45">
-                Modelo <code className="text-violet-300/80">Item</code> en Supabase/PostgreSQL (Prisma). Un solo
-                registro por item con dos grupos de columnas: una por fuente.{" "}
+                <strong className="text-white/80">2 listas de precios independientes</strong> en
+                Supabase/PostgreSQL (Prisma): <code className="text-emerald-300/80">OfficialPrice</code>{" "}
+                (hoja AOTR) y <code className="text-sky-300/80">TradePrice</code> (API), cada una con su
+                histórico. Comparten el <code className="text-white/60">id = stableId(nombre)</code> (join) y
+                la imagen.{" "}
                 <code className="text-white/60">schema.prisma</code> leído en vivo del paquete{" "}
                 <code className="text-white/60">@aotr/db</code>.
               </p>
@@ -493,34 +543,41 @@ export default async function TestPage() {
         </Reveal>
 
         <div className="mt-6 grid gap-4 lg:grid-cols-2">
-          {/* Modelo Item renderizado */}
+          {/* Modelos renderizados */}
           <Reveal>
             <div className="glass rounded-2xl p-5">
-              <h3 className="font-mono text-sm font-bold text-white">model Item</h3>
-              {ITEM_FIELDS.map((group) => (
-                <div key={group.group} className="mt-4">
-                  <p className="text-[11px] font-bold uppercase tracking-widest text-indigo-300/80">
-                    {group.group}
+              <h3 className="font-mono text-sm font-bold text-white">2 tablas de precios</h3>
+              {TABLES.map((table) => (
+                <div key={table.model} className="mt-5">
+                  <p className={`font-mono text-xs font-bold ${table.accent}`}>
+                    model {table.model}
                   </p>
-                  <div className="mt-2 space-y-1">
-                    {group.fields.map(([name, type, desc]) => (
-                      <div
-                        key={name}
-                        className="flex items-baseline justify-between gap-3 rounded-lg bg-white/[0.02] px-3 py-1.5"
-                      >
-                        <div className="min-w-0">
-                          <p className="truncate font-mono text-[11px] text-white/85">{name}</p>
-                          <p className="text-[10px] text-white/35">{desc}</p>
-                        </div>
-                        <span className="shrink-0 font-mono text-[10px] text-violet-300/80">{type}</span>
+                  {table.groups.map((group) => (
+                    <div key={group.group} className="mt-3">
+                      <p className="text-[11px] font-bold uppercase tracking-widest text-indigo-300/80">
+                        {group.group}
+                      </p>
+                      <div className="mt-2 space-y-1">
+                        {group.fields.map(([name, type, desc]) => (
+                          <div
+                            key={name}
+                            className="flex items-baseline justify-between gap-3 rounded-lg bg-white/[0.02] px-3 py-1.5"
+                          >
+                            <div className="min-w-0">
+                              <p className="truncate font-mono text-[11px] text-white/85">{name}</p>
+                              <p className="text-[10px] text-white/35">{desc}</p>
+                            </div>
+                            <span className="shrink-0 font-mono text-[10px] text-violet-300/80">{type}</span>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
               ))}
               <div className="mt-4 flex flex-wrap gap-2 text-[11px]">
                 <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-white/60">
-                  ⛓️ Item 1—N PriceHistory (histórico de precios)
+                  🔗 Ambos id = stableId(nombre) — join + imagen compartida
                 </span>
                 <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-white/60">
                   🪵 SyncLog (bitácora de sincronizaciones)

@@ -46,7 +46,11 @@ export function upsertApiRows(rows, rates) {
       scrolls: keys != null ? keys / keysPerScroll : null,
       demand: row.demand,
       status: row.status,
-      rateOfChange: row.rateOfChange
+      rateOfChange: row.rateOfChange,
+      emoji: row.emoji ?? null,
+      taxGems: row.gemTax ?? null,
+      taxGold: row.goldTax ?? null,
+      category: row.category ?? null
     });
   }
 }

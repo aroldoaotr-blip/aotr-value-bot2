@@ -8,6 +8,7 @@ import { Reveal } from "@/components/Reveal";
 import { DemandBar } from "@/components/DemandBar";
 import { SourceBadge, StatusBadge, RateBadge } from "@/components/Badges";
 import { PriceChart } from "@/components/PriceChart";
+import { ItemSourcePanel } from "@/components/ItemSourcePanel";
 import { getItems } from "@/lib/data";
 import { formatCompact, formatRange, roundValue } from "@/lib/format";
 import { sourceValue } from "@/lib/rates";
@@ -151,9 +152,9 @@ export default async function ItemPage({
 
       {/* Precios duales: todos los datos de cada lista */}
       <Reveal delay={0.1}>
-        <div className="mt-8 grid gap-4 lg:grid-cols-2">
-          {/* 🟢 Fuente oficial (hoja AOTR) */}
-          <div className="gradient-border rounded-3xl p-6">
+        <ItemSourcePanel
+          official={
+            <div className="gradient-border h-full rounded-3xl p-6">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <p className="text-xs font-semibold uppercase tracking-widest text-emerald-300">
                 🟢 Precio oficial (hoja AOTR)
@@ -206,8 +207,9 @@ export default async function ItemPage({
             </div>
           </div>
 
-          {/* 🔵 Fuente trade (API) */}
-          <div className="gradient-border rounded-3xl p-6">
+          }
+          trade={
+            <div className="gradient-border h-full rounded-3xl p-6">
             <p className="text-xs font-semibold uppercase tracking-widest text-blue-300">
               🔵 Precio de tradeo (API)
             </p>
@@ -266,8 +268,9 @@ export default async function ItemPage({
                 📦 Se obtiene de: {item.obtainedFrom}
               </p>
             )}
-          </div>
-        </div>
+            </div>
+          }
+        />
       </Reveal>
 
       {/* Demanda */}

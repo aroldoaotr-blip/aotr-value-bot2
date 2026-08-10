@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Activity, Flame, Menu, Moon, X } from "lucide-react";
 import { cn, formatRelative } from "@/lib/format";
+import { PriceSourceToggle } from "@/lib/price-source";
 
 const LINKS = [
   { href: "/", label: "Inicio" },
@@ -39,7 +40,14 @@ export function Navbar() {
   useEffect(() => {
     fetch("/api/meta")
       .then((r) => r.json())
-      .then((meta) => setLastSync(meta.generatedAt))
+      .then((meta) => {
+        // Prioridad: el último sync EXITOSO del bot (SyncLog en la BD);
+        // fallback a la fecha del seed local (sin BD).
+        const lastSyncAt =
+          meta.lastSyncs?.find((s: any) => s.status === "ok")?.startedAt ??
+          meta.generatedAt;
+        setLastSync(lastSyncAt);
+      })
       .catch(() => setLastSync(null));
   }, []);
 
@@ -76,6 +84,8 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
+          <PriceSourceToggle className="ml-2 hidden lg:flex" />
+
           <button
             onClick={toggleTheme}
             className="ml-2 flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-white/70 transition-all hover:border-white/25 hover:text-white"

@@ -1,4 +1,8 @@
 // Pobla la base de datos (Supabase) desde el seed generado por el bot.
+// Ahora escribe en las 2 tablas de precios independientes:
+//   - OfficialPrice (items con valor oficial / hoja)
+//   - TradePrice    (items con valor de la API)
+// más la fila RateConfig por defecto (900.9 / 3).
 // Uso:  DATABASE_URL=postgres://... npm run seed -w @aotr/db
 import dotenv from "dotenv";
 import fs from "node:fs";
@@ -25,73 +29,75 @@ async function main() {
 
   const raw = JSON.parse(fs.readFileSync(SEED_FILE, "utf8"));
   const { items } = raw;
-  console.log(`🌱 Sembrando ${items.length} items en la base de datos...`);
+  console.log(`🌱 Sembrando ${items.length} items en las tablas de precios...`);
+
+  const officialRows = [];
+  const tradeRows = [];
 
   for (const item of items) {
-    await prisma.item.upsert({
-      where: { normalized: item.normalized },
-      create: {
+    if (item.valueOfficial) {
+      officialRows.push({
         id: item.id,
         name: item.name,
         normalized: item.normalized,
         slug: item.slug,
         category: item.category,
         rarityLabel: item.rarityLabel,
-        rarityPct: item.rarityPct,
-        status: item.status,
-        obtainedFrom: item.obtainedFrom,
-        emoji: item.emoji,
-        officialKeys: item.valueOfficial?.keys ?? undefined,
-        officialScrolls: item.valueOfficial?.scrolls ?? undefined,
-        officialVizards: item.valueOfficial?.vizards ?? undefined,
-        officialDemand: item.demandOfficial,
-        officialRate: item.officialRate ?? undefined,
-        officialTaxGems: item.officialTaxGems ?? undefined,
-        officialTaxGold: item.officialTaxGold ?? undefined,
-        sheet: item.sheet ?? undefined,
-        existingAmount: item.existingAmount ?? undefined,
-        apiValue: item.apiValue,
-        apiDemand: item.demandApi,
-        apiRateOfChange: item.rateOfChange,
-        apiPrestige: item.prestige ?? undefined,
-        apiTaxGems: item.apiTaxGems ?? undefined,
-        apiTaxGold: item.apiTaxGold ?? undefined,
-        apiUpdatedAt: item.updatedAt ? new Date(item.updatedAt) : undefined,
-        apiId: item.apiId ?? undefined,
-        source: item.source
-      },
-      update: {
-        name: item.name,
-        category: item.category,
-        rarityLabel: item.rarityLabel,
-        rarityPct: item.rarityPct,
-        status: item.status,
-        obtainedFrom: item.obtainedFrom,
-        emoji: item.emoji,
-        officialKeys: item.valueOfficial?.keys ?? null,
-        officialScrolls: item.valueOfficial?.scrolls ?? null,
-        officialVizards: item.valueOfficial?.vizards ?? null,
-        officialDemand: item.demandOfficial,
-        officialRate: item.officialRate ?? null,
-        officialTaxGems: item.officialTaxGems ?? null,
-        officialTaxGold: item.officialTaxGold ?? null,
+        demand: item.demandOfficial,
+        keys: item.valueOfficial.keys ?? null,
+        scrolls: item.valueOfficial.scrolls ?? null,
+        vizards: item.valueOfficial.vizards ?? null,
+        rateOfChange: item.officialRate ?? null,
+        taxGems: item.officialTaxGems ?? null,
+        taxGold: item.officialTaxGold ?? null,
         sheet: item.sheet ?? null,
-        existingAmount: item.existingAmount ?? null,
-        apiValue: item.apiValue,
-        apiDemand: item.demandApi,
-        apiRateOfChange: item.rateOfChange,
-        apiPrestige: item.prestige ?? null,
-        apiTaxGems: item.apiTaxGems ?? null,
-        apiTaxGold: item.apiTaxGold ?? null,
-        apiUpdatedAt: item.updatedAt ? new Date(item.updatedAt) : null,
+        existingAmount: item.existingAmount ?? null
+      });
+    }
+
+    if (item.apiValue != null) {
+      tradeRows.push({
+        id: item.id,
+        name: item.name,
+        normalized: item.normalized,
+        slug: item.slug,
+        category: item.category,
+        rarityPct: item.rarityPct ?? null,
+        emoji: item.emoji ?? null,
+        value: item.apiValue,
+        keys: item.apiKeys ?? null,
+        scrolls: item.apiScrolls ?? null,
+        demand: item.demandApi,
+        rateOfChange: item.rateOfChange,
+        prestige: item.prestige ?? null,
+        status: item.status,
+        obtainedFrom: item.obtainedFrom,
+        taxGems: item.apiTaxGems ?? null,
+        taxGold: item.apiTaxGold ?? null,
         apiId: item.apiId ?? null,
-        source: item.source
-      }
-    });
+        apiUpdatedAt: item.updatedAt ? new Date(item.updatedAt) : null
+      });
+    }
   }
 
+  if (officialRows.length) {
+    await prisma.officialPrice.createMany({ data: officialRows, skipDuplicates: true });
+  }
+  if (tradeRows.length) {
+    await prisma.tradePrice.createMany({ data: tradeRows, skipDuplicates: true });
+  }
+
+  // Tasas por defecto (1 viz = 900.9 llaves, 1 pergamino = 3 llaves)
+  await prisma.rateConfig.upsert({
+    where: { id: "default" },
+    create: { id: "default", keysPerVizard: 900.9, keysPerScroll: 3 },
+    update: {}
+  });
+
   await prisma.$disconnect();
-  console.log("✅ Seed completado.");
+  console.log(
+    `✅ Seed completado: ${officialRows.length} oficiales · ${tradeRows.length} trade · RateConfig listo.`
+  );
 }
 
 main().catch(async (err) => {

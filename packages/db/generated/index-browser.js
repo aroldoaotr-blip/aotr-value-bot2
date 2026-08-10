@@ -122,44 +122,61 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.ItemScalarFieldEnum = {
+exports.Prisma.OfficialPriceScalarFieldEnum = {
   id: 'id',
   name: 'name',
   normalized: 'normalized',
   slug: 'slug',
   category: 'category',
   rarityLabel: 'rarityLabel',
-  rarityPct: 'rarityPct',
-  status: 'status',
-  obtainedFrom: 'obtainedFrom',
-  emoji: 'emoji',
-  officialKeys: 'officialKeys',
-  officialScrolls: 'officialScrolls',
-  officialVizards: 'officialVizards',
-  officialDemand: 'officialDemand',
-  officialRate: 'officialRate',
-  officialTaxGems: 'officialTaxGems',
-  officialTaxGold: 'officialTaxGold',
+  demand: 'demand',
+  keys: 'keys',
+  scrolls: 'scrolls',
+  vizards: 'vizards',
+  rateOfChange: 'rateOfChange',
+  taxGems: 'taxGems',
+  taxGold: 'taxGold',
   sheet: 'sheet',
   existingAmount: 'existingAmount',
-  apiValue: 'apiValue',
-  apiDemand: 'apiDemand',
-  apiRateOfChange: 'apiRateOfChange',
-  apiPrestige: 'apiPrestige',
-  apiTaxGems: 'apiTaxGems',
-  apiTaxGold: 'apiTaxGold',
-  apiUpdatedAt: 'apiUpdatedAt',
-  apiId: 'apiId',
-  source: 'source',
-  createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.PriceHistoryScalarFieldEnum = {
+exports.Prisma.OfficialPriceHistoryScalarFieldEnum = {
   id: 'id',
   itemId: 'itemId',
-  apiValue: 'apiValue',
-  officialVizards: 'officialVizards',
+  keys: 'keys',
+  scrolls: 'scrolls',
+  vizards: 'vizards',
+  recordedAt: 'recordedAt'
+};
+
+exports.Prisma.TradePriceScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  normalized: 'normalized',
+  slug: 'slug',
+  category: 'category',
+  rarityPct: 'rarityPct',
+  emoji: 'emoji',
+  value: 'value',
+  keys: 'keys',
+  scrolls: 'scrolls',
+  demand: 'demand',
+  rateOfChange: 'rateOfChange',
+  prestige: 'prestige',
+  status: 'status',
+  obtainedFrom: 'obtainedFrom',
+  taxGems: 'taxGems',
+  taxGold: 'taxGold',
+  apiId: 'apiId',
+  apiUpdatedAt: 'apiUpdatedAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TradePriceHistoryScalarFieldEnum = {
+  id: 'id',
+  itemId: 'itemId',
+  value: 'value',
   demand: 'demand',
   recordedAt: 'recordedAt'
 };
@@ -226,8 +243,10 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
-  Item: 'Item',
-  PriceHistory: 'PriceHistory',
+  OfficialPrice: 'OfficialPrice',
+  OfficialPriceHistory: 'OfficialPriceHistory',
+  TradePrice: 'TradePrice',
+  TradePriceHistory: 'TradePriceHistory',
   SyncLog: 'SyncLog',
   RateConfig: 'RateConfig',
   GuildConfig: 'GuildConfig',

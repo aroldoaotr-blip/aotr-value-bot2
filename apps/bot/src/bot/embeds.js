@@ -63,43 +63,104 @@ function footer() {
   return { text: `${BRANDING.footer} • ${BRANDING.designer}` };
 }
 
-// ── Valor de item (doble fuente) ─────────────────────────
-export function createItemEmbed(item, { apiRow = null, keyRatio = null, historySpark = null, primary = "official" } = {}) {
+// ── Valor de item (una lista, con botón para la otra) ────
+// visible: "official" | "trade" | "both"
+//   · Canal oficial → solo 🟢 + botón para ver 🔵
+//   · Canal trade   → solo 🔵 + botón para ver 🟢
+//   · Canal sin configurar → ambas (comportamiento clásico)
+const RARITY_COLORS = {
+  common: 0x9ca3af,
+  uncommon: 0x4ade80,
+  rare: 0x60a5fa,
+  epic: 0xa78bfa,
+  legendary: 0xf59e0b,
+  mythic: 0xef4444,
+  event: 0xf472b6
+};
+
+function rarityColor(rarity) {
+  if (!rarity) return null;
+  const key = String(rarity).toLowerCase();
+  for (const [name, color] of Object.entries(RARITY_COLORS)) {
+    if (key.includes(name)) return color;
+  }
+  return null;
+}
+
+// Barra de demanda compacta: ▰▰▰▰▱▱▱▱▱▱ 4/10 · Media
+function demandBar(demand) {
+  const value = parseInt(demand);
+  if (Number.isNaN(value)) return null;
+  const filled = Math.max(0, Math.min(10, value));
+  const label =
+    value >= 8 ? "Muy alta" : value >= 5 ? "Alta" : value >= 3 ? "Media" : "Baja";
+  return `${"▰".repeat(filled)}${"▱".repeat(10 - filled)} ${value}/10 · ${label}`;
+}
+
+function taxLine(gems, gold) {
+  if (gems == null && gold == null) return "";
+  return `💎 ${gems != null ? formatValue(gems) : "—"} · 🪙 ${gold != null ? formatValue(gold) : "—"}`;
+}
+
+function imageUrl(emoji) {
+  if (!emoji) return null;
+  return `https://www.aotrvalue.com${emoji.startsWith("/") ? emoji : `/${emoji}`}`;
+}
+
+export function createItemEmbed(item, { apiRow = null, keyRatio = null, historySpark = null, primary = "official", visible = "both", lastUpdate = null } = {}) {
   const isOfficial = Boolean(item.value);
   const isApi = Boolean(apiRow);
+  const showOfficial = visible === "both" || visible === "official";
+  const showApi = visible === "both" || visible === "trade";
 
-  const officialSection = isOfficial
-    ? `🔑 **Llaves:** ${formatRounded(item.value.keys)}\n` +
-      `📜 **Pergaminos:** ${formatRounded(item.value.scrolls)}\n` +
-      `🎭 **Vizard:** ${formatValue(item.value.vizards)}\n` +
-      `**Demanda:** ${formatDemand(item.demand)}\n` +
-      `**Estado:** ${item.rateOfChange ?? "N/A"}`
-    : "`No disponible en la hoja oficial`";
+  const color =
+    rarityColor(item.rarity) ??
+    (primary === "trade" ? BRANDING.colors.trade : BRANDING.colors.official);
 
-  const apiSection = isApi
-    ? `🎭 **Valor (viz):** ${formatValue(apiRow.value)}\n` +
-      `🔑 **Llaves:** ${formatRounded(apiRow.keys)}\n` +
-      `📜 **Pergaminos:** ${formatRounded(apiRow.scrolls)}\n` +
-      `**Demanda:** ${formatDemand(apiRow.demand)}\n` +
-      `**Estado:** ${apiRow.rateOfChange ?? "N/A"}\n` +
-      (apiRow.status ? `**Disponibilidad:** ${apiRow.status}` : "")
-    : "`No disponible en la API de tradeo`";
-
+  const metaLine = [item.rarity, item.category, item.sheet].filter(Boolean).join("  ·  ");
   const highlight = primary === "trade" ? "🔵" : "🟢";
 
+  const officialSection =
+    !showOfficial
+      ? null
+      : !isOfficial
+        ? "`No disponible en la hoja oficial`"
+        : `🔑 **${formatRounded(item.value.keys)}** · 📜 **${formatRounded(item.value.scrolls)}** · 🎭 **${formatValue(item.value.vizards)}**\n` +
+          `**Demanda:** ${demandBar(item.demand) ?? item.demand ?? "N/A"}\n` +
+          `**Estado:** ${item.rateOfChange ?? "N/A"}\n` +
+          (taxLine(item.taxGems, item.taxGold) ? `${taxLine(item.taxGems, item.taxGold)}\n` : "") +
+          (item.sheet ? `📄 ${item.sheet}` : "");
+
+  const apiSection =
+    !showApi
+      ? null
+      : !isApi
+        ? "`No disponible en la API de tradeo`"
+        : `🎭 **${formatValue(apiRow.value)}** · 🔑 **${formatRounded(apiRow.keys)}** · 📜 **${formatRounded(apiRow.scrolls)}**\n` +
+          `**Demanda:** ${demandBar(apiRow.demand) ?? "N/A"}\n` +
+          `**Estado:** ${apiRow.rateOfChange ?? "N/A"}${apiRow.status ? ` · ${apiRow.status}` : ""}\n` +
+          (taxLine(apiRow.taxGems, apiRow.taxGold) ? `${taxLine(apiRow.taxGems, apiRow.taxGold)}\n` : "") +
+          (apiRow.category ? `🏷️ ${apiRow.category}` : "");
+
   const embed = new EmbedBuilder()
-    .setColor(primary === "trade" ? BRANDING.colors.trade : BRANDING.colors.official)
+    .setColor(color)
     .setTitle(`${highlight} ${item.name}`)
-    .setDescription(
-      `**Rareza:** ${item.rarity ?? "N/A"}\n` +
-        `**Categoría:** ${item.category ?? "N/A"}\n` +
-        `**Fuente destacada:** ${primary === "trade" ? "Precios de tradeo (API)" : "Hoja oficial AOTR"}`
-    )
-    .addFields(
+    .setDescription(metaLine ? `**${metaLine}**` : null)
+    .setFooter({ text: lastUpdate ? `Actualizado ${lastUpdate} · ${BRANDING.footer}` : footer().text });
+
+  const thumb = imageUrl(apiRow?.emoji ?? null);
+  if (thumb) embed.setThumbnail(thumb);
+
+  if (visible === "both") {
+    embed.addFields(
       { name: "🟢 Oficial (hoja AOTR)", value: officialSection, inline: true },
       { name: "🔵 Trade (API)", value: apiSection, inline: true }
-    )
-    .setFooter(footer());
+    );
+  } else if (visible === "official") {
+    embed.addFields({ name: "🟢 Oficial (hoja AOTR)", value: officialSection, inline: false });
+  } else {
+    embed.addFields({ name: "🔵 Trade (API)", value: apiSection, inline: false });
+  }
 
   if (historySpark) {
     embed.addFields({ name: "📈 Tendencia (30 días)", value: historySpark, inline: false });
@@ -108,23 +169,44 @@ export function createItemEmbed(item, { apiRow = null, keyRatio = null, historyS
   return embed;
 }
 
-export function itemEmbedButtons(ctxId, item, apiRow) {
-  const row = new ActionRowBuilder();
+// Botones del embed de item. Cuando el canal muestra una sola lista,
+// incluye la fila 🟢 Oficial / 🔵 Tradeo (el activo resaltado) para cambiar.
+export function itemEmbedButtons(ctxId, item, apiRow, visible = "both") {
+  const rows = [];
 
+  if (visible !== "both") {
+    const sourceRow = new ActionRowBuilder();
+    for (const [src, label] of [
+      ["official", "Oficial"],
+      ["trade", "Tradeo"]
+    ]) {
+      sourceRow.addComponents(
+        new ButtonBuilder()
+          .setCustomId(`item_src_${ctxId}_${src}`)
+          .setLabel(label)
+          .setEmoji(src === "official" ? "🟢" : "🔵")
+          .setStyle(src === visible ? ButtonStyle.Primary : ButtonStyle.Secondary)
+      );
+    }
+    rows.push(sourceRow);
+  }
+
+  const currencyRow = new ActionRowBuilder();
   if (item.value) {
-    row.addComponents(
+    currencyRow.addComponents(
       new ButtonBuilder().setCustomId(`curr_${ctxId}_keys`).setLabel("Llaves").setEmoji("🔑").setStyle(ButtonStyle.Secondary),
       new ButtonBuilder().setCustomId(`curr_${ctxId}_scrolls`).setLabel("Pergaminos").setEmoji("📜").setStyle(ButtonStyle.Secondary),
       new ButtonBuilder().setCustomId(`curr_${ctxId}_vizards`).setLabel("Vizard").setEmoji("🎭").setStyle(ButtonStyle.Primary)
     );
   }
 
-  row.addComponents(
+  currencyRow.addComponents(
     new ButtonBuilder().setCustomId(`similar_${ctxId}`).setLabel("Similares ±10%").setEmoji("🔍").setStyle(ButtonStyle.Secondary),
     new ButtonBuilder().setCustomId(`history_${ctxId}`).setLabel("Histórico").setEmoji("📈").setStyle(ButtonStyle.Secondary)
   );
+  rows.push(currencyRow);
 
-  return row;
+  return rows;
 }
 
 // ── No encontrado ────────────────────────────────────────
@@ -143,7 +225,9 @@ export function createNotFoundEmbed(input, suggestions = []) {
 }
 
 // ── Suma ─────────────────────────────────────────────────
-export function createSumEmbed(groupedItems, total, notFoundText = "", keyRatio = null) {
+export function createSumEmbed(groupedItems, total, notFoundText = "", keyRatio = null, source = "official") {
+  const sourceLine =
+    source === "trade" ? "🔵 Precios de tradeo (API)" : "🟢 Hoja oficial AOTR";
   const itemsText = groupedItems
     .map(({ item, quantity }) => {
       const totalKeys = item.value.keys != null ? item.value.keys * quantity : null;
@@ -163,7 +247,7 @@ export function createSumEmbed(groupedItems, total, notFoundText = "", keyRatio 
   return new EmbedBuilder()
     .setColor(BRANDING.colors.success)
     .setTitle("📦 Resumen de Items")
-    .setDescription(itemsText + (notFoundText ? `\n\n${notFoundText}` : ""))
+    .setDescription(`**Fuente:** ${sourceLine}\n\n` + itemsText + (notFoundText ? `\n\n${notFoundText}` : ""))
     .addFields(
       { name: "\u200B", value: "━━━━━━━━━━━━━━", inline: false },
       {
