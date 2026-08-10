@@ -10,8 +10,13 @@
 //   · la imagen (emoji) que trae la API → la web la aplica al item oficial
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../generated"
+  provider      = "prisma-client-js"
+  output        = "../generated"
+  // Motores para TODAS las plataformas: Windows (local), Vercel (debian/rhel),
+  // Railway (debian o alpine/musl). Sin esto, `prisma generate` en Windows
+  // solo emite el binario de Windows y producción (Linux) no puede conectar
+  // a la BD (error 500 en /api/rates, "Sin base de datos" en la web).
+  binaryTargets = ["native", "debian-openssl-3.0.x", "rhel-openssl-3.0.x", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {

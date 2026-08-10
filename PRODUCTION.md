@@ -134,6 +134,7 @@ curl https://tu-dominio/api/rates
 | Problema | Causa probable | Fix |
 |---|---|---|
 | La web muestra el seed (no la BD) | `DATABASE_URL` mal puesta o tablas ausentes | Revisar env de Vercel; correr `db push` + sync |
+| Admin: "No se pudo guardar en la BD" + "Sin base de datos configurada" en Vercel | Falta el motor de Prisma para Linux (el `generated` solo tenía el binario de Windows) | `binaryTargets = [native, debian-openssl-3.0.x, rhel-openssl-3.0.x, linux-musl-openssl-3.0.x]` en `schema.prisma`, correr `npm run generate:db` y pushear |
 | El bot no conecta | `DISCORD_TOKEN` inválido o faltan intents | Resetear token; activar Message Content Intent |
 | `prisma:error table ... does not exist` | BD vacía | `prisma db push` + `manual-sync.js all` |
 | Precios viejos en la web | El bot está caído (nadie sincroniza) | Revisar logs de Railway; el bot es quien refresca la BD |

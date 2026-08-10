@@ -32,26 +32,31 @@ export default function AdminPage() {
     };
   }, [keysPerVizard, keysPerScroll]);
 
-  // Cargar tasas actuales (localStorage del admin primero, luego BD vía API)
+  // Cargar tasas actuales. localStorage del admin tiene prioridad para los
+  // VALORES, pero SIEMPRE consultamos /api/rates para saber si la BD responde
+  // (persisted) — así el aviso "sin BD" solo aparece cuando realmente falla.
   useEffect(() => {
     if (authed === null) return;
     const local = getLocalRates();
     if (local) {
       setKeysPerVizard(String(local.keysPerVizard));
       setKeysPerScroll(String(local.keysPerScroll));
-      return;
     }
     (async () => {
       try {
         const res = await fetch("/api/rates");
         const data = await res.json();
         if (data.rates) {
-          setKeysPerVizard(String(data.rates.keysPerVizard));
-          setKeysPerScroll(String(data.rates.keysPerScroll));
+          // La BD es la fuente compartida con el bot: si responde, sus valores
+          // ganan; si no, se mantienen los del navegador.
+          if (data.persisted) {
+            setKeysPerVizard(String(data.rates.keysPerVizard));
+            setKeysPerScroll(String(data.rates.keysPerScroll));
+          }
           setPersisted(!!data.persisted);
         }
       } catch {
-        /* mantener por defecto */
+        /* mantener lo que haya */
       }
     })();
   }, [authed]);
