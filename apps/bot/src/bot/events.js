@@ -73,8 +73,14 @@ async function refreshOfficialCache() {
 
 async function refreshTradeCache() {
   const result = await syncTrade();
-  const { data } = result;
 
+  // Sync saltado por solapamiento (withLock) o sin datos: mantener caché anterior
+  if (result.skipped || !result.data) {
+    console.warn("🔵 Sync trade saltado (otro sync en curso) — se mantiene la caché actual.");
+    return;
+  }
+
+  const { data } = result;
   const rows = data.map((row) => ({
     ...row,
     normalized: typeof row.normalized === "string" ? row.normalized : row.name
