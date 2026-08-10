@@ -5,7 +5,7 @@ import {
   EmbedBuilder,
   ActionRowBuilder,
   ButtonBuilder,
-  ButtonStyle
+  ButtonStyle,
 } from "discord.js";
 import { BRANDING } from "../config/constants.js";
 
@@ -15,7 +15,8 @@ export function formatValue(value) {
   if (value === null || value === undefined || value === 0) return "N/A";
 
   const formatNumber = (number) => {
-    if (Math.abs(number) >= 1_000_000) return `${(number / 1_000_000).toFixed(1)}M`;
+    if (Math.abs(number) >= 1_000_000)
+      return `${(number / 1_000_000).toFixed(1)}M`;
     if (Math.abs(number) >= 1_000) return `${(number / 1_000).toFixed(1)}k`;
     if (Math.abs(number) < 1) return number.toFixed(number < 0.01 ? 4 : 2);
     return Number(number.toFixed(2)).toString();
@@ -34,7 +35,8 @@ export function formatValue(value) {
 export function formatRounded(value) {
   if (value === null || value === undefined || value === 0) return "N/A";
 
-  const round = (n) => (n - Math.floor(n) >= 0.45 ? Math.ceil(n) : Math.floor(n));
+  const round = (n) =>
+    n - Math.floor(n) >= 0.45 ? Math.ceil(n) : Math.floor(n);
 
   if (typeof value === "object") {
     return `${round(value.min)} - ${round(value.max)}`;
@@ -75,7 +77,7 @@ const RARITY_COLORS = {
   epic: 0xa78bfa,
   legendary: 0xf59e0b,
   mythic: 0xef4444,
-  event: 0xf472b6
+  event: 0xf472b6,
 };
 
 function rarityColor(rarity) {
@@ -93,7 +95,13 @@ function demandBar(demand) {
   if (Number.isNaN(value)) return null;
   const filled = Math.max(0, Math.min(10, value));
   const label =
-    value >= 8 ? "Muy alta" : value >= 5 ? "Alta" : value >= 3 ? "Media" : "Baja";
+    value >= 8
+      ? "Muy alta"
+      : value >= 5
+        ? "Alta"
+        : value >= 3
+          ? "Media"
+          : "Baja";
   return `${"▰".repeat(filled)}${"▱".repeat(10 - filled)} ${value}/10 · ${label}`;
 }
 
@@ -107,7 +115,17 @@ function imageUrl(emoji) {
   return `https://www.aotrvalue.com${emoji.startsWith("/") ? emoji : `/${emoji}`}`;
 }
 
-export function createItemEmbed(item, { apiRow = null, keyRatio = null, historySpark = null, primary = "official", visible = "both", lastUpdate = null } = {}) {
+export function createItemEmbed(
+  item,
+  {
+    apiRow = null,
+    keyRatio = null,
+    historySpark = null,
+    primary = "official",
+    visible = "both",
+    lastUpdate = null,
+  } = {},
+) {
   const isOfficial = Boolean(item.value);
   const isApi = Boolean(apiRow);
   const showOfficial = visible === "both" || visible === "official";
@@ -117,36 +135,44 @@ export function createItemEmbed(item, { apiRow = null, keyRatio = null, historyS
     rarityColor(item.rarity) ??
     (primary === "trade" ? BRANDING.colors.trade : BRANDING.colors.official);
 
-  const metaLine = [item.rarity, item.category, item.sheet].filter(Boolean).join("  ·  ");
+  const metaLine = [item.rarity, item.category, item.sheet]
+    .filter(Boolean)
+    .join("  ·  ");
   const highlight = primary === "trade" ? "🔵" : "🟢";
 
-  const officialSection =
-    !showOfficial
-      ? null
-      : !isOfficial
-        ? "`No disponible en la hoja oficial`"
-        : `🔑 **${formatRounded(item.value.keys)}** · 📜 **${formatRounded(item.value.scrolls)}** · 🎭 **${formatValue(item.value.vizards)}**\n` +
-          `**Demanda:** ${demandBar(item.demand) ?? item.demand ?? "N/A"}\n` +
-          `**Estado:** ${item.rateOfChange ?? "N/A"}\n` +
-          (taxLine(item.taxGems, item.taxGold) ? `${taxLine(item.taxGems, item.taxGold)}\n` : "") +
-          (item.sheet ? `📄 ${item.sheet}` : "");
+  const officialSection = !showOfficial
+    ? null
+    : !isOfficial
+      ? "`No disponible en la hoja oficial`"
+      : `🔑 **${formatRounded(item.value.keys)}**\n · 📜 **${formatRounded(item.value.scrolls)}**\n · 🎭 **${formatValue(item.value.vizards)}**\n` +
+        `**Demanda:** ${demandBar(item.demand) ?? item.demand ?? "N/A"}\n` +
+        `**Estado:** ${item.rateOfChange ?? "N/A"}\n` +
+        (taxLine(item.taxGems, item.taxGold)
+          ? `${taxLine(item.taxGems, item.taxGold)}\n`
+          : "") +
+        (item.sheet ? `📄 ${item.sheet}` : "");
 
-  const apiSection =
-    !showApi
-      ? null
-      : !isApi
-        ? "`No disponible en la API de tradeo`"
-        : `🎭 **${formatValue(apiRow.value)}** · 🔑 **${formatRounded(apiRow.keys)}** · 📜 **${formatRounded(apiRow.scrolls)}**\n` +
-          `**Demanda:** ${demandBar(apiRow.demand) ?? "N/A"}\n` +
-          `**Estado:** ${apiRow.rateOfChange ?? "N/A"}${apiRow.status ? ` · ${apiRow.status}` : ""}\n` +
-          (taxLine(apiRow.taxGems, apiRow.taxGold) ? `${taxLine(apiRow.taxGems, apiRow.taxGold)}\n` : "") +
-          (apiRow.category ? `🏷️ ${apiRow.category}` : "");
+  const apiSection = !showApi
+    ? null
+    : !isApi
+      ? "`No disponible en la API de tradeo`"
+      : `🔑 **${formatRounded(apiRow.keys)}**\n · 📜 **${formatRounded(apiRow.scrolls)}**\n · 🎭 **${formatValue(apiRow.value)}**\n` +
+        `**Demanda:** ${demandBar(apiRow.demand) ?? "N/A"}\n` +
+        `**Estado:** ${apiRow.rateOfChange ?? "N/A"}${apiRow.status ? ` · ${apiRow.status}` : ""}\n` +
+        (taxLine(apiRow.taxGems, apiRow.taxGold)
+          ? `${taxLine(apiRow.taxGems, apiRow.taxGold)}\n`
+          : "") +
+        (apiRow.category ? `🏷️ ${apiRow.category}` : "");
 
   const embed = new EmbedBuilder()
     .setColor(color)
     .setTitle(`${highlight} ${item.name}`)
     .setDescription(metaLine ? `**${metaLine}**` : null)
-    .setFooter({ text: lastUpdate ? `Actualizado ${lastUpdate} · ${BRANDING.footer}` : footer().text });
+    .setFooter({
+      text: lastUpdate
+        ? `Actualizado ${lastUpdate} · ${BRANDING.footer}`
+        : footer().text,
+    });
 
   const thumb = imageUrl(apiRow?.emoji ?? null);
   if (thumb) embed.setThumbnail(thumb);
@@ -154,16 +180,28 @@ export function createItemEmbed(item, { apiRow = null, keyRatio = null, historyS
   if (visible === "both") {
     embed.addFields(
       { name: "🟢 Oficial (hoja AOTR)", value: officialSection, inline: true },
-      { name: "🔵 Trade (API)", value: apiSection, inline: true }
+      { name: "🔵 Trade (API)", value: apiSection, inline: true },
     );
   } else if (visible === "official") {
-    embed.addFields({ name: "🟢 Oficial (hoja AOTR)", value: officialSection, inline: false });
+    embed.addFields({
+      name: "🟢 Oficial (hoja AOTR)",
+      value: officialSection,
+      inline: false,
+    });
   } else {
-    embed.addFields({ name: "🔵 Trade (API)", value: apiSection, inline: false });
+    embed.addFields({
+      name: "🔵 Trade (API)",
+      value: apiSection,
+      inline: false,
+    });
   }
 
   if (historySpark) {
-    embed.addFields({ name: "📈 Tendencia (30 días)", value: historySpark, inline: false });
+    embed.addFields({
+      name: "📈 Tendencia (30 días)",
+      value: historySpark,
+      inline: false,
+    });
   }
 
   return embed;
@@ -178,14 +216,16 @@ export function itemEmbedButtons(ctxId, item, apiRow, visible = "both") {
     const sourceRow = new ActionRowBuilder();
     for (const [src, label] of [
       ["official", "Oficial"],
-      ["trade", "Tradeo"]
+      ["trade", "Tradeo"],
     ]) {
       sourceRow.addComponents(
         new ButtonBuilder()
           .setCustomId(`item_src_${ctxId}_${src}`)
           .setLabel(label)
           .setEmoji(src === "official" ? "🟢" : "🔵")
-          .setStyle(src === visible ? ButtonStyle.Primary : ButtonStyle.Secondary)
+          .setStyle(
+            src === visible ? ButtonStyle.Primary : ButtonStyle.Secondary,
+          ),
       );
     }
     rows.push(sourceRow);
@@ -193,8 +233,16 @@ export function itemEmbedButtons(ctxId, item, apiRow, visible = "both") {
 
   // Los 3 precios ya se muestran siempre en el embed → solo acciones útiles
   const actionsRow = new ActionRowBuilder().addComponents(
-    new ButtonBuilder().setCustomId(`similar_${ctxId}`).setLabel("Similares ±10%").setEmoji("🔍").setStyle(ButtonStyle.Secondary),
-    new ButtonBuilder().setCustomId(`history_${ctxId}`).setLabel("Histórico").setEmoji("📈").setStyle(ButtonStyle.Secondary)
+    new ButtonBuilder()
+      .setCustomId(`similar_${ctxId}`)
+      .setLabel("Similares ±10%")
+      .setEmoji("🔍")
+      .setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder()
+      .setCustomId(`history_${ctxId}`)
+      .setLabel("Histórico")
+      .setEmoji("📈")
+      .setStyle(ButtonStyle.Secondary),
   );
   rows.push(actionsRow);
 
@@ -211,20 +259,29 @@ export function createNotFoundEmbed(input, suggestions = []) {
     .setColor(BRANDING.colors.danger)
     .setTitle("❌ Item no encontrado")
     .setDescription(
-      `No encontré ningún item llamado:\n\n**${input}**\n\n🔎 **Quizás quisiste decir:**\n${suggestionText}`
+      `No encontré ningún item llamado:\n\n**${input}**\n\n🔎 **Quizás quisiste decir:**\n${suggestionText}`,
     )
     .setFooter(footer());
 }
 
 // ── Suma ─────────────────────────────────────────────────
-export function createSumEmbed(groupedItems, total, notFoundText = "", keyRatio = null, source = "official") {
+export function createSumEmbed(
+  groupedItems,
+  total,
+  notFoundText = "",
+  keyRatio = null,
+  source = "official",
+) {
   const sourceLine =
     source === "trade" ? "🔵 Precios de tradeo (API)" : "🟢 Hoja oficial AOTR";
   const itemsText = groupedItems
     .map(({ item, quantity }) => {
-      const totalKeys = item.value.keys != null ? item.value.keys * quantity : null;
-      const totalScrolls = item.value.scrolls != null ? item.value.scrolls * quantity : null;
-      const totalVizards = item.value.vizards != null ? item.value.vizards * quantity : null;
+      const totalKeys =
+        item.value.keys != null ? item.value.keys * quantity : null;
+      const totalScrolls =
+        item.value.scrolls != null ? item.value.scrolls * quantity : null;
+      const totalVizards =
+        item.value.vizards != null ? item.value.vizards * quantity : null;
 
       return (
         `**${item.name} x${quantity}**\n` +
@@ -239,7 +296,11 @@ export function createSumEmbed(groupedItems, total, notFoundText = "", keyRatio 
   return new EmbedBuilder()
     .setColor(BRANDING.colors.success)
     .setTitle("📦 Resumen de Items")
-    .setDescription(`**Fuente:** ${sourceLine}\n\n` + itemsText + (notFoundText ? `\n\n${notFoundText}` : ""))
+    .setDescription(
+      `**Fuente:** ${sourceLine}\n\n` +
+        itemsText +
+        (notFoundText ? `\n\n${notFoundText}` : ""),
+    )
     .addFields(
       { name: "\u200B", value: "━━━━━━━━━━━━━━", inline: false },
       {
@@ -248,8 +309,8 @@ export function createSumEmbed(groupedItems, total, notFoundText = "", keyRatio 
           `🔑 **Llaves:** ${formatRounded(total.totalKeys)}\n` +
           `📜 **Pergaminos:** ${formatRounded(total.totalScrolls)}\n` +
           `🎭 **Vizard:** ${formatValue(total.totalVizards)}`,
-        inline: false
-      }
+        inline: false,
+      },
     )
     .setFooter(footer());
 }
@@ -261,7 +322,7 @@ export function createSimilarEmbed(targetItem, similarItems, percent = 10) {
     ? similarItems
         .map(
           (result, index) =>
-            `**${index + 1}. ${result.item.name}**\n🎭 **${formatValue(result.value)} Vizard**`
+            `**${index + 1}. ${result.item.name}**\n🎭 **${formatValue(result.value)} Vizard**`,
         )
         .join("\n\n")
     : `📊 No encontré items dentro del rango de ±${percent}%`;
@@ -271,9 +332,11 @@ export function createSimilarEmbed(targetItem, similarItems, percent = 10) {
     .setTitle(`🔍 Similares a ${targetItem.name}`)
     .setDescription(
       `🎯 **Valor objetivo:** ${formatValue(targetValue)} Vizard\n` +
-        `📊 **Rango:** ±${percent}%\n\n━━━━━━━━━━━━━━\n\n${description}`
+        `📊 **Rango:** ±${percent}%\n\n━━━━━━━━━━━━━━\n\n${description}`,
     )
-    .setFooter({ text: "Búsqueda basada en valores de Hoja oficial AOTR • solo referencias" });
+    .setFooter({
+      text: "Búsqueda basada en valores de Hoja oficial AOTR • solo referencias",
+    });
 }
 
 export function similarEmbedButtons(ctxId) {
@@ -282,12 +345,16 @@ export function similarEmbedButtons(ctxId) {
       .setCustomId(`similar20_${ctxId}`)
       .setLabel("Ampliar al 20%")
       .setEmoji("🔎")
-      .setStyle(ButtonStyle.Primary)
+      .setStyle(ButtonStyle.Primary),
   );
 }
 
 // ── Comparación de trade ─────────────────────────────────
-export function createTradeEmbed(comparison, notFoundText = "", primary = "official") {
+export function createTradeEmbed(
+  comparison,
+  notFoundText = "",
+  primary = "official",
+) {
   const formatItems = (items) => {
     const map = new Map();
     for (const item of items) {
@@ -297,9 +364,12 @@ export function createTradeEmbed(comparison, notFoundText = "", primary = "offic
 
     return [...map.values()]
       .map(({ item, quantity }) => {
-        const totalKeys = item.value.keys != null ? item.value.keys * quantity : null;
-        const totalScrolls = item.value.scrolls != null ? item.value.scrolls * quantity : null;
-        const totalVizards = item.value.vizards != null ? item.value.vizards * quantity : null;
+        const totalKeys =
+          item.value.keys != null ? item.value.keys * quantity : null;
+        const totalScrolls =
+          item.value.scrolls != null ? item.value.scrolls * quantity : null;
+        const totalVizards =
+          item.value.vizards != null ? item.value.vizards * quantity : null;
 
         return (
           `**${item.name} x${quantity}**\n` +
@@ -314,7 +384,11 @@ export function createTradeEmbed(comparison, notFoundText = "", primary = "offic
   const resultEmoji =
     comparison.result === "W" ? "🟢" : comparison.result === "L" ? "🔴" : "🟡";
   const resultText =
-    comparison.result === "W" ? "GANAS" : comparison.result === "L" ? "PIERDES" : "JUSTO";
+    comparison.result === "W"
+      ? "GANAS"
+      : comparison.result === "L"
+        ? "PIERDES"
+        : "JUSTO";
   const color =
     comparison.result === "W"
       ? BRANDING.colors.success
@@ -326,27 +400,35 @@ export function createTradeEmbed(comparison, notFoundText = "", primary = "offic
     .setColor(color)
     .setTitle("⚖️ Comparación de Trade")
     .setDescription(
-      `**Fuente:** ${primary === "trade" ? "🔵 Precios de tradeo (API)" : "🟢 Hoja oficial AOTR"}`
+      `**Fuente:** ${primary === "trade" ? "🔵 Precios de tradeo (API)" : "🟢 Hoja oficial AOTR"}`,
     )
     .addFields(
-      { name: "📤 Tu oferta", value: formatItems(comparison.left.items) || "N/A", inline: false },
+      {
+        name: "📤 Tu oferta",
+        value: formatItems(comparison.left.items) || "N/A",
+        inline: false,
+      },
       {
         name: "📊 Total de tu oferta",
         value:
           `🔑 **Llaves:** ${formatRounded(comparison.left.totalKeys)}\n` +
           `📜 **Pergaminos:** ${formatRounded(comparison.left.totalScrolls)}\n` +
           `🎭 **Vizard:** ${formatValue(comparison.left.totalVizards)}`,
-        inline: false
+        inline: false,
       },
       { name: "\u200B", value: "━━━━━━━━━━━━━━", inline: false },
-      { name: "📥 Su oferta", value: formatItems(comparison.right.items) || "N/A", inline: false },
+      {
+        name: "📥 Su oferta",
+        value: formatItems(comparison.right.items) || "N/A",
+        inline: false,
+      },
       {
         name: "📊 Total de su oferta",
         value:
           `🔑 **Llaves:** ${formatRounded(comparison.right.totalKeys)}\n` +
           `📜 **Pergaminos:** ${formatRounded(comparison.right.totalScrolls)}\n` +
           `🎭 **Vizard:** ${formatValue(comparison.right.totalVizards)}`,
-        inline: false
+        inline: false,
       },
       { name: "\u200B", value: "━━━━━━━━━━━━━━", inline: false },
       {
@@ -358,8 +440,8 @@ export function createTradeEmbed(comparison, notFoundText = "", primary = "offic
           `🎭 Vizard: **${comparison.vizardsDifference >= 0 ? "+" : ""}${formatValue(comparison.vizardsDifference)}**\n\n` +
           `📈 Porcentaje: **${comparison.percentage.toFixed(2)}%**` +
           (notFoundText ? `\n\n${notFoundText}` : ""),
-        inline: false
-      }
+        inline: false,
+      },
     )
     .setFooter(footer());
 }
@@ -375,7 +457,7 @@ export function tradeEmbedButtons(ctxId) {
       .setCustomId(`trade_src_${ctxId}_trade`)
       .setLabel("Tradeo")
       .setEmoji("🔵")
-      .setStyle(ButtonStyle.Primary)
+      .setStyle(ButtonStyle.Primary),
   );
 }
 
@@ -393,7 +475,7 @@ export function createWikiEmbed(entry) {
     .setTitle(`📚 ${entry.name || "Wiki"}`)
     .addFields(
       { name: "🎯 Tipo", value: String(slot), inline: true },
-      { name: "⭐ Rareza", value: String(rarity), inline: true }
+      { name: "⭐ Rareza", value: String(rarity), inline: true },
     )
     .setDescription(effects)
     .setFooter({ text: "AOTR Wiki • Creado por Melevengo" });
@@ -409,11 +491,19 @@ export function createGiveawayEmbed(giveaway, giveawayId) {
         `━━━━━━━━━━━━━━\n\n` +
         `⏱️ **Duración:** ${giveaway.durationText}\n` +
         `🏁 **Finaliza:** <t:${Math.floor(giveaway.endTime / 1000)}:R>\n\n` +
-        `🎊 **¿Cómo participar?**\nPresiona el botón **Participar**.\n\n🍀 ¡Mucha suerte a todos!`
+        `🎊 **¿Cómo participar?**\nPresiona el botón **Participar**.\n\n🍀 ¡Mucha suerte a todos!`,
     )
     .addFields(
-      { name: "👥 Participantes", value: `${giveaway.participants.size}`, inline: true },
-      { name: "🏆 Ganadores", value: String(giveaway.winnerCount), inline: true }
+      {
+        name: "👥 Participantes",
+        value: `${giveaway.participants.size}`,
+        inline: true,
+      },
+      {
+        name: "🏆 Ganadores",
+        value: String(giveaway.winnerCount),
+        inline: true,
+      },
     )
     .setFooter({ text: `Creado por ${giveaway.creator}` })
     .setTimestamp();
@@ -426,7 +516,7 @@ export function createGiveawayResultEmbed(prize, winners) {
     .setDescription(
       `🎁 **Premio**\n${prize}\n\n` +
         `━━━━━━━━━━━━━━\n\n` +
-        `🏆 **Ganadores**\n${winners.map((id) => `<@${id}>`).join("\n")}\n\n🎉 ¡Felicidades!`
+        `🏆 **Ganadores**\n${winners.map((id) => `<@${id}>`).join("\n")}\n\n🎉 ¡Felicidades!`,
     );
 }
 
@@ -436,12 +526,19 @@ export function giveawayButton(giveawayId) {
       .setCustomId(`giveaway_join_${giveawayId}`)
       .setLabel("Participar")
       .setEmoji("🎉")
-      .setStyle(ButtonStyle.Success)
+      .setStyle(ButtonStyle.Success),
   );
 }
 
 // ── Stats ────────────────────────────────────────────────
-export function createStatsEmbed({ counts, lastSyncs, vizardRate, keyRatio, uptime, config }) {
+export function createStatsEmbed({
+  counts,
+  lastSyncs,
+  vizardRate,
+  keyRatio,
+  uptime,
+  config,
+}) {
   const embed = new EmbedBuilder()
     .setColor(BRANDING.colors.info)
     .setTitle("📊 Estadísticas del Bot")
@@ -455,21 +552,21 @@ export function createStatsEmbed({ counts, lastSyncs, vizardRate, keyRatio, upti
           ? `⚙️ **Prefijo global:** \`${config.defaultPrefix}\`\n` +
             `🟢 **Canal oficial:** ${config.officialChannelId ? `<#${config.officialChannelId}>` : "no configurado"}\n` +
             `🔵 **Canal trade:** ${config.tradeChannelId ? `<#${config.tradeChannelId}>` : "no configurado"}`
-          : "⚙️ Base de datos no configurada (prefijo global: `!`)")
+          : "⚙️ Base de datos no configurada (prefijo global: `!`)"),
     );
 
   const lines = lastSyncs
     .slice(0, 4)
     .map(
       (s) =>
-        `${s.status === "ok" ? "✅" : "❌"} **${s.source}** · ${s.rows ?? 0} filas · <t:${Math.floor(new Date(s.startedAt).getTime() / 1000)}:R>`
+        `${s.status === "ok" ? "✅" : "❌"} **${s.source}** · ${s.rows ?? 0} filas · <t:${Math.floor(new Date(s.startedAt).getTime() / 1000)}:R>`,
     )
     .join("\n");
 
   embed.addFields({
     name: "🔄 Últimas sincronizaciones",
     value: lines || "Aún no hay registros",
-    inline: false
+    inline: false,
   });
 
   embed.setFooter({ text: `Bot activo desde hace ${uptime}` });
