@@ -44,6 +44,7 @@ export default function AdminPage() {
   const [syncing, setSyncing] = useState(false);
   const [syncMsg, setSyncMsg] = useState<string | null>(null);
   const [syncLog, setSyncLog] = useState<SyncLogEntry[]>([]);
+  const [dbError, setDbError] = useState<string | null>(null);
 
   const rates: Rates = useMemo(() => {
     const kv = Number(keysPerVizard);
@@ -76,6 +77,7 @@ export default function AdminPage() {
             setKeysPerScroll(String(data.rates.keysPerScroll));
           }
           setPersisted(!!data.persisted);
+          setDbError(data.persisted ? null : (data.error ?? "No se pudo conectar a la base de datos"));
         }
       } catch {
         /* mantener lo que haya */
@@ -173,6 +175,7 @@ export default function AdminPage() {
       const res = await fetch("/api/sync-log");
       const data = await res.json();
       if (Array.isArray(data.logs)) setSyncLog(data.logs);
+      if (data.error) setDbError(String(data.error));
     } catch {
       /* mantener lo que haya */
     }
@@ -399,6 +402,12 @@ export default function AdminPage() {
         <p className="mt-4 rounded-xl border border-amber-400/20 bg-amber-500/10 p-3 text-xs text-amber-300">
           Sin base de datos configurada: las tasas se guardan en este navegador. Para que bot y web
           compartan los mismos valores, configurá <code className="font-mono">DATABASE_URL</code>.
+        </p>
+      )}
+
+      {dbError && (
+        <p className="mt-3 break-all rounded-xl border border-rose-400/20 bg-rose-500/10 p-3 font-mono text-[11px] text-rose-300">
+          🐛 Error de BD: {dbError}
         </p>
       )}
 
