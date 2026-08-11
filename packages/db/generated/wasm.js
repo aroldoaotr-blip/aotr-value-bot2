@@ -198,6 +198,12 @@ exports.Prisma.RateConfigScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.SiteConfigScalarFieldEnum = {
+  id: 'id',
+  heroMode: 'heroMode',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.GuildConfigScalarFieldEnum = {
   id: 'id',
   guildId: 'guildId',
@@ -251,6 +257,7 @@ exports.Prisma.ModelName = {
   TradePriceHistory: 'TradePriceHistory',
   SyncLog: 'SyncLog',
   RateConfig: 'RateConfig',
+  SiteConfig: 'SiteConfig',
   GuildConfig: 'GuildConfig',
   ChannelConfig: 'ChannelConfig'
 };

@@ -44,6 +44,11 @@ export type SyncLog = $Result.DefaultSelection<Prisma.$SyncLogPayload>
  */
 export type RateConfig = $Result.DefaultSelection<Prisma.$RateConfigPayload>
 /**
+ * Model SiteConfig
+ * 
+ */
+export type SiteConfig = $Result.DefaultSelection<Prisma.$SiteConfigPayload>
+/**
  * Model GuildConfig
  * 
  */
@@ -236,6 +241,16 @@ export class PrismaClient<
     * ```
     */
   get rateConfig(): Prisma.RateConfigDelegate<ExtArgs>;
+
+  /**
+   * `prisma.siteConfig`: Exposes CRUD operations for the **SiteConfig** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SiteConfigs
+    * const siteConfigs = await prisma.siteConfig.findMany()
+    * ```
+    */
+  get siteConfig(): Prisma.SiteConfigDelegate<ExtArgs>;
 
   /**
    * `prisma.guildConfig`: Exposes CRUD operations for the **GuildConfig** model.
@@ -703,6 +718,7 @@ export namespace Prisma {
     TradePriceHistory: 'TradePriceHistory',
     SyncLog: 'SyncLog',
     RateConfig: 'RateConfig',
+    SiteConfig: 'SiteConfig',
     GuildConfig: 'GuildConfig',
     ChannelConfig: 'ChannelConfig'
   };
@@ -720,7 +736,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "officialPrice" | "officialPriceHistory" | "tradePrice" | "tradePriceHistory" | "syncLog" | "rateConfig" | "guildConfig" | "channelConfig"
+      modelProps: "officialPrice" | "officialPriceHistory" | "tradePrice" | "tradePriceHistory" | "syncLog" | "rateConfig" | "siteConfig" | "guildConfig" | "channelConfig"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1141,6 +1157,76 @@ export namespace Prisma {
           count: {
             args: Prisma.RateConfigCountArgs<ExtArgs>
             result: $Utils.Optional<RateConfigCountAggregateOutputType> | number
+          }
+        }
+      }
+      SiteConfig: {
+        payload: Prisma.$SiteConfigPayload<ExtArgs>
+        fields: Prisma.SiteConfigFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SiteConfigFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteConfigPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SiteConfigFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteConfigPayload>
+          }
+          findFirst: {
+            args: Prisma.SiteConfigFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteConfigPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SiteConfigFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteConfigPayload>
+          }
+          findMany: {
+            args: Prisma.SiteConfigFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteConfigPayload>[]
+          }
+          create: {
+            args: Prisma.SiteConfigCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteConfigPayload>
+          }
+          createMany: {
+            args: Prisma.SiteConfigCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SiteConfigCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteConfigPayload>[]
+          }
+          delete: {
+            args: Prisma.SiteConfigDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteConfigPayload>
+          }
+          update: {
+            args: Prisma.SiteConfigUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteConfigPayload>
+          }
+          deleteMany: {
+            args: Prisma.SiteConfigDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SiteConfigUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SiteConfigUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SiteConfigPayload>
+          }
+          aggregate: {
+            args: Prisma.SiteConfigAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSiteConfig>
+          }
+          groupBy: {
+            args: Prisma.SiteConfigGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SiteConfigGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SiteConfigCountArgs<ExtArgs>
+            result: $Utils.Optional<SiteConfigCountAggregateOutputType> | number
           }
         }
       }
@@ -7648,6 +7734,860 @@ export namespace Prisma {
 
 
   /**
+   * Model SiteConfig
+   */
+
+  export type AggregateSiteConfig = {
+    _count: SiteConfigCountAggregateOutputType | null
+    _min: SiteConfigMinAggregateOutputType | null
+    _max: SiteConfigMaxAggregateOutputType | null
+  }
+
+  export type SiteConfigMinAggregateOutputType = {
+    id: string | null
+    heroMode: string | null
+    updatedAt: Date | null
+  }
+
+  export type SiteConfigMaxAggregateOutputType = {
+    id: string | null
+    heroMode: string | null
+    updatedAt: Date | null
+  }
+
+  export type SiteConfigCountAggregateOutputType = {
+    id: number
+    heroMode: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SiteConfigMinAggregateInputType = {
+    id?: true
+    heroMode?: true
+    updatedAt?: true
+  }
+
+  export type SiteConfigMaxAggregateInputType = {
+    id?: true
+    heroMode?: true
+    updatedAt?: true
+  }
+
+  export type SiteConfigCountAggregateInputType = {
+    id?: true
+    heroMode?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SiteConfigAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SiteConfig to aggregate.
+     */
+    where?: SiteConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SiteConfigs to fetch.
+     */
+    orderBy?: SiteConfigOrderByWithRelationInput | SiteConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SiteConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SiteConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SiteConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SiteConfigs
+    **/
+    _count?: true | SiteConfigCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SiteConfigMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SiteConfigMaxAggregateInputType
+  }
+
+  export type GetSiteConfigAggregateType<T extends SiteConfigAggregateArgs> = {
+        [P in keyof T & keyof AggregateSiteConfig]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSiteConfig[P]>
+      : GetScalarType<T[P], AggregateSiteConfig[P]>
+  }
+
+
+
+
+  export type SiteConfigGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SiteConfigWhereInput
+    orderBy?: SiteConfigOrderByWithAggregationInput | SiteConfigOrderByWithAggregationInput[]
+    by: SiteConfigScalarFieldEnum[] | SiteConfigScalarFieldEnum
+    having?: SiteConfigScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SiteConfigCountAggregateInputType | true
+    _min?: SiteConfigMinAggregateInputType
+    _max?: SiteConfigMaxAggregateInputType
+  }
+
+  export type SiteConfigGroupByOutputType = {
+    id: string
+    heroMode: string
+    updatedAt: Date
+    _count: SiteConfigCountAggregateOutputType | null
+    _min: SiteConfigMinAggregateOutputType | null
+    _max: SiteConfigMaxAggregateOutputType | null
+  }
+
+  type GetSiteConfigGroupByPayload<T extends SiteConfigGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SiteConfigGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SiteConfigGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SiteConfigGroupByOutputType[P]>
+            : GetScalarType<T[P], SiteConfigGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SiteConfigSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    heroMode?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["siteConfig"]>
+
+  export type SiteConfigSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    heroMode?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["siteConfig"]>
+
+  export type SiteConfigSelectScalar = {
+    id?: boolean
+    heroMode?: boolean
+    updatedAt?: boolean
+  }
+
+
+  export type $SiteConfigPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SiteConfig"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      heroMode: string
+      updatedAt: Date
+    }, ExtArgs["result"]["siteConfig"]>
+    composites: {}
+  }
+
+  type SiteConfigGetPayload<S extends boolean | null | undefined | SiteConfigDefaultArgs> = $Result.GetResult<Prisma.$SiteConfigPayload, S>
+
+  type SiteConfigCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<SiteConfigFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: SiteConfigCountAggregateInputType | true
+    }
+
+  export interface SiteConfigDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SiteConfig'], meta: { name: 'SiteConfig' } }
+    /**
+     * Find zero or one SiteConfig that matches the filter.
+     * @param {SiteConfigFindUniqueArgs} args - Arguments to find a SiteConfig
+     * @example
+     * // Get one SiteConfig
+     * const siteConfig = await prisma.siteConfig.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SiteConfigFindUniqueArgs>(args: SelectSubset<T, SiteConfigFindUniqueArgs<ExtArgs>>): Prisma__SiteConfigClient<$Result.GetResult<Prisma.$SiteConfigPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one SiteConfig that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {SiteConfigFindUniqueOrThrowArgs} args - Arguments to find a SiteConfig
+     * @example
+     * // Get one SiteConfig
+     * const siteConfig = await prisma.siteConfig.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SiteConfigFindUniqueOrThrowArgs>(args: SelectSubset<T, SiteConfigFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SiteConfigClient<$Result.GetResult<Prisma.$SiteConfigPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first SiteConfig that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SiteConfigFindFirstArgs} args - Arguments to find a SiteConfig
+     * @example
+     * // Get one SiteConfig
+     * const siteConfig = await prisma.siteConfig.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SiteConfigFindFirstArgs>(args?: SelectSubset<T, SiteConfigFindFirstArgs<ExtArgs>>): Prisma__SiteConfigClient<$Result.GetResult<Prisma.$SiteConfigPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first SiteConfig that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SiteConfigFindFirstOrThrowArgs} args - Arguments to find a SiteConfig
+     * @example
+     * // Get one SiteConfig
+     * const siteConfig = await prisma.siteConfig.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SiteConfigFindFirstOrThrowArgs>(args?: SelectSubset<T, SiteConfigFindFirstOrThrowArgs<ExtArgs>>): Prisma__SiteConfigClient<$Result.GetResult<Prisma.$SiteConfigPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more SiteConfigs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SiteConfigFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SiteConfigs
+     * const siteConfigs = await prisma.siteConfig.findMany()
+     * 
+     * // Get first 10 SiteConfigs
+     * const siteConfigs = await prisma.siteConfig.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const siteConfigWithIdOnly = await prisma.siteConfig.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SiteConfigFindManyArgs>(args?: SelectSubset<T, SiteConfigFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SiteConfigPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a SiteConfig.
+     * @param {SiteConfigCreateArgs} args - Arguments to create a SiteConfig.
+     * @example
+     * // Create one SiteConfig
+     * const SiteConfig = await prisma.siteConfig.create({
+     *   data: {
+     *     // ... data to create a SiteConfig
+     *   }
+     * })
+     * 
+     */
+    create<T extends SiteConfigCreateArgs>(args: SelectSubset<T, SiteConfigCreateArgs<ExtArgs>>): Prisma__SiteConfigClient<$Result.GetResult<Prisma.$SiteConfigPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many SiteConfigs.
+     * @param {SiteConfigCreateManyArgs} args - Arguments to create many SiteConfigs.
+     * @example
+     * // Create many SiteConfigs
+     * const siteConfig = await prisma.siteConfig.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SiteConfigCreateManyArgs>(args?: SelectSubset<T, SiteConfigCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SiteConfigs and returns the data saved in the database.
+     * @param {SiteConfigCreateManyAndReturnArgs} args - Arguments to create many SiteConfigs.
+     * @example
+     * // Create many SiteConfigs
+     * const siteConfig = await prisma.siteConfig.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SiteConfigs and only return the `id`
+     * const siteConfigWithIdOnly = await prisma.siteConfig.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SiteConfigCreateManyAndReturnArgs>(args?: SelectSubset<T, SiteConfigCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SiteConfigPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a SiteConfig.
+     * @param {SiteConfigDeleteArgs} args - Arguments to delete one SiteConfig.
+     * @example
+     * // Delete one SiteConfig
+     * const SiteConfig = await prisma.siteConfig.delete({
+     *   where: {
+     *     // ... filter to delete one SiteConfig
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SiteConfigDeleteArgs>(args: SelectSubset<T, SiteConfigDeleteArgs<ExtArgs>>): Prisma__SiteConfigClient<$Result.GetResult<Prisma.$SiteConfigPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one SiteConfig.
+     * @param {SiteConfigUpdateArgs} args - Arguments to update one SiteConfig.
+     * @example
+     * // Update one SiteConfig
+     * const siteConfig = await prisma.siteConfig.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SiteConfigUpdateArgs>(args: SelectSubset<T, SiteConfigUpdateArgs<ExtArgs>>): Prisma__SiteConfigClient<$Result.GetResult<Prisma.$SiteConfigPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more SiteConfigs.
+     * @param {SiteConfigDeleteManyArgs} args - Arguments to filter SiteConfigs to delete.
+     * @example
+     * // Delete a few SiteConfigs
+     * const { count } = await prisma.siteConfig.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SiteConfigDeleteManyArgs>(args?: SelectSubset<T, SiteConfigDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SiteConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SiteConfigUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SiteConfigs
+     * const siteConfig = await prisma.siteConfig.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SiteConfigUpdateManyArgs>(args: SelectSubset<T, SiteConfigUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SiteConfig.
+     * @param {SiteConfigUpsertArgs} args - Arguments to update or create a SiteConfig.
+     * @example
+     * // Update or create a SiteConfig
+     * const siteConfig = await prisma.siteConfig.upsert({
+     *   create: {
+     *     // ... data to create a SiteConfig
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SiteConfig we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SiteConfigUpsertArgs>(args: SelectSubset<T, SiteConfigUpsertArgs<ExtArgs>>): Prisma__SiteConfigClient<$Result.GetResult<Prisma.$SiteConfigPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of SiteConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SiteConfigCountArgs} args - Arguments to filter SiteConfigs to count.
+     * @example
+     * // Count the number of SiteConfigs
+     * const count = await prisma.siteConfig.count({
+     *   where: {
+     *     // ... the filter for the SiteConfigs we want to count
+     *   }
+     * })
+    **/
+    count<T extends SiteConfigCountArgs>(
+      args?: Subset<T, SiteConfigCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SiteConfigCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SiteConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SiteConfigAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SiteConfigAggregateArgs>(args: Subset<T, SiteConfigAggregateArgs>): Prisma.PrismaPromise<GetSiteConfigAggregateType<T>>
+
+    /**
+     * Group by SiteConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SiteConfigGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SiteConfigGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SiteConfigGroupByArgs['orderBy'] }
+        : { orderBy?: SiteConfigGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SiteConfigGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSiteConfigGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SiteConfig model
+   */
+  readonly fields: SiteConfigFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SiteConfig.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SiteConfigClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SiteConfig model
+   */ 
+  interface SiteConfigFieldRefs {
+    readonly id: FieldRef<"SiteConfig", 'String'>
+    readonly heroMode: FieldRef<"SiteConfig", 'String'>
+    readonly updatedAt: FieldRef<"SiteConfig", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SiteConfig findUnique
+   */
+  export type SiteConfigFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteConfig
+     */
+    select?: SiteConfigSelect<ExtArgs> | null
+    /**
+     * Filter, which SiteConfig to fetch.
+     */
+    where: SiteConfigWhereUniqueInput
+  }
+
+  /**
+   * SiteConfig findUniqueOrThrow
+   */
+  export type SiteConfigFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteConfig
+     */
+    select?: SiteConfigSelect<ExtArgs> | null
+    /**
+     * Filter, which SiteConfig to fetch.
+     */
+    where: SiteConfigWhereUniqueInput
+  }
+
+  /**
+   * SiteConfig findFirst
+   */
+  export type SiteConfigFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteConfig
+     */
+    select?: SiteConfigSelect<ExtArgs> | null
+    /**
+     * Filter, which SiteConfig to fetch.
+     */
+    where?: SiteConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SiteConfigs to fetch.
+     */
+    orderBy?: SiteConfigOrderByWithRelationInput | SiteConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SiteConfigs.
+     */
+    cursor?: SiteConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SiteConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SiteConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SiteConfigs.
+     */
+    distinct?: SiteConfigScalarFieldEnum | SiteConfigScalarFieldEnum[]
+  }
+
+  /**
+   * SiteConfig findFirstOrThrow
+   */
+  export type SiteConfigFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteConfig
+     */
+    select?: SiteConfigSelect<ExtArgs> | null
+    /**
+     * Filter, which SiteConfig to fetch.
+     */
+    where?: SiteConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SiteConfigs to fetch.
+     */
+    orderBy?: SiteConfigOrderByWithRelationInput | SiteConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SiteConfigs.
+     */
+    cursor?: SiteConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SiteConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SiteConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SiteConfigs.
+     */
+    distinct?: SiteConfigScalarFieldEnum | SiteConfigScalarFieldEnum[]
+  }
+
+  /**
+   * SiteConfig findMany
+   */
+  export type SiteConfigFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteConfig
+     */
+    select?: SiteConfigSelect<ExtArgs> | null
+    /**
+     * Filter, which SiteConfigs to fetch.
+     */
+    where?: SiteConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SiteConfigs to fetch.
+     */
+    orderBy?: SiteConfigOrderByWithRelationInput | SiteConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SiteConfigs.
+     */
+    cursor?: SiteConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SiteConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SiteConfigs.
+     */
+    skip?: number
+    distinct?: SiteConfigScalarFieldEnum | SiteConfigScalarFieldEnum[]
+  }
+
+  /**
+   * SiteConfig create
+   */
+  export type SiteConfigCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteConfig
+     */
+    select?: SiteConfigSelect<ExtArgs> | null
+    /**
+     * The data needed to create a SiteConfig.
+     */
+    data: XOR<SiteConfigCreateInput, SiteConfigUncheckedCreateInput>
+  }
+
+  /**
+   * SiteConfig createMany
+   */
+  export type SiteConfigCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SiteConfigs.
+     */
+    data: SiteConfigCreateManyInput | SiteConfigCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SiteConfig createManyAndReturn
+   */
+  export type SiteConfigCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteConfig
+     */
+    select?: SiteConfigSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many SiteConfigs.
+     */
+    data: SiteConfigCreateManyInput | SiteConfigCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SiteConfig update
+   */
+  export type SiteConfigUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteConfig
+     */
+    select?: SiteConfigSelect<ExtArgs> | null
+    /**
+     * The data needed to update a SiteConfig.
+     */
+    data: XOR<SiteConfigUpdateInput, SiteConfigUncheckedUpdateInput>
+    /**
+     * Choose, which SiteConfig to update.
+     */
+    where: SiteConfigWhereUniqueInput
+  }
+
+  /**
+   * SiteConfig updateMany
+   */
+  export type SiteConfigUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SiteConfigs.
+     */
+    data: XOR<SiteConfigUpdateManyMutationInput, SiteConfigUncheckedUpdateManyInput>
+    /**
+     * Filter which SiteConfigs to update
+     */
+    where?: SiteConfigWhereInput
+  }
+
+  /**
+   * SiteConfig upsert
+   */
+  export type SiteConfigUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteConfig
+     */
+    select?: SiteConfigSelect<ExtArgs> | null
+    /**
+     * The filter to search for the SiteConfig to update in case it exists.
+     */
+    where: SiteConfigWhereUniqueInput
+    /**
+     * In case the SiteConfig found by the `where` argument doesn't exist, create a new SiteConfig with this data.
+     */
+    create: XOR<SiteConfigCreateInput, SiteConfigUncheckedCreateInput>
+    /**
+     * In case the SiteConfig was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SiteConfigUpdateInput, SiteConfigUncheckedUpdateInput>
+  }
+
+  /**
+   * SiteConfig delete
+   */
+  export type SiteConfigDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteConfig
+     */
+    select?: SiteConfigSelect<ExtArgs> | null
+    /**
+     * Filter which SiteConfig to delete.
+     */
+    where: SiteConfigWhereUniqueInput
+  }
+
+  /**
+   * SiteConfig deleteMany
+   */
+  export type SiteConfigDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SiteConfigs to delete
+     */
+    where?: SiteConfigWhereInput
+  }
+
+  /**
+   * SiteConfig without action
+   */
+  export type SiteConfigDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SiteConfig
+     */
+    select?: SiteConfigSelect<ExtArgs> | null
+  }
+
+
+  /**
    * Model GuildConfig
    */
 
@@ -9672,6 +10612,15 @@ export namespace Prisma {
   export type RateConfigScalarFieldEnum = (typeof RateConfigScalarFieldEnum)[keyof typeof RateConfigScalarFieldEnum]
 
 
+  export const SiteConfigScalarFieldEnum: {
+    id: 'id',
+    heroMode: 'heroMode',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SiteConfigScalarFieldEnum = (typeof SiteConfigScalarFieldEnum)[keyof typeof SiteConfigScalarFieldEnum]
+
+
   export const GuildConfigScalarFieldEnum: {
     id: 'id',
     guildId: 'guildId',
@@ -10285,6 +11234,48 @@ export namespace Prisma {
     keysPerVizard?: FloatWithAggregatesFilter<"RateConfig"> | number
     keysPerScroll?: FloatWithAggregatesFilter<"RateConfig"> | number
     updatedAt?: DateTimeWithAggregatesFilter<"RateConfig"> | Date | string
+  }
+
+  export type SiteConfigWhereInput = {
+    AND?: SiteConfigWhereInput | SiteConfigWhereInput[]
+    OR?: SiteConfigWhereInput[]
+    NOT?: SiteConfigWhereInput | SiteConfigWhereInput[]
+    id?: StringFilter<"SiteConfig"> | string
+    heroMode?: StringFilter<"SiteConfig"> | string
+    updatedAt?: DateTimeFilter<"SiteConfig"> | Date | string
+  }
+
+  export type SiteConfigOrderByWithRelationInput = {
+    id?: SortOrder
+    heroMode?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SiteConfigWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SiteConfigWhereInput | SiteConfigWhereInput[]
+    OR?: SiteConfigWhereInput[]
+    NOT?: SiteConfigWhereInput | SiteConfigWhereInput[]
+    heroMode?: StringFilter<"SiteConfig"> | string
+    updatedAt?: DateTimeFilter<"SiteConfig"> | Date | string
+  }, "id">
+
+  export type SiteConfigOrderByWithAggregationInput = {
+    id?: SortOrder
+    heroMode?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SiteConfigCountOrderByAggregateInput
+    _max?: SiteConfigMaxOrderByAggregateInput
+    _min?: SiteConfigMinOrderByAggregateInput
+  }
+
+  export type SiteConfigScalarWhereWithAggregatesInput = {
+    AND?: SiteConfigScalarWhereWithAggregatesInput | SiteConfigScalarWhereWithAggregatesInput[]
+    OR?: SiteConfigScalarWhereWithAggregatesInput[]
+    NOT?: SiteConfigScalarWhereWithAggregatesInput | SiteConfigScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SiteConfig"> | string
+    heroMode?: StringWithAggregatesFilter<"SiteConfig"> | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SiteConfig"> | Date | string
   }
 
   export type GuildConfigWhereInput = {
@@ -10939,6 +11930,48 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     keysPerVizard?: FloatFieldUpdateOperationsInput | number
     keysPerScroll?: FloatFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SiteConfigCreateInput = {
+    id?: string
+    heroMode?: string
+    updatedAt?: Date | string
+  }
+
+  export type SiteConfigUncheckedCreateInput = {
+    id?: string
+    heroMode?: string
+    updatedAt?: Date | string
+  }
+
+  export type SiteConfigUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    heroMode?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SiteConfigUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    heroMode?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SiteConfigCreateManyInput = {
+    id?: string
+    heroMode?: string
+    updatedAt?: Date | string
+  }
+
+  export type SiteConfigUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    heroMode?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SiteConfigUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    heroMode?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -11694,6 +12727,24 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type SiteConfigCountOrderByAggregateInput = {
+    id?: SortOrder
+    heroMode?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SiteConfigMaxOrderByAggregateInput = {
+    id?: SortOrder
+    heroMode?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SiteConfigMinOrderByAggregateInput = {
+    id?: SortOrder
+    heroMode?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ChannelConfigListRelationFilter = {
@@ -12772,6 +13823,10 @@ export namespace Prisma {
      * @deprecated Use RateConfigDefaultArgs instead
      */
     export type RateConfigArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RateConfigDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SiteConfigDefaultArgs instead
+     */
+    export type SiteConfigArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SiteConfigDefaultArgs<ExtArgs>
     /**
      * @deprecated Use GuildConfigDefaultArgs instead
      */

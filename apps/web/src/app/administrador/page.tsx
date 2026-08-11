@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Loader2, LogOut, RefreshCw, RotateCcw, Save, ShieldCheck } from "lucide-react";
+import { CheckCircle2, Globe, Loader2, LogOut, RefreshCw, RotateCcw, Save, ShieldCheck } from "lucide-react";
 import {
   clearLocalRates,
   DEFAULT_RATES,
@@ -44,6 +44,11 @@ export default function AdminPage() {
   const [syncLog, setSyncLog] = useState<SyncLogEntry[]>([]);
   const [dbError, setDbError] = useState<string | null>(null);
   const [heroMode, setHeroMode] = useState<"video" | "shader">("video");
+  // Config GLOBAL del sitio (afecta a todos los visitantes, no solo a este navegador)
+  const [heroGlobal, setHeroGlobal] = useState<"video" | "shader" | null>(null);
+  const [heroPersisted, setHeroPersisted] = useState(false);
+  const [heroSaving, setHeroSaving] = useState(false);
+  const [heroMsg, setHeroMsg] = useState<string | null>(null);
 
   const rates: Rates = useMemo(() => {
     const kv = Number(keysPerVizard);
@@ -103,7 +108,8 @@ export default function AdminPage() {
     return () => clearInterval(id);
   }, [authed]);
 
-  // Hero del Home: elige entre el video de batalla y el shader 3D de Stitch.
+  // Hero del Home: preferencia local (este navegador) + config GLOBAL (todos
+  // los visitantes, vía SiteConfig en la BD).
   // IMPORTANTE: va ANTES del return condicional para respetar las Rules of Hooks.
   useEffect(() => {
     try {
@@ -112,7 +118,46 @@ export default function AdminPage() {
     } catch {
       /* sin storage */
     }
+    fetch("/api/config")
+      .then((r) => r.json())
+      .then((data) => {
+        const v = data?.config?.heroMode;
+        if (v === "video" || v === "shader") {
+          setHeroGlobal(v);
+          setHeroPersisted(!!data.persisted);
+        }
+        if (!data.persisted && data.config) {
+          setHeroMsg("Sin BD: el cambio solo afecta a tu navegador.");
+        }
+      })
+      .catch(() => {
+        /* mantener lo que haya */
+      });
   }, []);
+
+  // Guarda el hero seleccionado para TODOS los visitantes (SiteConfig en la BD)
+  async function saveHeroGlobal() {
+    setHeroSaving(true);
+    setHeroMsg(null);
+    try {
+      const res = await fetch("/api/config", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ heroMode })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "No se pudo guardar");
+      setHeroGlobal(heroMode);
+      setHeroPersisted(true);
+      setHeroMsg(
+        `✅ Guardado: todos los visitantes verán ${heroMode === "shader" ? "el Shader 3D" : "el Video de batalla"}.`
+      );
+    } catch (error) {
+      setHeroMsg(`❌ ${error instanceof Error ? error.message : "No se pudo guardar."}`);
+    } finally {
+      setHeroSaving(false);
+    }
+  }
 
   if (authed === null) {
     return (
@@ -363,7 +408,9 @@ export default function AdminPage() {
               🎬 Hero del Home
             </h2>
             <p className="mb-4 text-sm text-on-surface-variant">
-              Elegí qué fondo muestra la página de inicio. Se guarda en el navegador.
+              Elegí qué fondo muestra la página de inicio. Se aplica a{" "}
+              <strong className="text-on-surface">todos los visitantes</strong> (no solo a tu
+              navegador).
             </p>
             <div className="grid grid-cols-1 gap-3">
               {(
@@ -371,23 +418,65 @@ export default function AdminPage() {
                   ["video", "🎬 Video de batalla", "El hero actual: video de AoT con grid y partículas por encima."],
                   ["shader", "🌌 Shader 3D (Stitch)", "El hero de Stitch: grid 3D en perspectiva con glow lavanda y partículas."],
                 ] as const
-              ).map(([key, label, desc]) => (
-                <button
-                  key={key}
-                  onClick={() => setHero(key)}
+              ).map(([key, label, desc]) => {
+                const isGlobal = heroGlobal === key;
+                return (
+                  <button
+                    key={key}
+                    onClick={() => setHero(key)}
+                    className={cn(
+                      "rounded-lg border p-4 text-left transition-all active:scale-[0.98]",
+                      heroMode === key
+                        ? "neon-border-primary bg-primary/5"
+                        : "glass-panel text-on-surface-variant hover:border-primary/40"
+                    )}
+                  >
+                    <span className="flex items-center justify-between gap-2">
+                      <span className="block font-label-caps text-sm font-bold text-on-surface">
+                        {label}
+                      </span>
+                      {isGlobal && heroPersisted && (
+                        <span className="rounded-full border border-neon-green/40 bg-neon-green/10 px-2 py-0.5 text-[10px] font-bold text-neon-green">
+                          GLOBAL
+                        </span>
+                      )}
+                    </span>
+                    <span className="mt-1 block text-xs text-on-surface-variant">{desc}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Estado global + guardar */}
+            <div className="mt-4 border-t border-outline-variant/20 pt-4">
+              <p className="flex items-center gap-1.5 text-xs text-on-surface-variant">
+                <Globe className="h-3.5 w-3.5 text-primary" />
+                {heroPersisted && heroGlobal
+                  ? `Todos los visitantes ven: ${heroGlobal === "shader" ? "🌌 Shader 3D" : "🎬 Video de batalla"}`
+                  : "Sin base de datos: el cambio solo afecta a tu navegador"}
+              </p>
+              <button
+                onClick={saveHeroGlobal}
+                disabled={heroSaving}
+                className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-primary to-primary-container px-4 py-2.5 font-data-tabular text-sm shadow-lg shadow-primary/20 transition-all hover:brightness-110 active:scale-95 disabled:opacity-40"
+              >
+                {heroSaving ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Globe className="h-4 w-4" />
+                )}
+                {heroSaving ? "Guardando…" : "Guardar para todos"}
+              </button>
+              {heroMsg && (
+                <p
                   className={cn(
-                    "rounded-lg border p-4 text-left transition-all active:scale-[0.98]",
-                    heroMode === key
-                      ? "neon-border-primary bg-primary/5"
-                      : "glass-panel text-on-surface-variant hover:border-primary/40"
+                    "mt-2 text-xs",
+                    heroMsg.startsWith("✅") ? "text-neon-green" : "text-error"
                   )}
                 >
-                  <span className="block font-label-caps text-sm font-bold text-on-surface">
-                    {label}
-                  </span>
-                  <span className="mt-1 block text-xs text-on-surface-variant">{desc}</span>
-                </button>
-              ))}
+                  {heroMsg}
+                </p>
+              )}
             </div>
           </div>
 

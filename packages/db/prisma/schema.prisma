@@ -133,6 +133,15 @@ model RateConfig {
   updatedAt     DateTime @updatedAt
 }
 
+// ── Configuración global del sitio (web) ─────────────────────────────
+// Valores que aplican a TODOS los visitantes de la web (no por navegador).
+// Ej: heroMode — qué fondo muestra el Home ("video" | "shader").
+model SiteConfig {
+  id       String   @id @default("default")
+  heroMode String   @default("video") // "video" | "shader"
+  updatedAt DateTime @updatedAt
+}
+
 // ── Configuración por servidor (bot) ─────────────────────────────────
 model GuildConfig {
   id                String @id @default(cuid())

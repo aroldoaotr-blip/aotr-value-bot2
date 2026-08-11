@@ -42,7 +42,19 @@ export function Hero() {
   const [mode, setMode] = useState<HeroMode>("video");
 
   useEffect(() => {
+    // Preferencia local instantánea (fallback si la BD no responde)
     setMode(getHeroMode());
+    // Config GLOBAL: el admin la guarda en SiteConfig (/administrador) y
+    // se aplica a TODOS los visitantes — el servidor manda.
+    fetch("/api/config")
+      .then((r) => r.json())
+      .then((data) => {
+        const v = data?.config?.heroMode;
+        if (v === "shader" || v === "video") setMode(v);
+      })
+      .catch(() => {
+        /* mantener lo local */
+      });
     // Reacciona a cambios desde /administrador en otra pestaña
     const onStorage = (e: StorageEvent) => {
       if (e.key === "aotr-hero") setMode(getHeroMode());

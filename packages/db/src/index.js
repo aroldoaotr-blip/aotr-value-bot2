@@ -68,3 +68,49 @@ export async function setRates({ keysPerVizard, keysPerScroll }) {
   ratesAt = Date.now();
   return ratesCache;
 }
+
+// ── Configuración global del sitio (web) ─────────────────
+// Hero del Home para TODOS los visitantes ("video" | "shader").
+export const DEFAULT_SITE_CONFIG = { heroMode: "video" };
+
+let siteCache = null;
+let siteAt = 0;
+const SITE_TTL = 30_000; // 30 s
+
+export async function getSiteConfig({ force = false } = {}) {
+  if (!force && siteCache && Date.now() - siteAt < SITE_TTL) {
+    return siteCache;
+  }
+  try {
+    const row = await prisma.siteConfig.findUnique({
+      where: { id: "default" },
+    });
+    const config = row
+      ? { heroMode: row.heroMode }
+      : { ...DEFAULT_SITE_CONFIG };
+    siteCache = config;
+    siteAt = Date.now();
+    return config;
+  } catch (error) {
+    console.warn(
+      "⚠️ No se pudo leer SiteConfig, usando config por defecto:",
+      error?.message,
+    );
+    return { ...DEFAULT_SITE_CONFIG };
+  }
+}
+
+export async function setSiteConfig({ heroMode }) {
+  const mode = String(heroMode ?? "video");
+  if (mode !== "video" && mode !== "shader") {
+    throw new Error("heroMode debe ser \"video\" o \"shader\"");
+  }
+  const row = await prisma.siteConfig.upsert({
+    where: { id: "default" },
+    create: { id: "default", heroMode: mode },
+    update: { heroMode: mode },
+  });
+  siteCache = { heroMode: row.heroMode };
+  siteAt = Date.now();
+  return siteCache;
+}
