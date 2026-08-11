@@ -128,7 +128,7 @@ export function SplashScreen() {
 
   return (
     <div
-      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#05060f] transition-opacity duration-500 ${
+      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#141218] transition-opacity duration-500 ${
         progress >= 100 ? "opacity-0" : "opacity-100"
       }`}
       style={{ pointerEvents: progress >= 100 ? "none" : "auto" }}
@@ -148,7 +148,7 @@ export function SplashScreen() {
         {/* Orb con pulso */}
         <div className="relative">
           <div className="orb h-16 w-16 animate-pulse-slow" />
-          <div className="absolute inset-0 -z-10 rounded-full bg-indigo-500/30 blur-2xl" />
+          <div className="absolute inset-0 -z-10 rounded-full bg-[#cfbcff]/25 blur-2xl" />
         </div>
 
         <h1 className="mt-6 font-display text-xl font-bold tracking-widest text-white sm:text-2xl">
@@ -160,13 +160,13 @@ export function SplashScreen() {
         <div className="mt-8 w-64 sm:w-80">
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/[0.08]">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500 transition-[width] duration-150 ease-out"
+              className="h-full rounded-full bg-gradient-to-r from-[#cfbcff] via-[#b7a1e8] to-[#e7c365] transition-[width] duration-150 ease-out"
               style={{ width: `${progress}%` }}
             />
           </div>
           <div className="mt-3 flex items-center justify-between">
             <span className="text-[11px] font-medium text-white/45 transition-colors">{phase}</span>
-            <span className="font-mono text-[11px] font-bold text-indigo-300">
+            <span className="font-mono text-[11px] font-bold text-lavender">
               {Math.round(progress)}%
             </span>
           </div>

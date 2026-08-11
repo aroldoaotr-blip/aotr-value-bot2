@@ -1,0 +1,478 @@
+{
+  "prompt": "Design the HOME PAGE of \"AOTR Values\" in the LIGHT THEME called \"Ceniza\", a premium trading-price platform for the game \"Attack on Titan Revolution\" (Roblox). Desktop 1440px, high-fidelity.\n\n## CONTEXT\nUsers look up item prices from 2 sources: an OFFICIAL price list (branded GREEN) and a TRADE price list (branded BLUE). Every item shows 3 currencies: keys (🔑), scrolls (📜) and vizard (🎭). This is the LIGHT variant of the existing dark design system (lavender primary #cfbcff, gold accent #e7c365, Space Grotesk headings, Inter body, JetBrains Mono data).\n\n## THE \"CENIZA\" LIGHT PALETTE (IMPORTANT — use these exact tones)\nWarm, ember-and-ash inspired light theme from Attack on Titan: cream/stone warm surfaces (like #f7f3ee / #efe9df), warm off-white cards, dark warm ink text (#1c1917-ish), with ember RED and burnt ORANGE accents (like #dc2626 / #ea580c) for primary actions and highlights, warm gold touches. Soft shadows, warm borders. Cozy, editorial, high-contrast and perfectly readable. State the hex values you use.\n\n## STYLE — 3D + ANIMATION (same as the dark version, adapted to light)\n- Depth: subtle perspective grid floor (light, low-opacity), layered cards, parallax hover.\n- Animations: floating elements, pulsing glows (warm), animated gradient title, hover transitions, animated counters.\n- Glassmorphism adapted to light (translucent warm white, soft borders, soft shadows).\n\n## COMPONENTS (same structure as the dark home, light version)\n- Navbar: glowing orb logo \"AOTR VALUES\", links (Inicio, Precios, Comparar, Histórico), pill toggle \"Oficial | Tradeo\", theme-switch icon (now switching to dark), sync status badge.\n- Hero: big gradient display title \"AOTR VALUES\", Spanish subtitle, prominent glass search bar with live item preview.\n- Stats strip: animated counters.\n- Top movers: glass cards with sparklines and green/red deltas.\n- How it works: 3 steps.\n- Footer.\n\n## RULES\n- ALL UI text in SPANISH. No placeholders.\n- Perfect legibility on light background (dark ink text).\n- Same premium, memorable quality as the dark version.",
+  "args": {
+    "prompt": "Design the HOME PAGE of \"AOTR Values\" in the LIGHT THEME called \"Ceniza\", a premium trading-price platform for the game \"Attack on Titan Revolution\" (Roblox). Desktop 1440px, high-fidelity.\n\n## CONTEXT\nUsers look up item prices from 2 sources: an OFFICIAL price list (branded GREEN) and a TRADE price list (branded BLUE). Every item shows 3 currencies: keys (🔑), scrolls (📜) and vizard (🎭). This is the LIGHT variant of the existing dark design system (lavender primary #cfbcff, gold accent #e7c365, Space Grotesk headings, Inter body, JetBrains Mono data).\n\n## THE \"CENIZA\" LIGHT PALETTE (IMPORTANT — use these exact tones)\nWarm, ember-and-ash inspired light theme from Attack on Titan: cream/stone warm surfaces (like #f7f3ee / #efe9df), warm off-white cards, dark warm ink text (#1c1917-ish), with ember RED and burnt ORANGE accents (like #dc2626 / #ea580c) for primary actions and highlights, warm gold touches. Soft shadows, warm borders. Cozy, editorial, high-contrast and perfectly readable. State the hex values you use.\n\n## STYLE — 3D + ANIMATION (same as the dark version, adapted to light)\n- Depth: subtle perspective grid floor (light, low-opacity), layered cards, parallax hover.\n- Animations: floating elements, pulsing glows (warm), animated gradient title, hover transitions, animated counters.\n- Glassmorphism adapted to light (translucent warm white, soft borders, soft shadows).\n\n## COMPONENTS (same structure as the dark home, light version)\n- Navbar: glowing orb logo \"AOTR VALUES\", links (Inicio, Precios, Comparar, Histórico), pill toggle \"Oficial | Tradeo\", theme-switch icon (now switching to dark), sync status badge.\n- Hero: big gradient display title \"AOTR VALUES\", Spanish subtitle, prominent glass search bar with live item preview.\n- Stats strip: animated counters.\n- Top movers: glass cards with sparklines and green/red deltas.\n- How it works: 3 steps.\n- Footer.\n\n## RULES\n- ALL UI text in SPANISH. No placeholders.\n- Perfect legibility on light background (dark ink text).\n- Same premium, memorable quality as the dark version.",
+    "modelId": "GEMINI_3_1_PRO",
+    "projectId": "12089995414933118736"
+  },
+  "result": {
+    "content": [
+      {
+        "text": "{\"projectId\":\"12089995414933118736\",\"sessionId\":\"3622291930675398395\",\"outputComponents\":[{\"designSystem\":{\"name\":\"assets/ec456ccb13a9486c8810f17a09ae4c48\",\"designSystem\":{\"displayName\":\"Ceniza\",\"styleGuidelines\":\"## Brand & Style\\n\\nThe design system is an evocative, high-fidelity light theme that balances the raw utility of technology with the warmth of a traditional hearth. It is tailored for high-stakes information environments that require an editorial, sophisticated touch without sacrificing readability.\\n\\nThe aesthetic fuses **Warm Glassmorphism** with **Minimalism**. It utilizes semi-transparent, frosted layers to create depth on a foundation of \\\"stone\\\" and \\\"cream\\\" surfaces. The emotional response is intended to be \\\"cozy yet authoritative\\\"—a digital sanctuary that feels human, tactile, and exceptionally clear. \\n\\nKey visual principles:\\n- **Luminous Surfaces:** Backgrounds use subtle gradients of cream and stone to prevent \\\"screen fatigue.\\\"\\n- **Editorial Contrast:** Razor-sharp typography against soft, organic backgrounds.\\n- **Micro-tactility:** Interactive elements feel physical through the use of soft, ambient shadows and light-refracting borders.\\n\\n## Layout & Spacing\\n\\nThe layout philosophy follows a **Fluid Grid** model with strict vertical rhythm.\\n\\n- **Grid:** Use a 12-column grid for desktop with 24px gutters. For mobile, collapse to a single column with 16px side margins.\\n- **Rhythm:** All spacing (margins, padding, gaps) must be multiples of the 4px base unit. \\n- **Density:** Use generous padding (24px+) for primary cards and containers to reinforce the \\\"Editorial\\\" feel. Content-heavy data tables may use the `sm` or `md` spacing units for increased density while maintaining the `data-mono` typography.\\n\\n## Elevation & Depth\\n\\nThis design system rejects harsh shadows in favor of **Ambient Diffusion**.\\n\\n- **Layers:** Depth is communicated through backdrop blurs (`blur(12px)`) and subtle opacity changes.\\n- **Shadows:** Use extremely soft, large-radius shadows with a hint of the \\\"Warm Ink\\\" color to ground elements.\\n  - *Level 1 (Cards):* 0px 4px 20px rgba(28, 25, 23, 0.04).\\n  - *Level 2 (Modals/Popovers):* 0px 12px 40px rgba(28, 25, 23, 0.08).\\n- **Glass Borders:** Every elevated element must have a 1px solid border. The top and left borders should be slightly lighter (`rgba(255,255,255,0.4)`) than the bottom and right (`rgba(28,25,23,0.05)`) to simulate a subtle light source from the top-left.\\n\\n## Components\\n\\n- **Buttons:** \\n  - *Primary:* Ember Red background with white text. High contrast, 8px radius.\\n  - *Secondary:* Cream background, 1px Ink border, Ink text.\\n- **Cards:** White surface at 70% opacity with a 12px backdrop-blur. 24px internal padding. 1px light border.\\n- **Inputs:** Soft stone background (#f7f3ee) with a 1px border that shifts to Ember Red on focus. Use JetBrains Mono for placeholder text.\\n- **Chips:** Small, pill-shaped tags using the Gold or Orange accents with 10% opacity backgrounds and full-saturation text for readability.\\n- **Lists:** Use subtle 1px dividers in `#efe9df`. Hover states on list items should use a slight brightness shift rather than a color change.\\n- **Interactive Highlights:** Use the Warm Gold (#e7c365) for non-destructive highlights, such as search results or \\\"new\\\" indicators.\",\"theme\":{\"colorMode\":\"LIGHT\",\"font\":\"SPACE_GROTESK\",\"roundness\":\"ROUND_EIGHT\",\"customColor\":\"#dc2626\",\"headlineFont\":\"SPACE_GROTESK\",\"bodyFont\":\"INTER\",\"labelFont\":\"JETBRAINS_MONO\",\"namedColors\":{\"background\":\"#fff8f5\",\"error\":\"#ba1a1a\",\"error_container\":\"#ffdad6\",\"inverse_on_surface\":\"#f7efeb\",\"inverse_primary\":\"#ffb4ab\",\"inverse_surface\":\"#33302d\",\"on_background\":\"#1e1b19\",\"on_error\":\"#ffffff\",\"on_error_container\":\"#93000a\",\"on_primary\":\"#ffffff\",\"on_primary_container\":\"#fff6f5\",\"on_primary_fixed\":\"#410002\",\"on_primary_fixed_variant\":\"#93000b\",\"on_secondary\":\"#ffffff\",\"on_secondary_container\":\"#571a00\",\"on_secondary_fixed\":\"#370e00\",\"on_secondary_fixed_variant\":\"#7f2b00\",\"on_surface\":\"#1e1b19\",\"on_surface_variant\":\"#5c403c\",\"on_tertiary\":\"#ffffff\",\"on_tertiary_container\":\"#503d00\",\"on_tertiary_fixed\":\"#241a00\",\"on_tertiary_fixed_variant\":\"#594400\",\"outline\":\"#916f6b\",\"outline_variant\":\"#e6bdb8\",\"primary\":\"#b70011\",\"primary_container\":\"#dc2626\",\"primary_fixed\":\"#ffdad6\",\"primary_fixed_dim\":\"#ffb4ab\",\"secondary\":\"#a73a00\",\"secondary_container\":\"#fd651e\",\"secondary_fixed\":\"#ffdbce\",\"secondary_fixed_dim\":\"#ffb599\",\"surface\":\"#fff8f5\",\"surface_bright\":\"#fff8f5\",\"surface_container\":\"#f4ece8\",\"surface_container_high\":\"#eee7e3\",\"surface_container_highest\":\"#e9e1dd\",\"surface_container_low\":\"#faf2ee\",\"surface_container_lowest\":\"#ffffff\",\"surface_dim\":\"#e0d8d5\",\"surface_tint\":\"#bf0715\",\"surface_variant\":\"#e9e1dd\",\"tertiary\":\"#755b00\",\"tertiary_container\":\"#c9a74c\",\"tertiary_fixed\":\"#ffdf92\",\"tertiary_fixed_dim\":\"#e7c365\"},\"designMd\":\"---\\nname: Ceniza\\ncolors:\\n  surface: '#fff8f5'\\n  surface-dim: '#e0d8d5'\\n  surface-bright: '#fff8f5'\\n  surface-container-lowest: '#ffffff'\\n  surface-container-low: '#faf2ee'\\n  surface-container: '#f4ece8'\\n  surface-container-high: '#eee7e3'\\n  surface-container-highest: '#e9e1dd'\\n  on-surface: '#1e1b19'\\n  on-surface-variant: '#5c403c'\\n  inverse-surface: '#33302d'\\n  inverse-on-surface: '#f7efeb'\\n  outline: '#916f6b'\\n  outline-variant: '#e6bdb8'\\n  surface-tint: '#bf0715'\\n  primary: '#b70011'\\n  on-primary: '#ffffff'\\n  primary-container: '#dc2626'\\n  on-primary-container: '#fff6f5'\\n  inverse-primary: '#ffb4ab'\\n  secondary: '#a73a00'\\n  on-secondary: '#ffffff'\\n  secondary-container: '#fd651e'\\n  on-secondary-container: '#571a00'\\n  tertiary: '#755b00'\\n  on-tertiary: '#ffffff'\\n  tertiary-container: '#c9a74c'\\n  on-tertiary-container: '#503d00'\\n  error: '#ba1a1a'\\n  on-error: '#ffffff'\\n  error-container: '#ffdad6'\\n  on-error-container: '#93000a'\\n  primary-fixed: '#ffdad6'\\n  primary-fixed-dim: '#ffb4ab'\\n  on-primary-fixed: '#410002'\\n  on-primary-fixed-variant: '#93000b'\\n  secondary-fixed: '#ffdbce'\\n  secondary-fixed-dim: '#ffb599'\\n  on-secondary-fixed: '#370e00'\\n  on-secondary-fixed-variant: '#7f2b00'\\n  tertiary-fixed: '#ffdf92'\\n  tertiary-fixed-dim: '#e7c365'\\n  on-tertiary-fixed: '#241a00'\\n  on-tertiary-fixed-variant: '#594400'\\n  background: '#fff8f5'\\n  on-background: '#1e1b19'\\n  surface-variant: '#e9e1dd'\\ntypography:\\n  headline-xl:\\n    fontFamily: Space Grotesk\\n    fontSize: 48px\\n    fontWeight: '700'\\n    lineHeight: 56px\\n    letterSpacing: -0.02em\\n  headline-lg:\\n    fontFamily: Space Grotesk\\n    fontSize: 32px\\n    fontWeight: '600'\\n    lineHeight: 40px\\n    letterSpacing: -0.01em\\n  headline-lg-mobile:\\n    fontFamily: Space Grotesk\\n    fontSize: 24px\\n    fontWeight: '600'\\n    lineHeight: 32px\\n  body-md:\\n    fontFamily: Inter\\n    fontSize: 16px\\n    fontWeight: '400'\\n    lineHeight: 24px\\n  body-sm:\\n    fontFamily: Inter\\n    fontSize: 14px\\n    fontWeight: '400'\\n    lineHeight: 20px\\n  data-mono:\\n    fontFamily: JetBrains Mono\\n    fontSize: 14px\\n    fontWeight: '500'\\n    lineHeight: 20px\\n    letterSpacing: 0.02em\\n  label-caps:\\n    fontFamily: JetBrains Mono\\n    fontSize: 12px\\n    fontWeight: '700'\\n    lineHeight: 16px\\nrounded:\\n  sm: 0.25rem\\n  DEFAULT: 0.5rem\\n  md: 0.75rem\\n  lg: 1rem\\n  xl: 1.5rem\\n  full: 9999px\\nspacing:\\n  unit: 4px\\n  xs: 4px\\n  sm: 8px\\n  md: 16px\\n  lg: 24px\\n  xl: 40px\\n  container-max: 1280px\\n  gutter: 24px\\n---\\n\\n## Brand & Style\\n\\nThe design system is an evocative, high-fidelity light theme that balances the raw utility of technology with the warmth of a traditional hearth. It is tailored for high-stakes information environments that require an editorial, sophisticated touch without sacrificing readability.\\n\\nThe aesthetic fuses **Warm Glassmorphism** with **Minimalism**. It utilizes semi-transparent, frosted layers to create depth on a foundation of \\\"stone\\\" and \\\"cream\\\" surfaces. The emotional response is intended to be \\\"cozy yet authoritative\\\"—a digital sanctuary that feels human, tactile, and exceptionally clear. \\n\\nKey visual principles:\\n- **Luminous Surfaces:** Backgrounds use subtle gradients of cream and stone to prevent \\\"screen fatigue.\\\"\\n- **Editorial Contrast:** Razor-sharp typography against soft, organic backgrounds.\\n- **Micro-tactility:** Interactive elements feel physical through the use of soft, ambient shadows and light-refracting borders.\\n\\n## Colors\\n\\nThe palette is rooted in earth and embers. \\n\\n- **Foundation:** The primary background alternates between `Stone (#f7f3ee)` and `Cream (#efe9df)`. This creates a natural, paper-like foundation.\\n- **Accents:** `Ember Red (#dc2626)` serves as the primary action color, providing a high-energy focal point. `Burnt Orange (#ea580c)` is used for secondary interactive states, and `Warm Gold (#e7c365)` is reserved for highlights, achievements, or critical status indicators.\\n- **Ink:** All text and iconography utilize `Dark Warm Ink (#1c1917)` to ensure AAA accessibility and a grounded feel.\\n- **Transparency:** Components utilize a semi-transparent off-white for card surfaces to facilitate the glassmorphic layering effect.\\n\\n## Typography\\n\\nThis design system uses a tri-font hierarchy to distinguish between intent, narrative, and data.\\n\\n1.  **Headlines (Space Grotesk):** Geometric and technical. Use for page titles and major section headers. The slight \\\"quirk\\\" in letterforms adds a futuristic editorial character.\\n2.  **Body (Inter):** Highly legible and neutral. Use for all long-form text, descriptions, and UI controls.\\n3.  **Data & Labels (JetBrains Mono):** Used for technical values, timestamps, and metadata. This monospaced font provides a \\\"developer-tool\\\" precision that contrasts beautifully with the warm aesthetic.\\n\\nAll headlines should use a slightly tighter letter-spacing to maintain a compact, impactful look.\\n\\n## Layout & Spacing\\n\\nThe layout philosophy follows a **Fluid Grid** model with strict vertical rhythm.\\n\\n- **Grid:** Use a 12-column grid for desktop with 24px gutters. For mobile, collapse to a single column with 16px side margins.\\n- **Rhythm:** All spacing (margins, padding, gaps) must be multiples of the 4px base unit. \\n- **Density:** Use generous padding (24px+) for primary cards and containers to reinforce the \\\"Editorial\\\" feel. Content-heavy data tables may use the `sm` or `md` spacing units for increased density while maintaining the `data-mono` typography.\\n\\n## Elevation & Depth\\n\\nThis design system rejects harsh shadows in favor of **Ambient Diffusion**.\\n\\n- **Layers:** Depth is communicated through backdrop blurs (`blur(12px)`) and subtle opacity changes.\\n- **Shadows:** Use extremely soft, large-radius shadows with a hint of the \\\"Warm Ink\\\" color to ground elements.\\n  - *Level 1 (Cards):* 0px 4px 20px rgba(28, 25, 23, 0.04).\\n  - *Level 2 (Modals/Popovers):* 0px 12px 40px rgba(28, 25, 23, 0.08).\\n- **Glass Borders:** Every elevated element must have a 1px solid border. The top and left borders should be slightly lighter (`rgba(255,255,255,0.4)`) than the bottom and right (`rgba(28,25,23,0.05)`) to simulate a subtle light source from the top-left.\\n\\n## Shapes\\n\\nThe shape language is \\\"Soft-Modern.\\\" Use `rounded-md` (8px) for standard components like buttons and inputs. Use `rounded-xl` (24px) for primary containers and large cards to create a welcoming, approachable container for the data. This high-radius look is essential for the \\\"cozy\\\" aspect of the brand personality.\\n\\n## Components\\n\\n- **Buttons:** \\n  - *Primary:* Ember Red background with white text. High contrast, 8px radius.\\n  - *Secondary:* Cream background, 1px Ink border, Ink text.\\n- **Cards:** White surface at 70% opacity with a 12px backdrop-blur. 24px internal padding. 1px light border.\\n- **Inputs:** Soft stone background (#f7f3ee) with a 1px border that shifts to Ember Red on focus. Use JetBrains Mono for placeholder text.\\n- **Chips:** Small, pill-shaped tags using the Gold or Orange accents with 10% opacity backgrounds and full-saturation text for readability.\\n- **Lists:** Use subtle 1px dividers in `#efe9df`. Hover states on list items should use a slight brightness shift rather than a color change.\\n- **Interactive Highlights:** Use the Warm Gold (#e7c365) for non-destructive highlights, such as search results or \\\"new\\\" indicators.\",\"colorVariant\":\"FIDELITY\",\"overridePrimaryColor\":\"#dc2626\",\"overrideSecondaryColor\":\"#ea580c\",\"overrideTertiaryColor\":\"#e7c365\",\"overrideNeutralColor\":\"#1c1917\",\"spacingScale\":2,\"typography\":{\"body-md\":{\"fontFamily\":\"Inter\",\"fontSize\":\"16px\",\"fontWeight\":\"400\",\"lineHeight\":\"24px\"},\"body-sm\":{\"fontFamily\":\"Inter\",\"fontSize\":\"14px\",\"fontWeight\":\"400\",\"lineHeight\":\"20px\"},\"data-mono\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"14px\",\"fontWeight\":\"500\",\"lineHeight\":\"20px\",\"letterSpacing\":\"0.02em\"},\"headline-lg\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"32px\",\"fontWeight\":\"600\",\"lineHeight\":\"40px\",\"letterSpacing\":\"-0.01em\"},\"headline-lg-mobile\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"24px\",\"fontWeight\":\"600\",\"lineHeight\":\"32px\"},\"headline-xl\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"48px\",\"fontWeight\":\"700\",\"lineHeight\":\"56px\",\"letterSpacing\":\"-0.02em\"},\"label-caps\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"12px\",\"fontWeight\":\"700\",\"lineHeight\":\"16px\"}},\"spacing\":{\"container-max\":\"1280px\",\"gutter\":\"24px\",\"lg\":\"24px\",\"md\":\"16px\",\"sm\":\"8px\",\"unit\":\"4px\",\"xl\":\"40px\",\"xs\":\"4px\"},\"headlineFontFamily\":\"Space Grotesk\",\"bodyFontFamily\":\"Inter\",\"labelFontFamily\":\"Jetbrains Mono\"}},\"version\":\"1\"}},{\"design\":{\"screens\":[{\"htmlCode\":{\"name\":\"projects/12089995414933118736/files/62656d69d6aa4136897635db4107636a\",\"downloadUrl\":\"https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sXzkxNDg3Y2Q4NjcyZjRkNDZhMGUzZDZmNjUyZDIwODg2EgsSBxDhz76e_RgYAZIBJAoKcHJvamVjdF9pZBIWQhQxMjA4OTk5NTQxNDkzMzExODczNg&filename=&opi=96797242\",\"mimeType\":\"text/html\"},\"id\":\"ab167eed65eb467387efd84c70af1c3b\",\"generatedBy\":\"interactive_ui_controller\",\"width\":\"512\",\"height\":\"512\",\"title\":\"Shader\",\"prompt\":\"Shader\",\"name\":\"projects/12089995414933118736/screens/ab167eed65eb467387efd84c70af1c3b\",\"theme\":{},\"screenType\":\"DESIGN\",\"screenMetadata\":{\"agentType\":\"PRO_AGENT\",\"status\":\"COMPLETE\",\"displayMode\":\"HTML\"}},{\"screenshot\":{\"name\":\"projects/12089995414933118736/files/ea73746323fe4dc7b3ae287930446da8\",\"downloadUrl\":\"https://lh3.googleusercontent.com/aida/AP1WRLtUmXA-BlZntMRNeHdDK52coEqc3hPjcn2Gcgav1CVbJ9UrZcRsjUnAatXL5xRxatbZFfHq0hgPz5TxcvatWW0aRGlObldGrSd_WUkVOwAh6vWp0jNPKw6upqKigh5JN-0Vs-Ph5hImHFlOQ7_ejB0m-tGrIAD8XC-CfioTd8XFMqv6wvIJqCvOdxMpOEBgGRHdYzxD4Z8EUEMlu6zqIq1Eho96lvwjLrnOcXm8Do38hiDzNRKEFIKL3UWS\"},\"htmlCode\":{\"name\":\"projects/12089995414933118736/files/935e72cc6f8d4d388e9029c3b3c250d7\",\"downloadUrl\":\"https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sX2JkOWU5YTdhMDFhNzQ5MTdhZjkyZTM2NjM1ZWFiYjNlEgsSBxDhz76e_RgYAZIBJAoKcHJvamVjdF9pZBIWQhQxMjA4OTk5NTQxNDkzMzExODczNg&filename=&opi=96797242\",\"mimeType\":\"text/html\"},\"id\":\"20f86dc45243453b9e823a469c8fa61d\",\"generatedBy\":\"figaro_agent\",\"width\":\"2560\",\"height\":\"2602\",\"title\":\"AOTR Values - Home Page (Ceniza Light Theme)\",\"prompt\":\"HOME PAGE for \\\"AOTR Values\\\" in the \\\"Ceniza\\\" LIGHT THEME.\\n- Background: Use the shader {{DATA:ANIMATION:ANIMATION_8}} as a full-page background.\\n- Language: ALL UI TEXT IN SPANISH.\\n- Hero: Large display title \\\"AOTR VALUES\\\" with a gradient from Ember Red (#dc2626) to Burnt Orange (#ea580c). Subtitle: \\\"La plataforma de precios premium para Attack on Titan Revolution. Datos precisos, comercio justo.\\\"\\n- Search Bar: Centered glassmorphic search bar (warm translucent white) with \\\"Buscar objetos, precios, historia...\\\" and a preview of \\\"Colossal Crystal 45 🔑\\\".\\n- Stats Strip: 3 glass cards: \\\"Objetos Indexados: 150+\\\", \\\"Fuentes de Datos: 2 Sincronizadas\\\", \\\"Frecuencia: 48/Día\\\".\\n- Top Movers: Title \\\"Movimientos Destacados\\\". 3 cards:\\n    1. \\\"Scroll of Truth (Legendario)\\\" | +15.2% | Precio: 120 🔑 | Green sparkline.\\n    2. \\\"Titan Heart (Mítico)\\\" | -5.0% | Precio: 450 🔑 | Red sparkline.\\n    3. \\\"ODM Gear V2 (Épico)\\\" | 0.0% | Precio: 35 🔑 | Flat sparkline.\\n- How It Works: \\\"La Arquitectura de Datos\\\" section with 3 items: \\\"Sincronización de Scripts\\\", \\\"Listas de Precios\\\", \\\"Historial de Comercio\\\".\\n- Style: Space Grotesk for headings, dark ink text (#1c1917) for readability, warm shadows, and glassmorphism. Use the predicted TopNavBar and Footer from {{DATA:COMPONENTS:COMPONENTS_7}}.\\n- Use the exact Ceniza palette: cream #f7f3ee, ember red #dc2626, burnt orange #ea580c, warm gold #e7c365.\",\"name\":\"projects/12089995414933118736/screens/20f86dc45243453b9e823a469c8fa61d\",\"theme\":{\"colorMode\":\"LIGHT\",\"font\":\"SPACE_GROTESK\",\"roundness\":\"ROUND_EIGHT\",\"customColor\":\"#dc2626\",\"headlineFont\":\"SPACE_GROTESK\",\"bodyFont\":\"INTER\",\"labelFont\":\"JETBRAINS_MONO\",\"namedColors\":{\"background\":\"#fff8f5\",\"error\":\"#ba1a1a\",\"error_container\":\"#ffdad6\",\"inverse_on_surface\":\"#f7efeb\",\"inverse_primary\":\"#ffb4ab\",\"inverse_surface\":\"#33302d\",\"on_background\":\"#1e1b19\",\"on_error\":\"#ffffff\",\"on_error_container\":\"#93000a\",\"on_primary\":\"#ffffff\",\"on_primary_container\":\"#fff6f5\",\"on_primary_fixed\":\"#410002\",\"on_primary_fixed_variant\":\"#93000b\",\"on_secondary\":\"#ffffff\",\"on_secondary_container\":\"#571a00\",\"on_secondary_fixed\":\"#370e00\",\"on_secondary_fixed_variant\":\"#7f2b00\",\"on_surface\":\"#1e1b19\",\"on_surface_variant\":\"#5c403c\",\"on_tertiary\":\"#ffffff\",\"on_tertiary_container\":\"#503d00\",\"on_tertiary_fixed\":\"#241a00\",\"on_tertiary_fixed_variant\":\"#594400\",\"outline\":\"#916f6b\",\"outline_variant\":\"#e6bdb8\",\"primary\":\"#b70011\",\"primary_container\":\"#dc2626\",\"primary_fixed\":\"#ffdad6\",\"primary_fixed_dim\":\"#ffb4ab\",\"secondary\":\"#a73a00\",\"secondary_container\":\"#fd651e\",\"secondary_fixed\":\"#ffdbce\",\"secondary_fixed_dim\":\"#ffb599\",\"surface\":\"#fff8f5\",\"surface_bright\":\"#fff8f5\",\"surface_container\":\"#f4ece8\",\"surface_container_high\":\"#eee7e3\",\"surface_container_highest\":\"#e9e1dd\",\"surface_container_low\":\"#faf2ee\",\"surface_container_lowest\":\"#ffffff\",\"surface_dim\":\"#e0d8d5\",\"surface_tint\":\"#bf0715\",\"surface_variant\":\"#e9e1dd\",\"tertiary\":\"#755b00\",\"tertiary_container\":\"#c9a74c\",\"tertiary_fixed\":\"#ffdf92\",\"tertiary_fixed_dim\":\"#e7c365\"},\"colorVariant\":\"FIDELITY\",\"overridePrimaryColor\":\"#dc2626\",\"overrideSecondaryColor\":\"#ea580c\",\"overrideTertiaryColor\":\"#e7c365\",\"overrideNeutralColor\":\"#1c1917\",\"spacingScale\":2,\"typography\":{\"body-md\":{\"fontFamily\":\"Inter\",\"fontSize\":\"16px\",\"fontWeight\":\"400\",\"lineHeight\":\"24px\"},\"body-sm\":{\"fontFamily\":\"Inter\",\"fontSize\":\"14px\",\"fontWeight\":\"400\",\"lineHeight\":\"20px\"},\"data-mono\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"14px\",\"fontWeight\":\"500\",\"lineHeight\":\"20px\",\"letterSpacing\":\"0.02em\"},\"headline-lg\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"32px\",\"fontWeight\":\"600\",\"lineHeight\":\"40px\",\"letterSpacing\":\"-0.01em\"},\"headline-lg-mobile\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"24px\",\"fontWeight\":\"600\",\"lineHeight\":\"32px\"},\"headline-xl\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"48px\",\"fontWeight\":\"700\",\"lineHeight\":\"56px\",\"letterSpacing\":\"-0.02em\"},\"label-caps\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"12px\",\"fontWeight\":\"700\",\"lineHeight\":\"16px\"}},\"spacing\":{\"container-max\":\"1280px\",\"gutter\":\"24px\",\"lg\":\"24px\",\"md\":\"16px\",\"sm\":\"8px\",\"unit\":\"4px\",\"xl\":\"40px\",\"xs\":\"4px\"},\"headlineFontFamily\":\"Space Grotesk\",\"bodyFontFamily\":\"Inter\",\"labelFontFamily\":\"Jetbrains Mono\"},\"deviceType\":\"DESKTOP\",\"screenType\":\"DESIGN\",\"screenMetadata\":{\"agentType\":\"PRO_AGENT\",\"status\":\"COMPLETE\"},\"designSystem\":{\"name\":\"assets/ec456ccb13a9486c8810f17a09ae4c48\",\"designSystem\":{\"displayName\":\"Ceniza\",\"styleGuidelines\":\"## Brand & Style\\n\\nThe design system is an evocative, high-fidelity light theme that balances the raw utility of technology with the warmth of a traditional hearth. It is tailored for high-stakes information environments that require an editorial, sophisticated touch without sacrificing readability.\\n\\nThe aesthetic fuses **Warm Glassmorphism** with **Minimalism**. It utilizes semi-transparent, frosted layers to create depth on a foundation of \\\"stone\\\" and \\\"cream\\\" surfaces. The emotional response is intended to be \\\"cozy yet authoritative\\\"—a digital sanctuary that feels human, tactile, and exceptionally clear. \\n\\nKey visual principles:\\n- **Luminous Surfaces:** Backgrounds use subtle gradients of cream and stone to prevent \\\"screen fatigue.\\\"\\n- **Editorial Contrast:** Razor-sharp typography against soft, organic backgrounds.\\n- **Micro-tactility:** Interactive elements feel physical through the use of soft, ambient shadows and light-refracting borders.\\n\\n## Layout & Spacing\\n\\nThe layout philosophy follows a **Fluid Grid** model with strict vertical rhythm.\\n\\n- **Grid:** Use a 12-column grid for desktop with 24px gutters. For mobile, collapse to a single column with 16px side margins.\\n- **Rhythm:** All spacing (margins, padding, gaps) must be multiples of the 4px base unit. \\n- **Density:** Use generous padding (24px+) for primary cards and containers to reinforce the \\\"Editorial\\\" feel. Content-heavy data tables may use the `sm` or `md` spacing units for increased density while maintaining the `data-mono` typography.\\n\\n## Elevation & Depth\\n\\nThis design system rejects harsh shadows in favor of **Ambient Diffusion**.\\n\\n- **Layers:** Depth is communicated through backdrop blurs (`blur(12px)`) and subtle opacity changes.\\n- **Shadows:** Use extremely soft, large-radius shadows with a hint of the \\\"Warm Ink\\\" color to ground elements.\\n  - *Level 1 (Cards):* 0px 4px 20px rgba(28, 25, 23, 0.04).\\n  - *Level 2 (Modals/Popovers):* 0px 12px 40px rgba(28, 25, 23, 0.08).\\n- **Glass Borders:** Every elevated element must have a 1px solid border. The top and left borders should be slightly lighter (`rgba(255,255,255,0.4)`) than the bottom and right (`rgba(28,25,23,0.05)`) to simulate a subtle light source from the top-left.\\n\\n## Components\\n\\n- **Buttons:** \\n  - *Primary:* Ember Red background with white text. High contrast, 8px radius.\\n  - *Secondary:* Cream background, 1px Ink border, Ink text.\\n- **Cards:** White surface at 70% opacity with a 12px backdrop-blur. 24px internal padding. 1px light border.\\n- **Inputs:** Soft stone background (#f7f3ee) with a 1px border that shifts to Ember Red on focus. Use JetBrains Mono for placeholder text.\\n- **Chips:** Small, pill-shaped tags using the Gold or Orange accents with 10% opacity backgrounds and full-saturation text for readability.\\n- **Lists:** Use subtle 1px dividers in `#efe9df`. Hover states on list items should use a slight brightness shift rather than a color change.\\n- **Interactive Highlights:** Use the Warm Gold (#e7c365) for non-destructive highlights, such as search results or \\\"new\\\" indicators.\",\"theme\":{\"colorMode\":\"LIGHT\",\"font\":\"SPACE_GROTESK\",\"roundness\":\"ROUND_EIGHT\",\"customColor\":\"#dc2626\",\"headlineFont\":\"SPACE_GROTESK\",\"bodyFont\":\"INTER\",\"labelFont\":\"JETBRAINS_MONO\",\"namedColors\":{\"background\":\"#fff8f5\",\"error\":\"#ba1a1a\",\"error_container\":\"#ffdad6\",\"inverse_on_surface\":\"#f7efeb\",\"inverse_primary\":\"#ffb4ab\",\"inverse_surface\":\"#33302d\",\"on_background\":\"#1e1b19\",\"on_error\":\"#ffffff\",\"on_error_container\":\"#93000a\",\"on_primary\":\"#ffffff\",\"on_primary_container\":\"#fff6f5\",\"on_primary_fixed\":\"#410002\",\"on_primary_fixed_variant\":\"#93000b\",\"on_secondary\":\"#ffffff\",\"on_secondary_container\":\"#571a00\",\"on_secondary_fixed\":\"#370e00\",\"on_secondary_fixed_variant\":\"#7f2b00\",\"on_surface\":\"#1e1b19\",\"on_surface_variant\":\"#5c403c\",\"on_tertiary\":\"#ffffff\",\"on_tertiary_container\":\"#503d00\",\"on_tertiary_fixed\":\"#241a00\",\"on_tertiary_fixed_variant\":\"#594400\",\"outline\":\"#916f6b\",\"outline_variant\":\"#e6bdb8\",\"primary\":\"#b70011\",\"primary_container\":\"#dc2626\",\"primary_fixed\":\"#ffdad6\",\"primary_fixed_dim\":\"#ffb4ab\",\"secondary\":\"#a73a00\",\"secondary_container\":\"#fd651e\",\"secondary_fixed\":\"#ffdbce\",\"secondary_fixed_dim\":\"#ffb599\",\"surface\":\"#fff8f5\",\"surface_bright\":\"#fff8f5\",\"surface_container\":\"#f4ece8\",\"surface_container_high\":\"#eee7e3\",\"surface_container_highest\":\"#e9e1dd\",\"surface_container_low\":\"#faf2ee\",\"surface_container_lowest\":\"#ffffff\",\"surface_dim\":\"#e0d8d5\",\"surface_tint\":\"#bf0715\",\"surface_variant\":\"#e9e1dd\",\"tertiary\":\"#755b00\",\"tertiary_container\":\"#c9a74c\",\"tertiary_fixed\":\"#ffdf92\",\"tertiary_fixed_dim\":\"#e7c365\"},\"designMd\":\"---\\nname: Ceniza\\ncolors:\\n  surface: '#fff8f5'\\n  surface-dim: '#e0d8d5'\\n  surface-bright: '#fff8f5'\\n  surface-container-lowest: '#ffffff'\\n  surface-container-low: '#faf2ee'\\n  surface-container: '#f4ece8'\\n  surface-container-high: '#eee7e3'\\n  surface-container-highest: '#e9e1dd'\\n  on-surface: '#1e1b19'\\n  on-surface-variant: '#5c403c'\\n  inverse-surface: '#33302d'\\n  inverse-on-surface: '#f7efeb'\\n  outline: '#916f6b'\\n  outline-variant: '#e6bdb8'\\n  surface-tint: '#bf0715'\\n  primary: '#b70011'\\n  on-primary: '#ffffff'\\n  primary-container: '#dc2626'\\n  on-primary-container: '#fff6f5'\\n  inverse-primary: '#ffb4ab'\\n  secondary: '#a73a00'\\n  on-secondary: '#ffffff'\\n  secondary-container: '#fd651e'\\n  on-secondary-container: '#571a00'\\n  tertiary: '#755b00'\\n  on-tertiary: '#ffffff'\\n  tertiary-container: '#c9a74c'\\n  on-tertiary-container: '#503d00'\\n  error: '#ba1a1a'\\n  on-error: '#ffffff'\\n  error-container: '#ffdad6'\\n  on-error-container: '#93000a'\\n  primary-fixed: '#ffdad6'\\n  primary-fixed-dim: '#ffb4ab'\\n  on-primary-fixed: '#410002'\\n  on-primary-fixed-variant: '#93000b'\\n  secondary-fixed: '#ffdbce'\\n  secondary-fixed-dim: '#ffb599'\\n  on-secondary-fixed: '#370e00'\\n  on-secondary-fixed-variant: '#7f2b00'\\n  tertiary-fixed: '#ffdf92'\\n  tertiary-fixed-dim: '#e7c365'\\n  on-tertiary-fixed: '#241a00'\\n  on-tertiary-fixed-variant: '#594400'\\n  background: '#fff8f5'\\n  on-background: '#1e1b19'\\n  surface-variant: '#e9e1dd'\\ntypography:\\n  headline-xl:\\n    fontFamily: Space Grotesk\\n    fontSize: 48px\\n    fontWeight: '700'\\n    lineHeight: 56px\\n    letterSpacing: -0.02em\\n  headline-lg:\\n    fontFamily: Space Grotesk\\n    fontSize: 32px\\n    fontWeight: '600'\\n    lineHeight: 40px\\n    letterSpacing: -0.01em\\n  headline-lg-mobile:\\n    fontFamily: Space Grotesk\\n    fontSize: 24px\\n    fontWeight: '600'\\n    lineHeight: 32px\\n  body-md:\\n    fontFamily: Inter\\n    fontSize: 16px\\n    fontWeight: '400'\\n    lineHeight: 24px\\n  body-sm:\\n    fontFamily: Inter\\n    fontSize: 14px\\n    fontWeight: '400'\\n    lineHeight: 20px\\n  data-mono:\\n    fontFamily: JetBrains Mono\\n    fontSize: 14px\\n    fontWeight: '500'\\n    lineHeight: 20px\\n    letterSpacing: 0.02em\\n  label-caps:\\n    fontFamily: JetBrains Mono\\n    fontSize: 12px\\n    fontWeight: '700'\\n    lineHeight: 16px\\nrounded:\\n  sm: 0.25rem\\n  DEFAULT: 0.5rem\\n  md: 0.75rem\\n  lg: 1rem\\n  xl: 1.5rem\\n  full: 9999px\\nspacing:\\n  unit: 4px\\n  xs: 4px\\n  sm: 8px\\n  md: 16px\\n  lg: 24px\\n  xl: 40px\\n  container-max: 1280px\\n  gutter: 24px\\n---\\n\\n## Brand & Style\\n\\nThe design system is an evocative, high-fidelity light theme that balances the raw utility of technology with the warmth of a traditional hearth. It is tailored for high-stakes information environments that require an editorial, sophisticated touch without sacrificing readability.\\n\\nThe aesthetic fuses **Warm Glassmorphism** with **Minimalism**. It utilizes semi-transparent, frosted layers to create depth on a foundation of \\\"stone\\\" and \\\"cream\\\" surfaces. The emotional response is intended to be \\\"cozy yet authoritative\\\"—a digital sanctuary that feels human, tactile, and exceptionally clear. \\n\\nKey visual principles:\\n- **Luminous Surfaces:** Backgrounds use subtle gradients of cream and stone to prevent \\\"screen fatigue.\\\"\\n- **Editorial Contrast:** Razor-sharp typography against soft, organic backgrounds.\\n- **Micro-tactility:** Interactive elements feel physical through the use of soft, ambient shadows and light-refracting borders.\\n\\n## Colors\\n\\nThe palette is rooted in earth and embers. \\n\\n- **Foundation:** The primary background alternates between `Stone (#f7f3ee)` and `Cream (#efe9df)`. This creates a natural, paper-like foundation.\\n- **Accents:** `Ember Red (#dc2626)` serves as the primary action color, providing a high-energy focal point. `Burnt Orange (#ea580c)` is used for secondary interactive states, and `Warm Gold (#e7c365)` is reserved for highlights, achievements, or critical status indicators.\\n- **Ink:** All text and iconography utilize `Dark Warm Ink (#1c1917)` to ensure AAA accessibility and a grounded feel.\\n- **Transparency:** Components utilize a semi-transparent off-white for card surfaces to facilitate the glassmorphic layering effect.\\n\\n## Typography\\n\\nThis design system uses a tri-font hierarchy to distinguish between intent, narrative, and data.\\n\\n1.  **Headlines (Space Grotesk):** Geometric and technical. Use for page titles and major section headers. The slight \\\"quirk\\\" in letterforms adds a futuristic editorial character.\\n2.  **Body (Inter):** Highly legible and neutral. Use for all long-form text, descriptions, and UI controls.\\n3.  **Data & Labels (JetBrains Mono):** Used for technical values, timestamps, and metadata. This monospaced font provides a \\\"developer-tool\\\" precision that contrasts beautifully with the warm aesthetic.\\n\\nAll headlines should use a slightly tighter letter-spacing to maintain a compact, impactful look.\\n\\n## Layout & Spacing\\n\\nThe layout philosophy follows a **Fluid Grid** model with strict vertical rhythm.\\n\\n- **Grid:** Use a 12-column grid for desktop with 24px gutters. For mobile, collapse to a single column with 16px side margins.\\n- **Rhythm:** All spacing (margins, padding, gaps) must be multiples of the 4px base unit. \\n- **Density:** Use generous padding (24px+) for primary cards and containers to reinforce the \\\"Editorial\\\" feel. Content-heavy data tables may use the `sm` or `md` spacing units for increased density while maintaining the `data-mono` typography.\\n\\n## Elevation & Depth\\n\\nThis design system rejects harsh shadows in favor of **Ambient Diffusion**.\\n\\n- **Layers:** Depth is communicated through backdrop blurs (`blur(12px)`) and subtle opacity changes.\\n- **Shadows:** Use extremely soft, large-radius shadows with a hint of the \\\"Warm Ink\\\" color to ground elements.\\n  - *Level 1 (Cards):* 0px 4px 20px rgba(28, 25, 23, 0.04).\\n  - *Level 2 (Modals/Popovers):* 0px 12px 40px rgba(28, 25, 23, 0.08).\\n- **Glass Borders:** Every elevated element must have a 1px solid border. The top and left borders should be slightly lighter (`rgba(255,255,255,0.4)`) than the bottom and right (`rgba(28,25,23,0.05)`) to simulate a subtle light source from the top-left.\\n\\n## Shapes\\n\\nThe shape language is \\\"Soft-Modern.\\\" Use `rounded-md` (8px) for standard components like buttons and inputs. Use `rounded-xl` (24px) for primary containers and large cards to create a welcoming, approachable container for the data. This high-radius look is essential for the \\\"cozy\\\" aspect of the brand personality.\\n\\n## Components\\n\\n- **Buttons:** \\n  - *Primary:* Ember Red background with white text. High contrast, 8px radius.\\n  - *Secondary:* Cream background, 1px Ink border, Ink text.\\n- **Cards:** White surface at 70% opacity with a 12px backdrop-blur. 24px internal padding. 1px light border.\\n- **Inputs:** Soft stone background (#f7f3ee) with a 1px border that shifts to Ember Red on focus. Use JetBrains Mono for placeholder text.\\n- **Chips:** Small, pill-shaped tags using the Gold or Orange accents with 10% opacity backgrounds and full-saturation text for readability.\\n- **Lists:** Use subtle 1px dividers in `#efe9df`. Hover states on list items should use a slight brightness shift rather than a color change.\\n- **Interactive Highlights:** Use the Warm Gold (#e7c365) for non-destructive highlights, such as search results or \\\"new\\\" indicators.\",\"colorVariant\":\"FIDELITY\",\"overridePrimaryColor\":\"#dc2626\",\"overrideSecondaryColor\":\"#ea580c\",\"overrideTertiaryColor\":\"#e7c365\",\"overrideNeutralColor\":\"#1c1917\",\"spacingScale\":2,\"typography\":{\"body-md\":{\"fontFamily\":\"Inter\",\"fontSize\":\"16px\",\"fontWeight\":\"400\",\"lineHeight\":\"24px\"},\"body-sm\":{\"fontFamily\":\"Inter\",\"fontSize\":\"14px\",\"fontWeight\":\"400\",\"lineHeight\":\"20px\"},\"data-mono\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"14px\",\"fontWeight\":\"500\",\"lineHeight\":\"20px\",\"letterSpacing\":\"0.02em\"},\"headline-lg\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"32px\",\"fontWeight\":\"600\",\"lineHeight\":\"40px\",\"letterSpacing\":\"-0.01em\"},\"headline-lg-mobile\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"24px\",\"fontWeight\":\"600\",\"lineHeight\":\"32px\"},\"headline-xl\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"48px\",\"fontWeight\":\"700\",\"lineHeight\":\"56px\",\"letterSpacing\":\"-0.02em\"},\"label-caps\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"12px\",\"fontWeight\":\"700\",\"lineHeight\":\"16px\"}},\"spacing\":{\"container-max\":\"1280px\",\"gutter\":\"24px\",\"lg\":\"24px\",\"md\":\"16px\",\"sm\":\"8px\",\"unit\":\"4px\",\"xl\":\"40px\",\"xs\":\"4px\"},\"headlineFontFamily\":\"Space Grotesk\",\"bodyFontFamily\":\"Inter\",\"labelFontFamily\":\"Jetbrains Mono\"}},\"version\":\"1\"}}],\"theme\":{}}},{\"text\":\"I have designed the **Ceniza Light Theme** for the AOTR Values Home Page. \\n\\n### Design Rationale:\\n- **Ceniza Palette**: I implemented a warm, \\\"ember-and-ash\\\" aesthetic using a foundation of **Stone Cream (#F7F3EE)** and **Soft Ash (#EFE9DF)**. The primary actions and highlights use high-contrast **Ember Red (#DC2626)** and **Burnt Orange (#EA580C)**, creating a cozy yet premium editorial feel.\\n- **Atmospheric Background**: I created a custom WebGL shader (`[Animation]`) that renders a subtle 3D perspective grid floor with floating ash particles and warm ember glows at the horizon, maintaining the \\\"Attack on Titan\\\" spirit in a light-mode context.\\n- **Glassmorphism**: All UI elements use a \\\"Warm Glass\\\" treatment—translucent off-white containers with soft borders and warm drop shadows to ensure depth and legibility against the animated background.\\n- **Premium Data Display**: Used **Space Grotesk** for bold headlines and **JetBrains Mono** for technical data (prices/stats), ensuring that currency icons (🔑, 📜, 🎭) and price deltas remain perfectly readable.\\n\\n### Screens Produced:\\n- **Home Page (Light Theme)**: `AOTR Values - Home Page (Ceniza Light Theme)`\\n- **Design System (Ceniza)**: `[Design_System]`\\n\\nWould you like to see the \\\"Precios\\\" listing page in this light theme, or should we adjust any of the accent colors?\"},{\"suggestion\":\"Diseña la página de Precios en tema Ceniza\"},{\"suggestion\":\"Ajusta el rojo de los botones a un tono más cobrizo\"},{\"suggestion\":\"Crea la versión móvil del Home en tema Ceniza\"}]}",
+        "type": "text"
+      }
+    ],
+    "structuredContent": {
+      "outputComponents": [
+        {
+          "designSystem": {
+            "designSystem": {
+              "displayName": "Ceniza",
+              "styleGuidelines": "## Brand & Style\n\nThe design system is an evocative, high-fidelity light theme that balances the raw utility of technology with the warmth of a traditional hearth. It is tailored for high-stakes information environments that require an editorial, sophisticated touch without sacrificing readability.\n\nThe aesthetic fuses **Warm Glassmorphism** with **Minimalism**. It utilizes semi-transparent, frosted layers to create depth on a foundation of \"stone\" and \"cream\" surfaces. The emotional response is intended to be \"cozy yet authoritative\"—a digital sanctuary that feels human, tactile, and exceptionally clear. \n\nKey visual principles:\n- **Luminous Surfaces:** Backgrounds use subtle gradients of cream and stone to prevent \"screen fatigue.\"\n- **Editorial Contrast:** Razor-sharp typography against soft, organic backgrounds.\n- **Micro-tactility:** Interactive elements feel physical through the use of soft, ambient shadows and light-refracting borders.\n\n## Layout & Spacing\n\nThe layout philosophy follows a **Fluid Grid** model with strict vertical rhythm.\n\n- **Grid:** Use a 12-column grid for desktop with 24px gutters. For mobile, collapse to a single column with 16px side margins.\n- **Rhythm:** All spacing (margins, padding, gaps) must be multiples of the 4px base unit. \n- **Density:** Use generous padding (24px+) for primary cards and containers to reinforce the \"Editorial\" feel. Content-heavy data tables may use the `sm` or `md` spacing units for increased density while maintaining the `data-mono` typography.\n\n## Elevation & Depth\n\nThis design system rejects harsh shadows in favor of **Ambient Diffusion**.\n\n- **Layers:** Depth is communicated through backdrop blurs (`blur(12px)`) and subtle opacity changes.\n- **Shadows:** Use extremely soft, large-radius shadows with a hint of the \"Warm Ink\" color to ground elements.\n  - *Level 1 (Cards):* 0px 4px 20px rgba(28, 25, 23, 0.04).\n  - *Level 2 (Modals/Popovers):* 0px 12px 40px rgba(28, 25, 23, 0.08).\n- **Glass Borders:** Every elevated element must have a 1px solid border. The top and left borders should be slightly lighter (`rgba(255,255,255,0.4)`) than the bottom and right (`rgba(28,25,23,0.05)`) to simulate a subtle light source from the top-left.\n\n## Components\n\n- **Buttons:** \n  - *Primary:* Ember Red background with white text. High contrast, 8px radius.\n  - *Secondary:* Cream background, 1px Ink border, Ink text.\n- **Cards:** White surface at 70% opacity with a 12px backdrop-blur. 24px internal padding. 1px light border.\n- **Inputs:** Soft stone background (#f7f3ee) with a 1px border that shifts to Ember Red on focus. Use JetBrains Mono for placeholder text.\n- **Chips:** Small, pill-shaped tags using the Gold or Orange accents with 10% opacity backgrounds and full-saturation text for readability.\n- **Lists:** Use subtle 1px dividers in `#efe9df`. Hover states on list items should use a slight brightness shift rather than a color change.\n- **Interactive Highlights:** Use the Warm Gold (#e7c365) for non-destructive highlights, such as search results or \"new\" indicators.",
+              "theme": {
+                "bodyFont": "INTER",
+                "bodyFontFamily": "Inter",
+                "colorMode": "LIGHT",
+                "colorVariant": "FIDELITY",
+                "customColor": "#dc2626",
+                "designMd": "---\nname: Ceniza\ncolors:\n  surface: '#fff8f5'\n  surface-dim: '#e0d8d5'\n  surface-bright: '#fff8f5'\n  surface-container-lowest: '#ffffff'\n  surface-container-low: '#faf2ee'\n  surface-container: '#f4ece8'\n  surface-container-high: '#eee7e3'\n  surface-container-highest: '#e9e1dd'\n  on-surface: '#1e1b19'\n  on-surface-variant: '#5c403c'\n  inverse-surface: '#33302d'\n  inverse-on-surface: '#f7efeb'\n  outline: '#916f6b'\n  outline-variant: '#e6bdb8'\n  surface-tint: '#bf0715'\n  primary: '#b70011'\n  on-primary: '#ffffff'\n  primary-container: '#dc2626'\n  on-primary-container: '#fff6f5'\n  inverse-primary: '#ffb4ab'\n  secondary: '#a73a00'\n  on-secondary: '#ffffff'\n  secondary-container: '#fd651e'\n  on-secondary-container: '#571a00'\n  tertiary: '#755b00'\n  on-tertiary: '#ffffff'\n  tertiary-container: '#c9a74c'\n  on-tertiary-container: '#503d00'\n  error: '#ba1a1a'\n  on-error: '#ffffff'\n  error-container: '#ffdad6'\n  on-error-container: '#93000a'\n  primary-fixed: '#ffdad6'\n  primary-fixed-dim: '#ffb4ab'\n  on-primary-fixed: '#410002'\n  on-primary-fixed-variant: '#93000b'\n  secondary-fixed: '#ffdbce'\n  secondary-fixed-dim: '#ffb599'\n  on-secondary-fixed: '#370e00'\n  on-secondary-fixed-variant: '#7f2b00'\n  tertiary-fixed: '#ffdf92'\n  tertiary-fixed-dim: '#e7c365'\n  on-tertiary-fixed: '#241a00'\n  on-tertiary-fixed-variant: '#594400'\n  background: '#fff8f5'\n  on-background: '#1e1b19'\n  surface-variant: '#e9e1dd'\ntypography:\n  headline-xl:\n    fontFamily: Space Grotesk\n    fontSize: 48px\n    fontWeight: '700'\n    lineHeight: 56px\n    letterSpacing: -0.02em\n  headline-lg:\n    fontFamily: Space Grotesk\n    fontSize: 32px\n    fontWeight: '600'\n    lineHeight: 40px\n    letterSpacing: -0.01em\n  headline-lg-mobile:\n    fontFamily: Space Grotesk\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: 32px\n  body-md:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: 24px\n  body-sm:\n    fontFamily: Inter\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: 20px\n  data-mono:\n    fontFamily: JetBrains Mono\n    fontSize: 14px\n    fontWeight: '500'\n    lineHeight: 20px\n    letterSpacing: 0.02em\n  label-caps:\n    fontFamily: JetBrains Mono\n    fontSize: 12px\n    fontWeight: '700'\n    lineHeight: 16px\nrounded:\n  sm: 0.25rem\n  DEFAULT: 0.5rem\n  md: 0.75rem\n  lg: 1rem\n  xl: 1.5rem\n  full: 9999px\nspacing:\n  unit: 4px\n  xs: 4px\n  sm: 8px\n  md: 16px\n  lg: 24px\n  xl: 40px\n  container-max: 1280px\n  gutter: 24px\n---\n\n## Brand & Style\n\nThe design system is an evocative, high-fidelity light theme that balances the raw utility of technology with the warmth of a traditional hearth. It is tailored for high-stakes information environments that require an editorial, sophisticated touch without sacrificing readability.\n\nThe aesthetic fuses **Warm Glassmorphism** with **Minimalism**. It utilizes semi-transparent, frosted layers to create depth on a foundation of \"stone\" and \"cream\" surfaces. The emotional response is intended to be \"cozy yet authoritative\"—a digital sanctuary that feels human, tactile, and exceptionally clear. \n\nKey visual principles:\n- **Luminous Surfaces:** Backgrounds use subtle gradients of cream and stone to prevent \"screen fatigue.\"\n- **Editorial Contrast:** Razor-sharp typography against soft, organic backgrounds.\n- **Micro-tactility:** Interactive elements feel physical through the use of soft, ambient shadows and light-refracting borders.\n\n## Colors\n\nThe palette is rooted in earth and embers. \n\n- **Foundation:** The primary background alternates between `Stone (#f7f3ee)` and `Cream (#efe9df)`. This creates a natural, paper-like foundation.\n- **Accents:** `Ember Red (#dc2626)` serves as the primary action color, providing a high-energy focal point. `Burnt Orange (#ea580c)` is used for secondary interactive states, and `Warm Gold (#e7c365)` is reserved for highlights, achievements, or critical status indicators.\n- **Ink:** All text and iconography utilize `Dark Warm Ink (#1c1917)` to ensure AAA accessibility and a grounded feel.\n- **Transparency:** Components utilize a semi-transparent off-white for card surfaces to facilitate the glassmorphic layering effect.\n\n## Typography\n\nThis design system uses a tri-font hierarchy to distinguish between intent, narrative, and data.\n\n1.  **Headlines (Space Grotesk):** Geometric and technical. Use for page titles and major section headers. The slight \"quirk\" in letterforms adds a futuristic editorial character.\n2.  **Body (Inter):** Highly legible and neutral. Use for all long-form text, descriptions, and UI controls.\n3.  **Data & Labels (JetBrains Mono):** Used for technical values, timestamps, and metadata. This monospaced font provides a \"developer-tool\" precision that contrasts beautifully with the warm aesthetic.\n\nAll headlines should use a slightly tighter letter-spacing to maintain a compact, impactful look.\n\n## Layout & Spacing\n\nThe layout philosophy follows a **Fluid Grid** model with strict vertical rhythm.\n\n- **Grid:** Use a 12-column grid for desktop with 24px gutters. For mobile, collapse to a single column with 16px side margins.\n- **Rhythm:** All spacing (margins, padding, gaps) must be multiples of the 4px base unit. \n- **Density:** Use generous padding (24px+) for primary cards and containers to reinforce the \"Editorial\" feel. Content-heavy data tables may use the `sm` or `md` spacing units for increased density while maintaining the `data-mono` typography.\n\n## Elevation & Depth\n\nThis design system rejects harsh shadows in favor of **Ambient Diffusion**.\n\n- **Layers:** Depth is communicated through backdrop blurs (`blur(12px)`) and subtle opacity changes.\n- **Shadows:** Use extremely soft, large-radius shadows with a hint of the \"Warm Ink\" color to ground elements.\n  - *Level 1 (Cards):* 0px 4px 20px rgba(28, 25, 23, 0.04).\n  - *Level 2 (Modals/Popovers):* 0px 12px 40px rgba(28, 25, 23, 0.08).\n- **Glass Borders:** Every elevated element must have a 1px solid border. The top and left borders should be slightly lighter (`rgba(255,255,255,0.4)`) than the bottom and right (`rgba(28,25,23,0.05)`) to simulate a subtle light source from the top-left.\n\n## Shapes\n\nThe shape language is \"Soft-Modern.\" Use `rounded-md` (8px) for standard components like buttons and inputs. Use `rounded-xl` (24px) for primary containers and large cards to create a welcoming, approachable container for the data. This high-radius look is essential for the \"cozy\" aspect of the brand personality.\n\n## Components\n\n- **Buttons:** \n  - *Primary:* Ember Red background with white text. High contrast, 8px radius.\n  - *Secondary:* Cream background, 1px Ink border, Ink text.\n- **Cards:** White surface at 70% opacity with a 12px backdrop-blur. 24px internal padding. 1px light border.\n- **Inputs:** Soft stone background (#f7f3ee) with a 1px border that shifts to Ember Red on focus. Use JetBrains Mono for placeholder text.\n- **Chips:** Small, pill-shaped tags using the Gold or Orange accents with 10% opacity backgrounds and full-saturation text for readability.\n- **Lists:** Use subtle 1px dividers in `#efe9df`. Hover states on list items should use a slight brightness shift rather than a color change.\n- **Interactive Highlights:** Use the Warm Gold (#e7c365) for non-destructive highlights, such as search results or \"new\" indicators.",
+                "font": "SPACE_GROTESK",
+                "headlineFont": "SPACE_GROTESK",
+                "headlineFontFamily": "Space Grotesk",
+                "labelFont": "JETBRAINS_MONO",
+                "labelFontFamily": "Jetbrains Mono",
+                "namedColors": {
+                  "background": "#fff8f5",
+                  "error": "#ba1a1a",
+                  "error_container": "#ffdad6",
+                  "inverse_on_surface": "#f7efeb",
+                  "inverse_primary": "#ffb4ab",
+                  "inverse_surface": "#33302d",
+                  "on_background": "#1e1b19",
+                  "on_error": "#ffffff",
+                  "on_error_container": "#93000a",
+                  "on_primary": "#ffffff",
+                  "on_primary_container": "#fff6f5",
+                  "on_primary_fixed": "#410002",
+                  "on_primary_fixed_variant": "#93000b",
+                  "on_secondary": "#ffffff",
+                  "on_secondary_container": "#571a00",
+                  "on_secondary_fixed": "#370e00",
+                  "on_secondary_fixed_variant": "#7f2b00",
+                  "on_surface": "#1e1b19",
+                  "on_surface_variant": "#5c403c",
+                  "on_tertiary": "#ffffff",
+                  "on_tertiary_container": "#503d00",
+                  "on_tertiary_fixed": "#241a00",
+                  "on_tertiary_fixed_variant": "#594400",
+                  "outline": "#916f6b",
+                  "outline_variant": "#e6bdb8",
+                  "primary": "#b70011",
+                  "primary_container": "#dc2626",
+                  "primary_fixed": "#ffdad6",
+                  "primary_fixed_dim": "#ffb4ab",
+                  "secondary": "#a73a00",
+                  "secondary_container": "#fd651e",
+                  "secondary_fixed": "#ffdbce",
+                  "secondary_fixed_dim": "#ffb599",
+                  "surface": "#fff8f5",
+                  "surface_bright": "#fff8f5",
+                  "surface_container": "#f4ece8",
+                  "surface_container_high": "#eee7e3",
+                  "surface_container_highest": "#e9e1dd",
+                  "surface_container_low": "#faf2ee",
+                  "surface_container_lowest": "#ffffff",
+                  "surface_dim": "#e0d8d5",
+                  "surface_tint": "#bf0715",
+                  "surface_variant": "#e9e1dd",
+                  "tertiary": "#755b00",
+                  "tertiary_container": "#c9a74c",
+                  "tertiary_fixed": "#ffdf92",
+                  "tertiary_fixed_dim": "#e7c365"
+                },
+                "overrideNeutralColor": "#1c1917",
+                "overridePrimaryColor": "#dc2626",
+                "overrideSecondaryColor": "#ea580c",
+                "overrideTertiaryColor": "#e7c365",
+                "roundness": "ROUND_EIGHT",
+                "spacing": {
+                  "container-max": "1280px",
+                  "gutter": "24px",
+                  "lg": "24px",
+                  "md": "16px",
+                  "sm": "8px",
+                  "unit": "4px",
+                  "xl": "40px",
+                  "xs": "4px"
+                },
+                "spacingScale": 2,
+                "typography": {
+                  "body-md": {
+                    "fontFamily": "Inter",
+                    "fontSize": "16px",
+                    "fontWeight": "400",
+                    "lineHeight": "24px"
+                  },
+                  "body-sm": {
+                    "fontFamily": "Inter",
+                    "fontSize": "14px",
+                    "fontWeight": "400",
+                    "lineHeight": "20px"
+                  },
+                  "data-mono": {
+                    "fontFamily": "JetBrains Mono",
+                    "fontSize": "14px",
+                    "fontWeight": "500",
+                    "letterSpacing": "0.02em",
+                    "lineHeight": "20px"
+                  },
+                  "headline-lg": {
+                    "fontFamily": "Space Grotesk",
+                    "fontSize": "32px",
+                    "fontWeight": "600",
+                    "letterSpacing": "-0.01em",
+                    "lineHeight": "40px"
+                  },
+                  "headline-lg-mobile": {
+                    "fontFamily": "Space Grotesk",
+                    "fontSize": "24px",
+                    "fontWeight": "600",
+                    "lineHeight": "32px"
+                  },
+                  "headline-xl": {
+                    "fontFamily": "Space Grotesk",
+                    "fontSize": "48px",
+                    "fontWeight": "700",
+                    "letterSpacing": "-0.02em",
+                    "lineHeight": "56px"
+                  },
+                  "label-caps": {
+                    "fontFamily": "JetBrains Mono",
+                    "fontSize": "12px",
+                    "fontWeight": "700",
+                    "lineHeight": "16px"
+                  }
+                }
+              }
+            },
+            "name": "assets/ec456ccb13a9486c8810f17a09ae4c48",
+            "version": "1"
+          }
+        },
+        {
+          "design": {
+            "screens": [
+              {
+                "generatedBy": "interactive_ui_controller",
+                "height": "512",
+                "htmlCode": {
+                  "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sXzkxNDg3Y2Q4NjcyZjRkNDZhMGUzZDZmNjUyZDIwODg2EgsSBxDhz76e_RgYAZIBJAoKcHJvamVjdF9pZBIWQhQxMjA4OTk5NTQxNDkzMzExODczNg&filename=&opi=96797242",
+                  "mimeType": "text/html",
+                  "name": "projects/12089995414933118736/files/62656d69d6aa4136897635db4107636a"
+                },
+                "id": "ab167eed65eb467387efd84c70af1c3b",
+                "name": "projects/12089995414933118736/screens/ab167eed65eb467387efd84c70af1c3b",
+                "prompt": "Shader",
+                "screenMetadata": {
+                  "agentType": "PRO_AGENT",
+                  "displayMode": "HTML",
+                  "status": "COMPLETE"
+                },
+                "screenType": "DESIGN",
+                "theme": {},
+                "title": "Shader",
+                "width": "512"
+              },
+              {
+                "designSystem": {
+                  "designSystem": {
+                    "displayName": "Ceniza",
+                    "styleGuidelines": "## Brand & Style\n\nThe design system is an evocative, high-fidelity light theme that balances the raw utility of technology with the warmth of a traditional hearth. It is tailored for high-stakes information environments that require an editorial, sophisticated touch without sacrificing readability.\n\nThe aesthetic fuses **Warm Glassmorphism** with **Minimalism**. It utilizes semi-transparent, frosted layers to create depth on a foundation of \"stone\" and \"cream\" surfaces. The emotional response is intended to be \"cozy yet authoritative\"—a digital sanctuary that feels human, tactile, and exceptionally clear. \n\nKey visual principles:\n- **Luminous Surfaces:** Backgrounds use subtle gradients of cream and stone to prevent \"screen fatigue.\"\n- **Editorial Contrast:** Razor-sharp typography against soft, organic backgrounds.\n- **Micro-tactility:** Interactive elements feel physical through the use of soft, ambient shadows and light-refracting borders.\n\n## Layout & Spacing\n\nThe layout philosophy follows a **Fluid Grid** model with strict vertical rhythm.\n\n- **Grid:** Use a 12-column grid for desktop with 24px gutters. For mobile, collapse to a single column with 16px side margins.\n- **Rhythm:** All spacing (margins, padding, gaps) must be multiples of the 4px base unit. \n- **Density:** Use generous padding (24px+) for primary cards and containers to reinforce the \"Editorial\" feel. Content-heavy data tables may use the `sm` or `md` spacing units for increased density while maintaining the `data-mono` typography.\n\n## Elevation & Depth\n\nThis design system rejects harsh shadows in favor of **Ambient Diffusion**.\n\n- **Layers:** Depth is communicated through backdrop blurs (`blur(12px)`) and subtle opacity changes.\n- **Shadows:** Use extremely soft, large-radius shadows with a hint of the \"Warm Ink\" color to ground elements.\n  - *Level 1 (Cards):* 0px 4px 20px rgba(28, 25, 23, 0.04).\n  - *Level 2 (Modals/Popovers):* 0px 12px 40px rgba(28, 25, 23, 0.08).\n- **Glass Borders:** Every elevated element must have a 1px solid border. The top and left borders should be slightly lighter (`rgba(255,255,255,0.4)`) than the bottom and right (`rgba(28,25,23,0.05)`) to simulate a subtle light source from the top-left.\n\n## Components\n\n- **Buttons:** \n  - *Primary:* Ember Red background with white text. High contrast, 8px radius.\n  - *Secondary:* Cream background, 1px Ink border, Ink text.\n- **Cards:** White surface at 70% opacity with a 12px backdrop-blur. 24px internal padding. 1px light border.\n- **Inputs:** Soft stone background (#f7f3ee) with a 1px border that shifts to Ember Red on focus. Use JetBrains Mono for placeholder text.\n- **Chips:** Small, pill-shaped tags using the Gold or Orange accents with 10% opacity backgrounds and full-saturation text for readability.\n- **Lists:** Use subtle 1px dividers in `#efe9df`. Hover states on list items should use a slight brightness shift rather than a color change.\n- **Interactive Highlights:** Use the Warm Gold (#e7c365) for non-destructive highlights, such as search results or \"new\" indicators.",
+                    "theme": {
+                      "bodyFont": "INTER",
+                      "bodyFontFamily": "Inter",
+                      "colorMode": "LIGHT",
+                      "colorVariant": "FIDELITY",
+                      "customColor": "#dc2626",
+                      "designMd": "---\nname: Ceniza\ncolors:\n  surface: '#fff8f5'\n  surface-dim: '#e0d8d5'\n  surface-bright: '#fff8f5'\n  surface-container-lowest: '#ffffff'\n  surface-container-low: '#faf2ee'\n  surface-container: '#f4ece8'\n  surface-container-high: '#eee7e3'\n  surface-container-highest: '#e9e1dd'\n  on-surface: '#1e1b19'\n  on-surface-variant: '#5c403c'\n  inverse-surface: '#33302d'\n  inverse-on-surface: '#f7efeb'\n  outline: '#916f6b'\n  outline-variant: '#e6bdb8'\n  surface-tint: '#bf0715'\n  primary: '#b70011'\n  on-primary: '#ffffff'\n  primary-container: '#dc2626'\n  on-primary-container: '#fff6f5'\n  inverse-primary: '#ffb4ab'\n  secondary: '#a73a00'\n  on-secondary: '#ffffff'\n  secondary-container: '#fd651e'\n  on-secondary-container: '#571a00'\n  tertiary: '#755b00'\n  on-tertiary: '#ffffff'\n  tertiary-container: '#c9a74c'\n  on-tertiary-container: '#503d00'\n  error: '#ba1a1a'\n  on-error: '#ffffff'\n  error-container: '#ffdad6'\n  on-error-container: '#93000a'\n  primary-fixed: '#ffdad6'\n  primary-fixed-dim: '#ffb4ab'\n  on-primary-fixed: '#410002'\n  on-primary-fixed-variant: '#93000b'\n  secondary-fixed: '#ffdbce'\n  secondary-fixed-dim: '#ffb599'\n  on-secondary-fixed: '#370e00'\n  on-secondary-fixed-variant: '#7f2b00'\n  tertiary-fixed: '#ffdf92'\n  tertiary-fixed-dim: '#e7c365'\n  on-tertiary-fixed: '#241a00'\n  on-tertiary-fixed-variant: '#594400'\n  background: '#fff8f5'\n  on-background: '#1e1b19'\n  surface-variant: '#e9e1dd'\ntypography:\n  headline-xl:\n    fontFamily: Space Grotesk\n    fontSize: 48px\n    fontWeight: '700'\n    lineHeight: 56px\n    letterSpacing: -0.02em\n  headline-lg:\n    fontFamily: Space Grotesk\n    fontSize: 32px\n    fontWeight: '600'\n    lineHeight: 40px\n    letterSpacing: -0.01em\n  headline-lg-mobile:\n    fontFamily: Space Grotesk\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: 32px\n  body-md:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: 24px\n  body-sm:\n    fontFamily: Inter\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: 20px\n  data-mono:\n    fontFamily: JetBrains Mono\n    fontSize: 14px\n    fontWeight: '500'\n    lineHeight: 20px\n    letterSpacing: 0.02em\n  label-caps:\n    fontFamily: JetBrains Mono\n    fontSize: 12px\n    fontWeight: '700'\n    lineHeight: 16px\nrounded:\n  sm: 0.25rem\n  DEFAULT: 0.5rem\n  md: 0.75rem\n  lg: 1rem\n  xl: 1.5rem\n  full: 9999px\nspacing:\n  unit: 4px\n  xs: 4px\n  sm: 8px\n  md: 16px\n  lg: 24px\n  xl: 40px\n  container-max: 1280px\n  gutter: 24px\n---\n\n## Brand & Style\n\nThe design system is an evocative, high-fidelity light theme that balances the raw utility of technology with the warmth of a traditional hearth. It is tailored for high-stakes information environments that require an editorial, sophisticated touch without sacrificing readability.\n\nThe aesthetic fuses **Warm Glassmorphism** with **Minimalism**. It utilizes semi-transparent, frosted layers to create depth on a foundation of \"stone\" and \"cream\" surfaces. The emotional response is intended to be \"cozy yet authoritative\"—a digital sanctuary that feels human, tactile, and exceptionally clear. \n\nKey visual principles:\n- **Luminous Surfaces:** Backgrounds use subtle gradients of cream and stone to prevent \"screen fatigue.\"\n- **Editorial Contrast:** Razor-sharp typography against soft, organic backgrounds.\n- **Micro-tactility:** Interactive elements feel physical through the use of soft, ambient shadows and light-refracting borders.\n\n## Colors\n\nThe palette is rooted in earth and embers. \n\n- **Foundation:** The primary background alternates between `Stone (#f7f3ee)` and `Cream (#efe9df)`. This creates a natural, paper-like foundation.\n- **Accents:** `Ember Red (#dc2626)` serves as the primary action color, providing a high-energy focal point. `Burnt Orange (#ea580c)` is used for secondary interactive states, and `Warm Gold (#e7c365)` is reserved for highlights, achievements, or critical status indicators.\n- **Ink:** All text and iconography utilize `Dark Warm Ink (#1c1917)` to ensure AAA accessibility and a grounded feel.\n- **Transparency:** Components utilize a semi-transparent off-white for card surfaces to facilitate the glassmorphic layering effect.\n\n## Typography\n\nThis design system uses a tri-font hierarchy to distinguish between intent, narrative, and data.\n\n1.  **Headlines (Space Grotesk):** Geometric and technical. Use for page titles and major section headers. The slight \"quirk\" in letterforms adds a futuristic editorial character.\n2.  **Body (Inter):** Highly legible and neutral. Use for all long-form text, descriptions, and UI controls.\n3.  **Data & Labels (JetBrains Mono):** Used for technical values, timestamps, and metadata. This monospaced font provides a \"developer-tool\" precision that contrasts beautifully with the warm aesthetic.\n\nAll headlines should use a slightly tighter letter-spacing to maintain a compact, impactful look.\n\n## Layout & Spacing\n\nThe layout philosophy follows a **Fluid Grid** model with strict vertical rhythm.\n\n- **Grid:** Use a 12-column grid for desktop with 24px gutters. For mobile, collapse to a single column with 16px side margins.\n- **Rhythm:** All spacing (margins, padding, gaps) must be multiples of the 4px base unit. \n- **Density:** Use generous padding (24px+) for primary cards and containers to reinforce the \"Editorial\" feel. Content-heavy data tables may use the `sm` or `md` spacing units for increased density while maintaining the `data-mono` typography.\n\n## Elevation & Depth\n\nThis design system rejects harsh shadows in favor of **Ambient Diffusion**.\n\n- **Layers:** Depth is communicated through backdrop blurs (`blur(12px)`) and subtle opacity changes.\n- **Shadows:** Use extremely soft, large-radius shadows with a hint of the \"Warm Ink\" color to ground elements.\n  - *Level 1 (Cards):* 0px 4px 20px rgba(28, 25, 23, 0.04).\n  - *Level 2 (Modals/Popovers):* 0px 12px 40px rgba(28, 25, 23, 0.08).\n- **Glass Borders:** Every elevated element must have a 1px solid border. The top and left borders should be slightly lighter (`rgba(255,255,255,0.4)`) than the bottom and right (`rgba(28,25,23,0.05)`) to simulate a subtle light source from the top-left.\n\n## Shapes\n\nThe shape language is \"Soft-Modern.\" Use `rounded-md` (8px) for standard components like buttons and inputs. Use `rounded-xl` (24px) for primary containers and large cards to create a welcoming, approachable container for the data. This high-radius look is essential for the \"cozy\" aspect of the brand personality.\n\n## Components\n\n- **Buttons:** \n  - *Primary:* Ember Red background with white text. High contrast, 8px radius.\n  - *Secondary:* Cream background, 1px Ink border, Ink text.\n- **Cards:** White surface at 70% opacity with a 12px backdrop-blur. 24px internal padding. 1px light border.\n- **Inputs:** Soft stone background (#f7f3ee) with a 1px border that shifts to Ember Red on focus. Use JetBrains Mono for placeholder text.\n- **Chips:** Small, pill-shaped tags using the Gold or Orange accents with 10% opacity backgrounds and full-saturation text for readability.\n- **Lists:** Use subtle 1px dividers in `#efe9df`. Hover states on list items should use a slight brightness shift rather than a color change.\n- **Interactive Highlights:** Use the Warm Gold (#e7c365) for non-destructive highlights, such as search results or \"new\" indicators.",
+                      "font": "SPACE_GROTESK",
+                      "headlineFont": "SPACE_GROTESK",
+                      "headlineFontFamily": "Space Grotesk",
+                      "labelFont": "JETBRAINS_MONO",
+                      "labelFontFamily": "Jetbrains Mono",
+                      "namedColors": {
+                        "background": "#fff8f5",
+                        "error": "#ba1a1a",
+                        "error_container": "#ffdad6",
+                        "inverse_on_surface": "#f7efeb",
+                        "inverse_primary": "#ffb4ab",
+                        "inverse_surface": "#33302d",
+                        "on_background": "#1e1b19",
+                        "on_error": "#ffffff",
+                        "on_error_container": "#93000a",
+                        "on_primary": "#ffffff",
+                        "on_primary_container": "#fff6f5",
+                        "on_primary_fixed": "#410002",
+                        "on_primary_fixed_variant": "#93000b",
+                        "on_secondary": "#ffffff",
+                        "on_secondary_container": "#571a00",
+                        "on_secondary_fixed": "#370e00",
+                        "on_secondary_fixed_variant": "#7f2b00",
+                        "on_surface": "#1e1b19",
+                        "on_surface_variant": "#5c403c",
+                        "on_tertiary": "#ffffff",
+                        "on_tertiary_container": "#503d00",
+                        "on_tertiary_fixed": "#241a00",
+                        "on_tertiary_fixed_variant": "#594400",
+                        "outline": "#916f6b",
+                        "outline_variant": "#e6bdb8",
+                        "primary": "#b70011",
+                        "primary_container": "#dc2626",
+                        "primary_fixed": "#ffdad6",
+                        "primary_fixed_dim": "#ffb4ab",
+                        "secondary": "#a73a00",
+                        "secondary_container": "#fd651e",
+                        "secondary_fixed": "#ffdbce",
+                        "secondary_fixed_dim": "#ffb599",
+                        "surface": "#fff8f5",
+                        "surface_bright": "#fff8f5",
+                        "surface_container": "#f4ece8",
+                        "surface_container_high": "#eee7e3",
+                        "surface_container_highest": "#e9e1dd",
+                        "surface_container_low": "#faf2ee",
+                        "surface_container_lowest": "#ffffff",
+                        "surface_dim": "#e0d8d5",
+                        "surface_tint": "#bf0715",
+                        "surface_variant": "#e9e1dd",
+                        "tertiary": "#755b00",
+                        "tertiary_container": "#c9a74c",
+                        "tertiary_fixed": "#ffdf92",
+                        "tertiary_fixed_dim": "#e7c365"
+                      },
+                      "overrideNeutralColor": "#1c1917",
+                      "overridePrimaryColor": "#dc2626",
+                      "overrideSecondaryColor": "#ea580c",
+                      "overrideTertiaryColor": "#e7c365",
+                      "roundness": "ROUND_EIGHT",
+                      "spacing": {
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "unit": "4px",
+                        "xl": "40px",
+                        "xs": "4px"
+                      },
+                      "spacingScale": 2,
+                      "typography": {
+                        "body-md": {
+                          "fontFamily": "Inter",
+                          "fontSize": "16px",
+                          "fontWeight": "400",
+                          "lineHeight": "24px"
+                        },
+                        "body-sm": {
+                          "fontFamily": "Inter",
+                          "fontSize": "14px",
+                          "fontWeight": "400",
+                          "lineHeight": "20px"
+                        },
+                        "data-mono": {
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": "14px",
+                          "fontWeight": "500",
+                          "letterSpacing": "0.02em",
+                          "lineHeight": "20px"
+                        },
+                        "headline-lg": {
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": "32px",
+                          "fontWeight": "600",
+                          "letterSpacing": "-0.01em",
+                          "lineHeight": "40px"
+                        },
+                        "headline-lg-mobile": {
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": "24px",
+                          "fontWeight": "600",
+                          "lineHeight": "32px"
+                        },
+                        "headline-xl": {
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": "48px",
+                          "fontWeight": "700",
+                          "letterSpacing": "-0.02em",
+                          "lineHeight": "56px"
+                        },
+                        "label-caps": {
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": "12px",
+                          "fontWeight": "700",
+                          "lineHeight": "16px"
+                        }
+                      }
+                    }
+                  },
+                  "name": "assets/ec456ccb13a9486c8810f17a09ae4c48",
+                  "version": "1"
+                },
+                "deviceType": "DESKTOP",
+                "generatedBy": "figaro_agent",
+                "height": "2602",
+                "htmlCode": {
+                  "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sX2JkOWU5YTdhMDFhNzQ5MTdhZjkyZTM2NjM1ZWFiYjNlEgsSBxDhz76e_RgYAZIBJAoKcHJvamVjdF9pZBIWQhQxMjA4OTk5NTQxNDkzMzExODczNg&filename=&opi=96797242",
+                  "mimeType": "text/html",
+                  "name": "projects/12089995414933118736/files/935e72cc6f8d4d388e9029c3b3c250d7"
+                },
+                "id": "20f86dc45243453b9e823a469c8fa61d",
+                "name": "projects/12089995414933118736/screens/20f86dc45243453b9e823a469c8fa61d",
+                "prompt": "HOME PAGE for \"AOTR Values\" in the \"Ceniza\" LIGHT THEME.\n- Background: Use the shader {{DATA:ANIMATION:ANIMATION_8}} as a full-page background.\n- Language: ALL UI TEXT IN SPANISH.\n- Hero: Large display title \"AOTR VALUES\" with a gradient from Ember Red (#dc2626) to Burnt Orange (#ea580c). Subtitle: \"La plataforma de precios premium para Attack on Titan Revolution. Datos precisos, comercio justo.\"\n- Search Bar: Centered glassmorphic search bar (warm translucent white) with \"Buscar objetos, precios, historia...\" and a preview of \"Colossal Crystal 45 🔑\".\n- Stats Strip: 3 glass cards: \"Objetos Indexados: 150+\", \"Fuentes de Datos: 2 Sincronizadas\", \"Frecuencia: 48/Día\".\n- Top Movers: Title \"Movimientos Destacados\". 3 cards:\n    1. \"Scroll of Truth (Legendario)\" | +15.2% | Precio: 120 🔑 | Green sparkline.\n    2. \"Titan Heart (Mítico)\" | -5.0% | Precio: 450 🔑 | Red sparkline.\n    3. \"ODM Gear V2 (Épico)\" | 0.0% | Precio: 35 🔑 | Flat sparkline.\n- How It Works: \"La Arquitectura de Datos\" section with 3 items: \"Sincronización de Scripts\", \"Listas de Precios\", \"Historial de Comercio\".\n- Style: Space Grotesk for headings, dark ink text (#1c1917) for readability, warm shadows, and glassmorphism. Use the predicted TopNavBar and Footer from {{DATA:COMPONENTS:COMPONENTS_7}}.\n- Use the exact Ceniza palette: cream #f7f3ee, ember red #dc2626, burnt orange #ea580c, warm gold #e7c365.",
+                "screenMetadata": {
+                  "agentType": "PRO_AGENT",
+                  "status": "COMPLETE"
+                },
+                "screenType": "DESIGN",
+                "screenshot": {
+                  "downloadUrl": "https://lh3.googleusercontent.com/aida/AP1WRLtUmXA-BlZntMRNeHdDK52coEqc3hPjcn2Gcgav1CVbJ9UrZcRsjUnAatXL5xRxatbZFfHq0hgPz5TxcvatWW0aRGlObldGrSd_WUkVOwAh6vWp0jNPKw6upqKigh5JN-0Vs-Ph5hImHFlOQ7_ejB0m-tGrIAD8XC-CfioTd8XFMqv6wvIJqCvOdxMpOEBgGRHdYzxD4Z8EUEMlu6zqIq1Eho96lvwjLrnOcXm8Do38hiDzNRKEFIKL3UWS",
+                  "name": "projects/12089995414933118736/files/ea73746323fe4dc7b3ae287930446da8"
+                },
+                "theme": {
+                  "bodyFont": "INTER",
+                  "bodyFontFamily": "Inter",
+                  "colorMode": "LIGHT",
+                  "colorVariant": "FIDELITY",
+                  "customColor": "#dc2626",
+                  "font": "SPACE_GROTESK",
+                  "headlineFont": "SPACE_GROTESK",
+                  "headlineFontFamily": "Space Grotesk",
+                  "labelFont": "JETBRAINS_MONO",
+                  "labelFontFamily": "Jetbrains Mono",
+                  "namedColors": {
+                    "background": "#fff8f5",
+                    "error": "#ba1a1a",
+                    "error_container": "#ffdad6",
+                    "inverse_on_surface": "#f7efeb",
+                    "inverse_primary": "#ffb4ab",
+                    "inverse_surface": "#33302d",
+                    "on_background": "#1e1b19",
+                    "on_error": "#ffffff",
+                    "on_error_container": "#93000a",
+                    "on_primary": "#ffffff",
+                    "on_primary_container": "#fff6f5",
+                    "on_primary_fixed": "#410002",
+                    "on_primary_fixed_variant": "#93000b",
+                    "on_secondary": "#ffffff",
+                    "on_secondary_container": "#571a00",
+                    "on_secondary_fixed": "#370e00",
+                    "on_secondary_fixed_variant": "#7f2b00",
+                    "on_surface": "#1e1b19",
+                    "on_surface_variant": "#5c403c",
+                    "on_tertiary": "#ffffff",
+                    "on_tertiary_container": "#503d00",
+                    "on_tertiary_fixed": "#241a00",
+                    "on_tertiary_fixed_variant": "#594400",
+                    "outline": "#916f6b",
+                    "outline_variant": "#e6bdb8",
+                    "primary": "#b70011",
+                    "primary_container": "#dc2626",
+                    "primary_fixed": "#ffdad6",
+                    "primary_fixed_dim": "#ffb4ab",
+                    "secondary": "#a73a00",
+                    "secondary_container": "#fd651e",
+                    "secondary_fixed": "#ffdbce",
+                    "secondary_fixed_dim": "#ffb599",
+                    "surface": "#fff8f5",
+                    "surface_bright": "#fff8f5",
+                    "surface_container": "#f4ece8",
+                    "surface_container_high": "#eee7e3",
+                    "surface_container_highest": "#e9e1dd",
+                    "surface_container_low": "#faf2ee",
+                    "surface_container_lowest": "#ffffff",
+                    "surface_dim": "#e0d8d5",
+                    "surface_tint": "#bf0715",
+                    "surface_variant": "#e9e1dd",
+                    "tertiary": "#755b00",
+                    "tertiary_container": "#c9a74c",
+                    "tertiary_fixed": "#ffdf92",
+                    "tertiary_fixed_dim": "#e7c365"
+                  },
+                  "overrideNeutralColor": "#1c1917",
+                  "overridePrimaryColor": "#dc2626",
+                  "overrideSecondaryColor": "#ea580c",
+                  "overrideTertiaryColor": "#e7c365",
+                  "roundness": "ROUND_EIGHT",
+                  "spacing": {
+                    "container-max": "1280px",
+                    "gutter": "24px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "sm": "8px",
+                    "unit": "4px",
+                    "xl": "40px",
+                    "xs": "4px"
+                  },
+                  "spacingScale": 2,
+                  "typography": {
+                    "body-md": {
+                      "fontFamily": "Inter",
+                      "fontSize": "16px",
+                      "fontWeight": "400",
+                      "lineHeight": "24px"
+                    },
+                    "body-sm": {
+                      "fontFamily": "Inter",
+                      "fontSize": "14px",
+                      "fontWeight": "400",
+                      "lineHeight": "20px"
+                    },
+                    "data-mono": {
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": "14px",
+                      "fontWeight": "500",
+                      "letterSpacing": "0.02em",
+                      "lineHeight": "20px"
+                    },
+                    "headline-lg": {
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": "32px",
+                      "fontWeight": "600",
+                      "letterSpacing": "-0.01em",
+                      "lineHeight": "40px"
+                    },
+                    "headline-lg-mobile": {
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": "24px",
+                      "fontWeight": "600",
+                      "lineHeight": "32px"
+                    },
+                    "headline-xl": {
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": "48px",
+                      "fontWeight": "700",
+                      "letterSpacing": "-0.02em",
+                      "lineHeight": "56px"
+                    },
+                    "label-caps": {
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": "12px",
+                      "fontWeight": "700",
+                      "lineHeight": "16px"
+                    }
+                  }
+                },
+                "title": "AOTR Values - Home Page (Ceniza Light Theme)",
+                "width": "2560"
+              }
+            ],
+            "theme": {}
+          }
+        },
+        {
+          "text": "I have designed the **Ceniza Light Theme** for the AOTR Values Home Page. \n\n### Design Rationale:\n- **Ceniza Palette**: I implemented a warm, \"ember-and-ash\" aesthetic using a foundation of **Stone Cream (#F7F3EE)** and **Soft Ash (#EFE9DF)**. The primary actions and highlights use high-contrast **Ember Red (#DC2626)** and **Burnt Orange (#EA580C)**, creating a cozy yet premium editorial feel.\n- **Atmospheric Background**: I created a custom WebGL shader (`[Animation]`) that renders a subtle 3D perspective grid floor with floating ash particles and warm ember glows at the horizon, maintaining the \"Attack on Titan\" spirit in a light-mode context.\n- **Glassmorphism**: All UI elements use a \"Warm Glass\" treatment—translucent off-white containers with soft borders and warm drop shadows to ensure depth and legibility against the animated background.\n- **Premium Data Display**: Used **Space Grotesk** for bold headlines and **JetBrains Mono** for technical data (prices/stats), ensuring that currency icons (🔑, 📜, 🎭) and price deltas remain perfectly readable.\n\n### Screens Produced:\n- **Home Page (Light Theme)**: `AOTR Values - Home Page (Ceniza Light Theme)`\n- **Design System (Ceniza)**: `[Design_System]`\n\nWould you like to see the \"Precios\" listing page in this light theme, or should we adjust any of the accent colors?"
+        },
+        {
+          "suggestion": "Diseña la página de Precios en tema Ceniza"
+        },
+        {
+          "suggestion": "Ajusta el rojo de los botones a un tono más cobrizo"
+        },
+        {
+          "suggestion": "Crea la versión móvil del Home en tema Ceniza"
+        }
+      ],
+      "projectId": "12089995414933118736",
+      "sessionId": "3622291930675398395"
+    }
+  }
+}

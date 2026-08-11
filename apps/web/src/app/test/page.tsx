@@ -1,4 +1,4 @@
-import fs from "node:fs";
+/* import fs from "node:fs";
 import path from "node:path";
 import { Reveal } from "@/components/Reveal";
 import { getTestData } from "@/lib/test-data";
@@ -361,7 +361,7 @@ export default async function TestPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 pb-16 pt-28 sm:px-6">
-      {/* ── Hero ─────────────────────────────────────── */}
+      
       <Reveal>
         <p className="text-xs font-semibold uppercase tracking-widest text-indigo-300">
           🧪 Laboratorio de datos
@@ -376,7 +376,7 @@ export default async function TestPage() {
         </p>
       </Reveal>
 
-      {/* ── Resumen ──────────────────────────────────── */}
+
       <Reveal delay={0.05}>
         <div className="mt-6 flex flex-wrap gap-3">
           <div className="glass rounded-2xl px-4 py-3">
@@ -410,7 +410,7 @@ export default async function TestPage() {
         )}
       </Reveal>
 
-      {/* ── Pipeline ─────────────────────────────────── */}
+      
       <section className="mt-16">
         <Reveal>
           <h2 className="font-display text-2xl font-bold text-white">
@@ -455,7 +455,7 @@ export default async function TestPage() {
         </div>
       </section>
 
-      {/* ── Items desde el Excel ─────────────────────── */}
+      
       <section className="mt-20">
         <Reveal>
           <div className="flex flex-wrap items-center gap-3">
@@ -488,7 +488,7 @@ export default async function TestPage() {
         )}
       </section>
 
-      {/* ── Items desde la API ───────────────────────── */}
+    
       <section className="mt-20">
         <Reveal>
           <div className="flex flex-wrap items-center gap-3">
@@ -520,7 +520,6 @@ export default async function TestPage() {
         )}
       </section>
 
-      {/* ── Arquitectura de la BD ────────────────────── */}
       <section className="mt-20">
         <Reveal>
           <div className="flex flex-wrap items-center gap-3">
@@ -543,7 +542,7 @@ export default async function TestPage() {
         </Reveal>
 
         <div className="mt-6 grid gap-4 lg:grid-cols-2">
-          {/* Modelos renderizados */}
+       
           <Reveal>
             <div className="glass rounded-2xl p-5">
               <h3 className="font-mono text-sm font-bold text-white">2 tablas de precios</h3>
@@ -592,7 +591,7 @@ export default async function TestPage() {
             </div>
           </Reveal>
 
-          {/* Schema crudo */}
+  
           <Reveal delay={0.08}>
             <div className="glass h-full rounded-2xl p-5">
               <h3 className="font-mono text-sm font-bold text-white">
@@ -611,3 +610,4 @@ export default async function TestPage() {
     </div>
   );
 }
+ */

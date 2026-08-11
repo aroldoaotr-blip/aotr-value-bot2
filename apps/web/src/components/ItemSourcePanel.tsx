@@ -21,7 +21,7 @@ export function ItemSourcePanel({
         className={cn(
           "rounded-3xl transition-all duration-300",
           source === "official"
-            ? "ring-2 ring-emerald-400/60 shadow-glow"
+            ? "glow-border-active"
             : "opacity-90",
         )}
       >
@@ -31,7 +31,7 @@ export function ItemSourcePanel({
         className={cn(
           "rounded-3xl transition-all duration-300",
           source === "trade"
-            ? "ring-2 ring-blue-400/60 shadow-glow"
+            ? "neon-border-primary"
             : "opacity-90",
         )}
       >

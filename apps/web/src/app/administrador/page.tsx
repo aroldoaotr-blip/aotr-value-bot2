@@ -10,7 +10,6 @@ import {
   setLocalRates,
   type Rates
 } from "@/lib/rates";
-import { Avatar } from "@/components/Avatar";
 import { cn } from "@/lib/format";
 
 interface SyncLogEntry {
@@ -40,11 +39,11 @@ export default function AdminPage() {
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [message, setMessage] = useState("");
   const [persisted, setPersisted] = useState(false);
-  const [example, setExample] = useState<{ name: string; emoji: string | null } | null>(null);
   const [syncing, setSyncing] = useState(false);
   const [syncMsg, setSyncMsg] = useState<string | null>(null);
   const [syncLog, setSyncLog] = useState<SyncLogEntry[]>([]);
   const [dbError, setDbError] = useState<string | null>(null);
+  const [heroMode, setHeroMode] = useState<"video" | "shader">("video");
 
   const rates: Rates = useMemo(() => {
     const kv = Number(keysPerVizard);
@@ -56,8 +55,7 @@ export default function AdminPage() {
   }, [keysPerVizard, keysPerScroll]);
 
   // Cargar tasas actuales. localStorage del admin tiene prioridad para los
-  // VALORES, pero SIEMPRE consultamos /api/rates para saber si la BD responde
-  // (persisted) — así el aviso "sin BD" solo aparece cuando realmente falla.
+  // VALORES, pero SIEMPRE consultamos /api/rates para saber si la BD responde.
   useEffect(() => {
     if (authed === null) return;
     const local = getLocalRates();
@@ -70,8 +68,6 @@ export default function AdminPage() {
         const res = await fetch("/api/rates");
         const data = await res.json();
         if (data.rates) {
-          // La BD es la fuente compartida con el bot: si responde, sus valores
-          // ganan; si no, se mantienen los del navegador.
           if (data.persisted) {
             setKeysPerVizard(String(data.rates.keysPerVizard));
             setKeysPerScroll(String(data.rates.keysPerScroll));
@@ -107,15 +103,35 @@ export default function AdminPage() {
     return () => clearInterval(id);
   }, [authed]);
 
+  // Hero del Home: elige entre el video de batalla y el shader 3D de Stitch.
+  // IMPORTANTE: va ANTES del return condicional para respetar las Rules of Hooks.
+  useEffect(() => {
+    try {
+      const v = localStorage.getItem("aotr-hero");
+      if (v === "video" || v === "shader") setHeroMode(v);
+    } catch {
+      /* sin storage */
+    }
+  }, []);
+
   if (authed === null) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <Loader2 className="h-8 w-8 animate-spin text-indigo-400" />
-          <p className="text-sm text-white/50">Verificando acceso…</p>
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-sm text-on-surface-variant">Verificando acceso…</p>
         </div>
       </div>
     );
+  }
+
+  function setHero(next: "video" | "shader") {
+    setHeroMode(next);
+    try {
+      localStorage.setItem("aotr-hero", next);
+    } catch {
+      /* sin storage */
+    }
   }
 
   const valid =
@@ -147,7 +163,6 @@ export default function AdminPage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Error al guardar");
-      // Siempre guardar localmente también (modo sin BD)
       setLocalRates(data.rates ?? rates);
       setPersisted(!!data.persisted);
       setStatus("saved");
@@ -211,212 +226,274 @@ export default function AdminPage() {
   const keyInScrolls = 1 / rates.keysPerScroll;
 
   return (
-    <div className="mx-auto max-w-3xl px-4 pb-16 pt-28 sm:px-6">
-      <div className="flex items-start justify-between gap-4">
+    <div className="mx-auto max-w-7xl px-4 pb-16 pt-28 sm:px-6">
+      {/* ── Header ─────────────────────────────────────── */}
+      <header className="mb-8 flex flex-col justify-between gap-6 border-b border-outline-variant/30 pb-6 md:flex-row md:items-end">
         <div className="flex items-center gap-3">
           <div className="orb flex h-12 w-12 items-center justify-center">
             <ShieldCheck className="h-6 w-6 text-white" />
           </div>
           <div>
-            <h1 className="font-display text-2xl font-bold text-white sm:text-3xl">
+            <h1 className="font-display-lg text-2xl font-bold tracking-tight text-on-surface sm:text-4xl">
               Administración de tasas
             </h1>
-            <p className="mt-1 text-sm text-white/50">
-              Estas tasas normalizan los precios en <strong className="text-white/80">llaves</strong>,{" "}
-              <strong className="text-white/80">pergaminos</strong> y{" "}
-              <strong className="text-white/80">vizard</strong> en toda la plataforma (web + bot).
+            <p className="mt-1 text-sm text-on-surface-variant">
+              Configura los valores base de conversión para la economía del servidor. Normaliza los
+              precios en <strong className="text-on-surface">llaves</strong>,{" "}
+              <strong className="text-on-surface">pergaminos</strong> y{" "}
+              <strong className="text-on-surface">vizard</strong> en toda la plataforma (web + bot).
             </p>
           </div>
         </div>
         <button
           onClick={logout}
-          className="glass flex shrink-0 items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-medium text-white/60 transition-all hover:border-rose-400/30 hover:text-rose-300"
+          className="glass-panel flex shrink-0 items-center gap-1.5 rounded-lg px-4 py-2 font-data-tabular text-sm text-error transition-colors hover:bg-error/10"
           title="Cerrar sesión"
         >
-          <LogOut className="h-3.5 w-3.5" />
-          <span className="hidden sm:inline">Salir</span>
+          <LogOut className="h-4 w-4" />
+          Salir
         </button>
-      </div>
+      </header>
 
-      {/* Tasas */}
-      <div className="mt-8 grid gap-4 sm:grid-cols-2">
-        <label className="gradient-border block rounded-2xl p-5">
-          <span className="text-[11px] font-semibold uppercase tracking-widest text-indigo-300">
-            🎭 1 Vizard =
-          </span>
-          <div className="mt-2 flex items-baseline gap-2">
-            <input
-              type="number"
-              min={1}
-              step="any"
-              value={keysPerVizard}
-              onChange={(e) => setKeysPerVizard(e.target.value)}
-              className="w-24 rounded-xl border border-white/10 bg-white/[0.05] px-3 py-2 text-2xl font-bold text-white outline-none transition-all focus:border-indigo-400/60"
-            />
-            <span className="text-sm text-white/60">llaves</span>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+        {/* ── Columna izquierda: tasas ─────────────────── */}
+        <div className="flex flex-col gap-6 lg:col-span-8">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            {/* 1 VIZARD */}
+            <div className="glass-panel group relative overflow-hidden rounded-xl p-6">
+              <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-primary/10 blur-2xl transition-all group-hover:bg-primary/20" />
+              <label className="mb-4 flex items-center gap-2 font-label-caps text-xs font-bold uppercase tracking-wider text-primary">
+                🎭 1 VIZARD =
+              </label>
+              <div className="flex items-baseline gap-3 rounded-t-md border-b-2 border-outline-variant bg-surface-low px-3 pb-2 pt-3 transition-colors input-neon">
+                <input
+                  type="number"
+                  min={1}
+                  step="any"
+                  value={keysPerVizard}
+                  onChange={(e) => setKeysPerVizard(e.target.value)}
+                  className="w-full bg-transparent p-0 font-display-lg text-2xl font-bold text-on-surface outline-none tabular-nums"
+                />
+                <span className="whitespace-nowrap font-data-tabular text-sm text-on-surface-variant">
+                  llaves
+                </span>
+              </div>
+              <div className="mt-4 flex items-center gap-2 font-data-tabular text-sm text-on-surface-variant">
+                <RefreshCw className="h-3.5 w-3.5" />
+                <span>≈ {vizInScrolls.toLocaleString("en-US")} pergaminos</span>
+              </div>
+            </div>
+
+            {/* 1 PERGAMINO */}
+            <div className="glass-panel group relative overflow-hidden rounded-xl p-6">
+              <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-tertiary/10 blur-2xl transition-all group-hover:bg-tertiary/20" />
+              <label className="mb-4 flex items-center gap-2 font-label-caps text-xs font-bold uppercase tracking-wider text-tertiary">
+                📜 1 PERGAMINO =
+              </label>
+              <div className="flex items-baseline gap-3 rounded-t-md border-b-2 border-outline-variant bg-surface-low px-3 pb-2 pt-3 transition-colors input-neon">
+                <input
+                  type="number"
+                  min={1}
+                  step="any"
+                  value={keysPerScroll}
+                  onChange={(e) => setKeysPerScroll(e.target.value)}
+                  className="w-full bg-transparent p-0 font-display-lg text-2xl font-bold text-on-surface outline-none tabular-nums"
+                />
+                <span className="whitespace-nowrap font-data-tabular text-sm text-on-surface-variant">
+                  llaves
+                </span>
+              </div>
+              <div className="mt-4 flex items-center gap-2 font-data-tabular text-sm text-on-surface-variant">
+                <RefreshCw className="h-3.5 w-3.5" />
+                <span>1 llave = {keyInScrolls.toLocaleString("en-US", { maximumFractionDigits: 4 })} pergaminos</span>
+              </div>
+            </div>
           </div>
-          <p className="mt-2 text-xs text-white/40">
-            = {vizInKeys.toLocaleString("en-US")} llaves · ≈ {vizInScrolls.toLocaleString("en-US")} pergaminos
-          </p>
-        </label>
 
-        <label className="gradient-border block rounded-2xl p-5">
-          <span className="text-[11px] font-semibold uppercase tracking-widest text-amber-300">
-            📜 1 Pergamino =
-          </span>
-          <div className="mt-2 flex items-baseline gap-2">
-            <input
-              type="number"
-              min={1}
-              step="any"
-              value={keysPerScroll}
-              onChange={(e) => setKeysPerScroll(e.target.value)}
-              className="w-24 rounded-xl border border-white/10 bg-white/[0.05] px-3 py-2 text-2xl font-bold text-white outline-none transition-all focus:border-amber-400/60"
-            />
-            <span className="text-sm text-white/60">llaves</span>
+          {/* Ejemplo en vivo */}
+          <div className="glass-panel flex flex-wrap items-center justify-between gap-3 rounded-lg border-l-4 border-l-primary bg-gradient-to-r from-primary/5 to-transparent p-4">
+            <div className="flex items-center gap-3">
+              <span className="font-label-caps text-xs font-bold tracking-wider text-on-surface-variant">
+                EJEMPLO EN VIVO
+              </span>
+            </div>
+            <div className="flex flex-wrap items-center gap-2 font-data-tabular text-sm text-on-surface">
+              <span>Item de 2 viz</span>
+              <span className="text-on-surface-variant">→</span>
+              <span className="font-bold text-primary">🔑 {(2 * rates.keysPerVizard).toLocaleString("en-US")}</span>
+              <span className="text-on-surface-variant">·</span>
+              <span className="font-bold text-tertiary">📜 {((2 * rates.keysPerVizard) / rates.keysPerScroll).toLocaleString("en-US")}</span>
+            </div>
           </div>
-          <p className="mt-2 text-xs text-white/40">
-            1 llave = {keyInScrolls.toLocaleString("en-US", { maximumFractionDigits: 4 })} pergaminos
-          </p>
-        </label>
-      </div>
 
-      {/* Ejemplo en vivo */}
-      <div className="glass mt-4 rounded-2xl p-5">
-        <p className="text-[11px] font-semibold uppercase tracking-widest text-white/40">
-          🔍 Ejemplo en vivo — item de 2 viz en la API
-        </p>
-        <div className="mt-3 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm">
-          <span className="text-white/70">🎭 2 viz</span>
-          <span className="text-white/25">→</span>
-          <span className="text-emerald-300">🔑 {(2 * rates.keysPerVizard).toLocaleString("en-US")} llaves</span>
-          <span className="text-white/25">→</span>
-          <span className="text-amber-300">
-            📜 {((2 * rates.keysPerVizard) / rates.keysPerScroll).toLocaleString("en-US")} pergaminos
-          </span>
-        </div>
-      </div>
+          {/* Acciones */}
+          <div className="mt-2 flex flex-col gap-4 sm:flex-row">
+            <button
+              onClick={save}
+              disabled={!valid || status === "saving"}
+              className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-primary to-primary-container px-6 py-3 font-data-tabular text-sm shadow-lg shadow-primary/20 transition-all hover:brightness-110 active:scale-95 disabled:opacity-40"
+            >
+              <Save className="h-5 w-5" />
+              {status === "saving" ? "Guardando…" : "Guardar tasas"}
+            </button>
+            <button
+              onClick={reset}
+              className="glass-panel flex flex-1 items-center justify-center gap-2 rounded-lg px-6 py-3 font-data-tabular text-sm text-on-surface transition-all hover:bg-surface-variant/50 active:scale-95"
+            >
+              <RotateCcw className="h-5 w-5" />
+              Restaurar por defecto (900.9 / 3)
+            </button>
+          </div>
 
-      {/* Acciones */}
-      <div className="mt-6 flex flex-wrap items-center gap-3">
-        <button
-          onClick={save}
-          disabled={!valid || status === "saving"}
-          className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 px-5 py-2.5 text-sm font-bold text-white transition-all hover:brightness-110 disabled:opacity-40"
-        >
-          <Save className="h-4 w-4" />
-          {status === "saving" ? "Guardando…" : "Guardar tasas"}
-        </button>
-        <button
-          onClick={reset}
-          className="glass flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-white/70 transition-all hover:text-white"
-        >
-          <RotateCcw className="h-4 w-4" />
-          Restaurar por defecto (900.9 / 3)
-        </button>
-
-        {status === "saved" && (
-          <span className="flex items-center gap-1.5 text-sm text-emerald-400">
-            <CheckCircle2 className="h-4 w-4" /> {message}
-          </span>
-        )}
-        {status === "error" && (
-          <span className="text-sm text-rose-400">⚠️ {message}</span>
-        )}
-      </div>
-
-      {/* Sincronización de precios */}
-      <div className="glass mt-6 rounded-2xl p-5">
-        <div className="flex items-center gap-2">
-          <RefreshCw className="h-4 w-4 text-indigo-300" />
-          <h2 className="text-sm font-bold uppercase tracking-widest text-white/70">
-            Sincronización de precios
-          </h2>
-        </div>
-        <p className="mt-1 text-xs text-white/50">
-          Fuerza la actualización de las 2 listas (hoja oficial + API de tradeo) en la base de
-          datos. Usa los mismos scripts del bot; puede tardar hasta 1 minuto.
-        </p>
-
-        <button
-          onClick={forceSync}
-          disabled={syncing}
-          className="mt-3 flex items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-5 py-2.5 text-sm font-bold text-white transition-all hover:brightness-110 disabled:opacity-40"
-        >
-          {syncing ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <RefreshCw className="h-4 w-4" />
-          )}
-          {syncing ? "Sincronizando…" : "Forzar actualización de las 2 listas"}
-        </button>
-
-        {syncMsg && (
-          <p
-            className={cn(
-              "mt-3 text-sm",
-              syncMsg.startsWith("✅") ? "text-emerald-400" : "text-rose-400"
-            )}
-          >
-            {syncMsg}
-          </p>
-        )}
-
-        <div className="mt-5">
-          <div className="flex items-center justify-between">
-            <p className="text-[11px] font-semibold uppercase tracking-widest text-white/40">
-              📋 Últimas actualizaciones
+          {status === "saved" && (
+            <p className="flex items-center gap-1.5 text-sm text-neon-green">
+              <CheckCircle2 className="h-4 w-4" /> {message}
             </p>
-            <span className="text-[10px] text-white/30">se conservan las últimas 30</span>
+          )}
+          {status === "error" && (
+            <p className="text-sm text-error">⚠️ {message}</p>
+          )}
+        </div>
+
+        {/* ── Columna derecha: hero + sync + log ──────── */}
+        <div className="flex flex-col gap-6 lg:col-span-4">
+          {/* Hero del Home */}
+          <div className="glass-panel rounded-xl p-6">
+            <h2 className="mb-2 flex items-center gap-2 font-headline-lg text-xl font-semibold text-on-surface">
+              🎬 Hero del Home
+            </h2>
+            <p className="mb-4 text-sm text-on-surface-variant">
+              Elegí qué fondo muestra la página de inicio. Se guarda en el navegador.
+            </p>
+            <div className="grid grid-cols-1 gap-3">
+              {(
+                [
+                  ["video", "🎬 Video de batalla", "El hero actual: video de AoT con grid y partículas por encima."],
+                  ["shader", "🌌 Shader 3D (Stitch)", "El hero de Stitch: grid 3D en perspectiva con glow lavanda y partículas."],
+                ] as const
+              ).map(([key, label, desc]) => (
+                <button
+                  key={key}
+                  onClick={() => setHero(key)}
+                  className={cn(
+                    "rounded-lg border p-4 text-left transition-all active:scale-[0.98]",
+                    heroMode === key
+                      ? "neon-border-primary bg-primary/5"
+                      : "glass-panel text-on-surface-variant hover:border-primary/40"
+                  )}
+                >
+                  <span className="block font-label-caps text-sm font-bold text-on-surface">
+                    {label}
+                  </span>
+                  <span className="mt-1 block text-xs text-on-surface-variant">{desc}</span>
+                </button>
+              ))}
+            </div>
           </div>
-          <div className="mt-2 max-h-72 space-y-1 overflow-y-auto pr-1">
-            {syncLog.length === 0 && (
-              <p className="text-xs text-white/40">
-                Todavía no hay sincronizaciones registradas.
+
+          {/* Sync */}
+          <div className="glass-panel rounded-xl p-6">
+            <h2 className="mb-4 flex items-center gap-2 font-headline-lg text-xl font-semibold text-on-surface">
+              <RefreshCw className="h-5 w-5 text-tertiary" />
+              Sincronización de precios
+            </h2>
+            <p className="mb-6 text-sm text-on-surface-variant">
+              Actualiza las listas oficiales y de tradeo con las tasas actuales. Usa los mismos
+              scripts del bot; puede tardar hasta 1 minuto.
+            </p>
+            <button
+              onClick={forceSync}
+              disabled={syncing}
+              className="group relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-lg bg-[#14b8a6] py-4 font-data-tabular text-sm text-white shadow-lg shadow-[#14b8a6]/20 transition-all hover:bg-[#0d9488] active:scale-95 disabled:opacity-40"
+            >
+              <div className="absolute inset-0 translate-y-full bg-white/20 transition-transform duration-300 group-hover:translate-y-0" />
+              {syncing ? (
+                <Loader2 className="h-5 w-5 animate-spin" />
+              ) : (
+                <RefreshCw className="h-5 w-5" />
+              )}
+              <span className="relative z-10">
+                {syncing ? "Sincronizando…" : "Forzar actualización de las 2 listas"}
+              </span>
+            </button>
+            {syncMsg && (
+              <p
+                className={cn(
+                  "mt-3 text-sm",
+                  syncMsg.startsWith("✅") ? "text-neon-green" : "text-error"
+                )}
+              >
+                {syncMsg}
               </p>
             )}
-            {syncLog.map((log) => (
-              <div
-                key={log.id}
-                className="flex items-center justify-between gap-2 rounded-lg border border-white/5 bg-white/[0.03] px-3 py-1.5 text-xs"
-              >
-                <span className="flex min-w-0 items-center gap-2">
-                  <span>{log.source === "official" ? "🟢" : "🔵"}</span>
-                  <span className="font-medium text-white/80">
-                    {log.source === "official" ? "Oficial (hoja)" : "Trade (API)"}
-                  </span>
-                  {log.status === "ok" ? (
-                    <span className="text-emerald-400">✓ {log.rows ?? 0} items</span>
-                  ) : (
-                    <span className="text-rose-400">✗ error</span>
-                  )}
-                </span>
-                <span className="shrink-0 text-white/35">{timeAgo(log.startedAt)}</span>
-              </div>
-            ))}
+          </div>
+
+          {/* Log */}
+          <div className="glass-panel flex max-h-[400px] flex-col rounded-xl p-0">
+            <div className="rounded-t-xl border-b border-outline-variant/30 bg-surface-low/50 p-4">
+              <h3 className="flex items-center justify-between font-label-caps text-xs font-bold uppercase tracking-wider text-on-surface-variant">
+                ÚLTIMAS 30 SINCRONIZACIONES
+                <span className="text-[10px] font-normal normal-case">se conservan las últimas 30</span>
+              </h3>
+            </div>
+            <div className="scrollbar-hide flex-1 space-y-1 overflow-y-auto p-2">
+              {syncLog.length === 0 && (
+                <p className="p-4 text-center font-data-tabular text-xs text-on-surface-variant">
+                  Todavía no hay sincronizaciones registradas.
+                </p>
+              )}
+              {syncLog.map((log) => {
+                const ok = log.status === "ok";
+                const dot = log.source === "official" ? "#22c55e" : "#3b82f6";
+                return (
+                  <div
+                    key={log.id}
+                    className={cn(
+                      "flex items-center justify-between rounded-lg p-3 transition-colors hover:bg-surface-variant/30",
+                      !ok && "opacity-60"
+                    )}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span
+                        className="h-2 w-2 rounded-full"
+                        style={{ background: dot, boxShadow: `0 0 8px ${dot}` }}
+                      />
+                      <div className="flex flex-col">
+                        <span className="font-data-tabular text-sm text-on-surface">
+                          {log.source === "official" ? "Oficial (hoja)" : "Trade (API)"}
+                        </span>
+                        <span className="text-[12px] text-on-surface-variant">
+                          {ok ? `${log.rows ?? 0} items` : "error"}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="font-data-tabular text-[12px] text-on-surface-variant">
+                        {timeAgo(log.startedAt)}
+                      </span>
+                      <span className={ok ? "text-[#22c55e]" : "text-error"}>
+                        {ok ? "✓" : "✗"}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
 
       {!persisted && (
-        <p className="mt-4 rounded-xl border border-amber-400/20 bg-amber-500/10 p-3 text-xs text-amber-300">
-          Sin base de datos configurada: las tasas se guardan en este navegador. Para que bot y web
+        <p className="mt-6 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-600">
+          ⚠️ Sin base de datos configurada: las tasas se guardan en este navegador. Para que bot y web
           compartan los mismos valores, configurá <code className="font-mono">DATABASE_URL</code>.
         </p>
       )}
 
       {dbError && (
-        <p className="mt-3 break-all rounded-xl border border-rose-400/20 bg-rose-500/10 p-3 font-mono text-[11px] text-rose-300">
+        <p className="mt-3 break-all rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 font-mono text-[11px] text-rose-600">
           🐛 Error de BD: {dbError}
         </p>
-      )}
-
-      {/* Items de ejemplo */}
-      {example && (
-        <div className="mt-6 flex items-center gap-3">
-          <Avatar name={example.name} emoji={example.emoji} size="md" />
-          <span className="text-sm text-white/60">{example.name}</span>
-        </div>
       )}
     </div>
   );

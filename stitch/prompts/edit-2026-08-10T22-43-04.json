@@ -1,0 +1,550 @@
+{
+  "prompt": "Translate ALL navigation and UI labels to SPANISH: the top nav must be exactly Inicio, Precios, Comparar, Histórico (remove Markets, Trade, Portfolio, Analytics, Connect Wallet, Dashboard, Logs, notifications, settings). Use 'Salir' for logout. Keep the layout, colors and content identical. All remaining text in Spanish.",
+  "args": {
+    "prompt": "Translate ALL navigation and UI labels to SPANISH: the top nav must be exactly Inicio, Precios, Comparar, Histórico (remove Markets, Trade, Portfolio, Analytics, Connect Wallet, Dashboard, Logs, notifications, settings). Use 'Salir' for logout. Keep the layout, colors and content identical. All remaining text in Spanish.",
+    "selectedScreenIds": [
+      "c16deaca2f904db9afc05e1901fea9aa",
+      "f418bfd145f549f5b7652e6d489b7f8e"
+    ],
+    "projectId": "12089995414933118736"
+  },
+  "result": {
+    "content": [
+      {
+        "text": "{\"projectId\":\"12089995414933118736\",\"sessionId\":\"4794967289651055443\",\"outputComponents\":[{\"design\":{\"screens\":[{\"screenshot\":{\"name\":\"projects/12089995414933118736/files/efbd42250c12435cbb6e371cc6efe36b\",\"downloadUrl\":\"https://lh3.googleusercontent.com/aida/AP1WRLs38_HzJSVablMR0fkujWr13l2cOB5gN0CQNGMaEomRD2FMmUi1fDP-a7cT9QxfqzqVYrgyfThxo0hxJWV1s-opamte7Ic6zlNqTyWx03clYDnT9bvr392TnHVNrrEQ0hHyuTIqDkmH4eSl660Ryg88kkGnWrAhi0A2l0912MMZfu2DzQP5zp3g1ND6SlObs_v3BTmkFy0U3x6VO7-vmf-SkXHBQOUp6K1jRHwCGcsvFJiz-V0nteACn5ac\"},\"htmlCode\":{\"name\":\"projects/12089995414933118736/files/407ac72ecf784203ba9e5b506d3d3a65\",\"downloadUrl\":\"https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sXzI3YTY4ZGQ3ODczMzQ3OGE4ZmI0ZjM1OTFmZTllOTAwEgsSBxDhz76e_RgYAZIBJAoKcHJvamVjdF9pZBIWQhQxMjA4OTk5NTQxNDkzMzExODczNg&filename=&opi=96797242\",\"mimeType\":\"text/html\"},\"id\":\"496434ffde3d434f98f87aeda2a4d53d\",\"generatedBy\":\"HatterAgent\",\"width\":\"2560\",\"height\":\"2838\",\"title\":\"Detalle de Item - Azure Flames (Spanish) v2\",\"prompt\":\"Translate ALL UI labels and content to Spanish. \\nUpdate the Top Navigation to exactly: Inicio, Precios, Comparar, Histórico. \\nRemove: Markets, Trade, Portfolio, Analytics, Connect Wallet, Dashboard, Logs, notifications, settings. \\nUse 'Salir' for the logout/exit button.\\nEnsure all other text (labels, cards, demand status, etc.) is translated into Spanish while keeping the dark theme and layout identical.\",\"name\":\"projects/12089995414933118736/screens/496434ffde3d434f98f87aeda2a4d53d\",\"theme\":{\"colorMode\":\"DARK\",\"font\":\"SPACE_GROTESK\",\"roundness\":\"ROUND_EIGHT\",\"customColor\":\"#6750A4\",\"headlineFont\":\"SPACE_GROTESK\",\"bodyFont\":\"INTER\",\"labelFont\":\"JETBRAINS_MONO\",\"namedColors\":{\"background\":\"#141218\",\"error\":\"#ffb4ab\",\"error_container\":\"#93000a\",\"inverse_on_surface\":\"#322f35\",\"inverse_primary\":\"#6750a4\",\"inverse_surface\":\"#e6e0e9\",\"on_background\":\"#e6e0e9\",\"on_error\":\"#690005\",\"on_error_container\":\"#ffdad6\",\"on_primary\":\"#381e72\",\"on_primary_container\":\"#e0d2ff\",\"on_primary_fixed\":\"#22005d\",\"on_primary_fixed_variant\":\"#4f378a\",\"on_secondary\":\"#342b4b\",\"on_secondary_container\":\"#bfb2da\",\"on_secondary_fixed\":\"#1f1635\",\"on_secondary_fixed_variant\":\"#4b4263\",\"on_surface\":\"#e6e0e9\",\"on_surface_variant\":\"#cbc4d2\",\"on_tertiary\":\"#3e2e00\",\"on_tertiary_container\":\"#503d00\",\"on_tertiary_fixed\":\"#241a00\",\"on_tertiary_fixed_variant\":\"#594400\",\"outline\":\"#948e9c\",\"outline_variant\":\"#494551\",\"primary\":\"#cfbcff\",\"primary_container\":\"#6750a4\",\"primary_fixed\":\"#e9ddff\",\"primary_fixed_dim\":\"#cfbcff\",\"secondary\":\"#cdc0e9\",\"secondary_container\":\"#4d4465\",\"secondary_fixed\":\"#e9ddff\",\"secondary_fixed_dim\":\"#cdc0e9\",\"surface\":\"#141218\",\"surface_bright\":\"#3b383e\",\"surface_container\":\"#211f24\",\"surface_container_high\":\"#2b292f\",\"surface_container_highest\":\"#36343a\",\"surface_container_low\":\"#1d1b20\",\"surface_container_lowest\":\"#0f0d13\",\"surface_dim\":\"#141218\",\"surface_tint\":\"#cfbcff\",\"surface_variant\":\"#36343a\",\"tertiary\":\"#e7c365\",\"tertiary_container\":\"#c9a74d\",\"tertiary_fixed\":\"#ffdf93\",\"tertiary_fixed_dim\":\"#e7c365\"},\"colorVariant\":\"FIDELITY\",\"spacingScale\":2,\"typography\":{\"body-md\":{\"fontFamily\":\"Inter\",\"fontSize\":\"16px\",\"fontWeight\":\"400\",\"lineHeight\":\"1.6\"},\"data-tabular\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"14px\",\"fontWeight\":\"500\",\"lineHeight\":\"1.4\",\"letterSpacing\":\"-0.01em\"},\"display-lg\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"48px\",\"fontWeight\":\"700\",\"lineHeight\":\"1.1\",\"letterSpacing\":\"-0.02em\"},\"headline-lg\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"32px\",\"fontWeight\":\"600\",\"lineHeight\":\"1.2\"},\"headline-lg-mobile\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"24px\",\"fontWeight\":\"600\",\"lineHeight\":\"1.2\"},\"label-caps\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"12px\",\"fontWeight\":\"700\",\"lineHeight\":\"1.2\"}},\"spacing\":{\"base\":\"8px\",\"container-max\":\"1440px\",\"gutter\":\"24px\",\"margin-mobile\":\"16px\",\"panel-padding\":\"24px\"},\"headlineFontFamily\":\"Space Grotesk\",\"bodyFontFamily\":\"Inter\",\"labelFontFamily\":\"Jetbrains Mono\"},\"deviceType\":\"DESKTOP\",\"screenType\":\"DESIGN\",\"screenMetadata\":{\"agentType\":\"PRO_AGENT\",\"status\":\"COMPLETE\"},\"designSystem\":{\"name\":\"assets/3a75f6d24c4a4456856eb052e44fc583\",\"designSystem\":{\"displayName\":\"AOTR Values\",\"styleGuidelines\":\"## Brand & Style\\nThe design system for this premium trading platform is built on a dual-personality framework that bridges high-performance technology with sophisticated aesthetics. \\n\\nThe primary aesthetic, **Espacio**, leverages a deep space-inspired minimalism. It utilizes heavy glassmorphism, translucent layers, and vibrant radial glows to create a sense of infinite depth. This mode is designed for prolonged, focused trading sessions where high-contrast neon accents guide the eye to critical data.\\n\\nThe secondary aesthetic, **Ceniza**, shifts the narrative to a \\\"physical\\\" tactile luxury. It uses a warm, organic palette reminiscent of stone and embers, providing a grounded, prestigious environment for portfolio review and market analysis. Both styles rely on ultra-precise geometric alignments and technical typography to maintain an aura of professional authority.\\n\\n## Layout & Spacing\\nThe design system utilizes a **12-column fluid grid** for dashboard layouts. \\n\\n- **Modular Panels:** All content must be housed in \\\"Floating Glass\\\" containers. \\n- **Rhythm:** An 8px linear scale governs all padding and margins. \\n- **Safe Zones:** High-density data views should maintain a 24px gutter between panels to allow the background radial glows to \\\"breathe\\\" through the gaps.\\n- **Mobile Reflow:** On mobile devices, the 12-column grid collapses to a single-column stack with 16px side margins.\\n\\n## Elevation & Depth\\nDepth is the primary navigator in this design system.\\n\\n- **The Backdrop:** In Espacio mode, use a 12px blur on background surfaces with a 10% white tint.\\n- **Neon Borders:** Active panels or \\\"Hot\\\" tickers should feature a 1px inner stroke using the Primary or Secondary colors, with a subtle outer glow (4px blur, 30% opacity) of the same hue.\\n- **3D Floating Effect:** Apply a \\\"Dual Shadow\\\" technique. Use a sharp, dark 2px shadow for contact, and a wide, soft 20px ambient shadow to simulate the panel lifting off the background.\\n- **Layering:** Modal overlays should increase the backdrop blur to 24px and darken the underlay to 40% opacity to isolate the user's focus.\\n\\n## Components\\n- **Floating Buttons:** Primary buttons use a solid gradient (Primary to Secondary) with a 3D \\\"press\\\" effect on active states. Secondary buttons are ghost-styled with a 1px glass border.\\n- **Glass Cards:** The signature component. Must include a 1px top-left highlight stroke to simulate light hitting an edge.\\n- **Price Tickers:** Use JetBrains Mono. Growth is indicated by Official Green text; decline by Ember Red (Ceniza) or a bright Red-Neon (Espacio).\\n- **Input Fields:** Semi-transparent backgrounds with a bottom-only 2px border that \\\"lights up\\\" with a neon glow on focus.\\n- **Trade Sliders:** Use a thick track with a high-contrast thumb. In Espacio, the thumb should emit a Cyan radial glow.\\n- **Segmented Controls:** Designed as a single glass bar with a sliding \\\"frosted\\\" indicator that moves behind the text labels.\",\"theme\":{\"colorMode\":\"DARK\",\"font\":\"SPACE_GROTESK\",\"roundness\":\"ROUND_EIGHT\",\"customColor\":\"#6750A4\",\"headlineFont\":\"SPACE_GROTESK\",\"bodyFont\":\"INTER\",\"labelFont\":\"JETBRAINS_MONO\",\"namedColors\":{\"background\":\"#141218\",\"error\":\"#ffb4ab\",\"error_container\":\"#93000a\",\"inverse_on_surface\":\"#322f35\",\"inverse_primary\":\"#6750a4\",\"inverse_surface\":\"#e6e0e9\",\"on_background\":\"#e6e0e9\",\"on_error\":\"#690005\",\"on_error_container\":\"#ffdad6\",\"on_primary\":\"#381e72\",\"on_primary_container\":\"#e0d2ff\",\"on_primary_fixed\":\"#22005d\",\"on_primary_fixed_variant\":\"#4f378a\",\"on_secondary\":\"#342b4b\",\"on_secondary_container\":\"#bfb2da\",\"on_secondary_fixed\":\"#1f1635\",\"on_secondary_fixed_variant\":\"#4b4263\",\"on_surface\":\"#e6e0e9\",\"on_surface_variant\":\"#cbc4d2\",\"on_tertiary\":\"#3e2e00\",\"on_tertiary_container\":\"#503d00\",\"on_tertiary_fixed\":\"#241a00\",\"on_tertiary_fixed_variant\":\"#594400\",\"outline\":\"#948e9c\",\"outline_variant\":\"#494551\",\"primary\":\"#cfbcff\",\"primary_container\":\"#6750a4\",\"primary_fixed\":\"#e9ddff\",\"primary_fixed_dim\":\"#cfbcff\",\"secondary\":\"#cdc0e9\",\"secondary_container\":\"#4d4465\",\"secondary_fixed\":\"#e9ddff\",\"secondary_fixed_dim\":\"#cdc0e9\",\"surface\":\"#141218\",\"surface_bright\":\"#3b383e\",\"surface_container\":\"#211f24\",\"surface_container_high\":\"#2b292f\",\"surface_container_highest\":\"#36343a\",\"surface_container_low\":\"#1d1b20\",\"surface_container_lowest\":\"#0f0d13\",\"surface_dim\":\"#141218\",\"surface_tint\":\"#cfbcff\",\"surface_variant\":\"#36343a\",\"tertiary\":\"#e7c365\",\"tertiary_container\":\"#c9a74d\",\"tertiary_fixed\":\"#ffdf93\",\"tertiary_fixed_dim\":\"#e7c365\"},\"designMd\":\"---\\nname: AOTR Values\\ncolors:\\n  surface: '#141218'\\n  surface-dim: '#141218'\\n  surface-bright: '#3b383e'\\n  surface-container-lowest: '#0f0d13'\\n  surface-container-low: '#1d1b20'\\n  surface-container: '#211f24'\\n  surface-container-high: '#2b292f'\\n  surface-container-highest: '#36343a'\\n  on-surface: '#e6e0e9'\\n  on-surface-variant: '#cbc4d2'\\n  inverse-surface: '#e6e0e9'\\n  inverse-on-surface: '#322f35'\\n  outline: '#948e9c'\\n  outline-variant: '#494551'\\n  surface-tint: '#cfbcff'\\n  primary: '#cfbcff'\\n  on-primary: '#381e72'\\n  primary-container: '#6750a4'\\n  on-primary-container: '#e0d2ff'\\n  inverse-primary: '#6750a4'\\n  secondary: '#cdc0e9'\\n  on-secondary: '#342b4b'\\n  secondary-container: '#4d4465'\\n  on-secondary-container: '#bfb2da'\\n  tertiary: '#e7c365'\\n  on-tertiary: '#3e2e00'\\n  tertiary-container: '#c9a74d'\\n  on-tertiary-container: '#503d00'\\n  error: '#ffb4ab'\\n  on-error: '#690005'\\n  error-container: '#93000a'\\n  on-error-container: '#ffdad6'\\n  primary-fixed: '#e9ddff'\\n  primary-fixed-dim: '#cfbcff'\\n  on-primary-fixed: '#22005d'\\n  on-primary-fixed-variant: '#4f378a'\\n  secondary-fixed: '#e9ddff'\\n  secondary-fixed-dim: '#cdc0e9'\\n  on-secondary-fixed: '#1f1635'\\n  on-secondary-fixed-variant: '#4b4263'\\n  tertiary-fixed: '#ffdf93'\\n  tertiary-fixed-dim: '#e7c365'\\n  on-tertiary-fixed: '#241a00'\\n  on-tertiary-fixed-variant: '#594400'\\n  background: '#141218'\\n  on-background: '#e6e0e9'\\n  surface-variant: '#36343a'\\ntypography:\\n  display-lg:\\n    fontFamily: Space Grotesk\\n    fontSize: 48px\\n    fontWeight: '700'\\n    lineHeight: '1.1'\\n    letterSpacing: -0.02em\\n  headline-lg:\\n    fontFamily: Space Grotesk\\n    fontSize: 32px\\n    fontWeight: '600'\\n    lineHeight: '1.2'\\n  headline-lg-mobile:\\n    fontFamily: Space Grotesk\\n    fontSize: 24px\\n    fontWeight: '600'\\n    lineHeight: '1.2'\\n  body-md:\\n    fontFamily: Inter\\n    fontSize: 16px\\n    fontWeight: '400'\\n    lineHeight: '1.6'\\n  data-tabular:\\n    fontFamily: JetBrains Mono\\n    fontSize: 14px\\n    fontWeight: '500'\\n    lineHeight: '1.4'\\n    letterSpacing: -0.01em\\n  label-caps:\\n    fontFamily: JetBrains Mono\\n    fontSize: 12px\\n    fontWeight: '700'\\n    lineHeight: '1.2'\\nrounded:\\n  sm: 0.25rem\\n  DEFAULT: 0.5rem\\n  md: 0.75rem\\n  lg: 1rem\\n  xl: 1.5rem\\n  full: 9999px\\nspacing:\\n  base: 8px\\n  container-max: 1440px\\n  gutter: 24px\\n  margin-mobile: 16px\\n  panel-padding: 24px\\n---\\n\\n## Brand & Style\\nThe design system for this premium trading platform is built on a dual-personality framework that bridges high-performance technology with sophisticated aesthetics. \\n\\nThe primary aesthetic, **Espacio**, leverages a deep space-inspired minimalism. It utilizes heavy glassmorphism, translucent layers, and vibrant radial glows to create a sense of infinite depth. This mode is designed for prolonged, focused trading sessions where high-contrast neon accents guide the eye to critical data.\\n\\nThe secondary aesthetic, **Ceniza**, shifts the narrative to a \\\"physical\\\" tactile luxury. It uses a warm, organic palette reminiscent of stone and embers, providing a grounded, prestigious environment for portfolio review and market analysis. Both styles rely on ultra-precise geometric alignments and technical typography to maintain an aura of professional authority.\\n\\n## Colors\\nThis design system operates on two distinct color palettes:\\n\\n**Espacio (Dark)**\\n- **Base:** Deep Near-Black Navy (#020617).\\n- **Glows:** Indigo (#6366f1) and Cyan (#22d3ee) are used as large-scale background radial gradients to create atmospheric depth.\\n- **Accents:** High-vibrancy neons for CTA and active states.\\n\\n**Ceniza (Light/Warm)**\\n- **Base:** Stone/Cream (#fafaf9).\\n- **Accents:** Ember Red (#ef4444) and Burnt Orange (#f97316) for a prestigious, warm-toned interface.\\n\\n**Global Indicators**\\n- **Trade Blue (#3b82f6):** Used for neutral market movements and informational data.\\n- **Official Green (#22c55e):** Used exclusively for bullish indicators, success states, and growth metrics.\\n\\n## Typography\\nThe typographic hierarchy ensures maximum readability across diverse data sets:\\n\\n1.  **Display & Headings:** **Space Grotesk** provides a technical, geometric edge. Use tight letter-spacing for large headlines to emphasize the \\\"engineered\\\" feel of the platform.\\n2.  **Body Text:** **Inter** is the workhorse for all descriptive content and interface labels, ensuring clarity at small sizes.\\n3.  **Data & Metrics:** **JetBrains Mono** is mandatory for all numerical values, price tickers, and trade logs. Its monospaced nature prevents \\\"jumping\\\" during real-time price updates.\\n\\n## Layout & Spacing\\nThe design system utilizes a **12-column fluid grid** for dashboard layouts. \\n\\n- **Modular Panels:** All content must be housed in \\\"Floating Glass\\\" containers. \\n- **Rhythm:** An 8px linear scale governs all padding and margins. \\n- **Safe Zones:** High-density data views should maintain a 24px gutter between panels to allow the background radial glows to \\\"breathe\\\" through the gaps.\\n- **Mobile Reflow:** On mobile devices, the 12-column grid collapses to a single-column stack with 16px side margins.\\n\\n## Elevation & Depth\\nDepth is the primary navigator in this design system.\\n\\n- **The Backdrop:** In Espacio mode, use a 12px blur on background surfaces with a 10% white tint.\\n- **Neon Borders:** Active panels or \\\"Hot\\\" tickers should feature a 1px inner stroke using the Primary or Secondary colors, with a subtle outer glow (4px blur, 30% opacity) of the same hue.\\n- **3D Floating Effect:** Apply a \\\"Dual Shadow\\\" technique. Use a sharp, dark 2px shadow for contact, and a wide, soft 20px ambient shadow to simulate the panel lifting off the background.\\n- **Layering:** Modal overlays should increase the backdrop blur to 24px and darken the underlay to 40% opacity to isolate the user's focus.\\n\\n## Shapes\\nThe shape language is \\\"Sophisticated Geometric.\\\" \\n\\n- **Standard Containers:** Use a 0.5rem (8px) radius for all dashboard panels and cards.\\n- **Interactive Elements:** Buttons and Input fields follow the `rounded-lg` (16px) convention to feel more approachable and \\\"touchable\\\" against the rigid grid.\\n- **Data Tags:** Status chips and badges should use the `rounded-xl` (24px) or full pill-shape to distinguish them from structural layout elements.\\n\\n## Components\\n- **Floating Buttons:** Primary buttons use a solid gradient (Primary to Secondary) with a 3D \\\"press\\\" effect on active states. Secondary buttons are ghost-styled with a 1px glass border.\\n- **Glass Cards:** The signature component. Must include a 1px top-left highlight stroke to simulate light hitting an edge.\\n- **Price Tickers:** Use JetBrains Mono. Growth is indicated by Official Green text; decline by Ember Red (Ceniza) or a bright Red-Neon (Espacio).\\n- **Input Fields:** Semi-transparent backgrounds with a bottom-only 2px border that \\\"lights up\\\" with a neon glow on focus.\\n- **Trade Sliders:** Use a thick track with a high-contrast thumb. In Espacio, the thumb should emit a Cyan radial glow.\\n- **Segmented Controls:** Designed as a single glass bar with a sliding \\\"frosted\\\" indicator that moves behind the text labels.\",\"colorVariant\":\"FIDELITY\",\"spacingScale\":2,\"typography\":{\"body-md\":{\"fontFamily\":\"Inter\",\"fontSize\":\"16px\",\"fontWeight\":\"400\",\"lineHeight\":\"1.6\"},\"data-tabular\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"14px\",\"fontWeight\":\"500\",\"lineHeight\":\"1.4\",\"letterSpacing\":\"-0.01em\"},\"display-lg\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"48px\",\"fontWeight\":\"700\",\"lineHeight\":\"1.1\",\"letterSpacing\":\"-0.02em\"},\"headline-lg\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"32px\",\"fontWeight\":\"600\",\"lineHeight\":\"1.2\"},\"headline-lg-mobile\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"24px\",\"fontWeight\":\"600\",\"lineHeight\":\"1.2\"},\"label-caps\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"12px\",\"fontWeight\":\"700\",\"lineHeight\":\"1.2\"}},\"spacing\":{\"base\":\"8px\",\"container-max\":\"1440px\",\"gutter\":\"24px\",\"margin-mobile\":\"16px\",\"panel-padding\":\"24px\"},\"headlineFontFamily\":\"Space Grotesk\",\"bodyFontFamily\":\"Inter\",\"labelFontFamily\":\"Jetbrains Mono\"}},\"version\":\"1\"}},{\"screenshot\":{\"name\":\"projects/12089995414933118736/files/d79ed0d181914d2fabb771ff5871fdb0\",\"downloadUrl\":\"https://lh3.googleusercontent.com/aida/AP1WRLuq4XCwvng2JLd3HTYnXaYm0Al-XTmagIckUSKFRwKAHARNSMtIr5iLy37oxhdB62B4oE_K9tZXibYB0Br5MiaJZJp2_Es8CD5O37-kkLm3kxH769l7ziJmPv8OpJ-fb5n_1zMBcMewxje8MiIRw-wWFSXHb5YGMPwhtm7f_JHEq4E31jU1gRBY576ig4YAlGlA_xdpHo6J_rdcxfT94uwFOtZslMTMjpczZiKr6Z-3hXRvVzjsI5xmNRE\"},\"htmlCode\":{\"name\":\"projects/12089995414933118736/files/fefd73cf19554fb88d38073fe707640e\",\"downloadUrl\":\"https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sXzM5ZWU1MDRiOTYyZDRiMzQ5NGY1ZmI2MmM5NTUzZmYzEgsSBxDhz76e_RgYAZIBJAoKcHJvamVjdF9pZBIWQhQxMjA4OTk5NTQxNDkzMzExODczNg&filename=&opi=96797242\",\"mimeType\":\"text/html\"},\"id\":\"0b4bc94fc4f4438e9262965d505fa7b0\",\"generatedBy\":\"HatterAgent\",\"width\":\"2560\",\"height\":\"2124\",\"title\":\"Administración de Tasas (Spanish) v2\",\"prompt\":\"Translate ALL UI labels and content to Spanish. \\nUpdate the Top Navigation to exactly: Inicio, Precios, Comparar, Histórico. \\nRemove: Dashboard, Tasas, Logs, notifications, settings. \\nUse 'Salir' for the logout/exit button.\\nTranslate content like \\\"Administración de tasas\\\", \\\"Sincronización de precios\\\", \\\"Últimas 30 sincronizaciones\\\", \\\"Guardar tasas\\\", \\\"Restaurar por defecto\\\".\\nKeep the layout and dark theme identical.\",\"name\":\"projects/12089995414933118736/screens/0b4bc94fc4f4438e9262965d505fa7b0\",\"theme\":{\"colorMode\":\"DARK\",\"font\":\"SPACE_GROTESK\",\"roundness\":\"ROUND_EIGHT\",\"customColor\":\"#6750A4\",\"headlineFont\":\"SPACE_GROTESK\",\"bodyFont\":\"INTER\",\"labelFont\":\"JETBRAINS_MONO\",\"namedColors\":{\"background\":\"#141218\",\"error\":\"#ffb4ab\",\"error_container\":\"#93000a\",\"inverse_on_surface\":\"#322f35\",\"inverse_primary\":\"#6750a4\",\"inverse_surface\":\"#e6e0e9\",\"on_background\":\"#e6e0e9\",\"on_error\":\"#690005\",\"on_error_container\":\"#ffdad6\",\"on_primary\":\"#381e72\",\"on_primary_container\":\"#e0d2ff\",\"on_primary_fixed\":\"#22005d\",\"on_primary_fixed_variant\":\"#4f378a\",\"on_secondary\":\"#342b4b\",\"on_secondary_container\":\"#bfb2da\",\"on_secondary_fixed\":\"#1f1635\",\"on_secondary_fixed_variant\":\"#4b4263\",\"on_surface\":\"#e6e0e9\",\"on_surface_variant\":\"#cbc4d2\",\"on_tertiary\":\"#3e2e00\",\"on_tertiary_container\":\"#503d00\",\"on_tertiary_fixed\":\"#241a00\",\"on_tertiary_fixed_variant\":\"#594400\",\"outline\":\"#948e9c\",\"outline_variant\":\"#494551\",\"primary\":\"#cfbcff\",\"primary_container\":\"#6750a4\",\"primary_fixed\":\"#e9ddff\",\"primary_fixed_dim\":\"#cfbcff\",\"secondary\":\"#cdc0e9\",\"secondary_container\":\"#4d4465\",\"secondary_fixed\":\"#e9ddff\",\"secondary_fixed_dim\":\"#cdc0e9\",\"surface\":\"#141218\",\"surface_bright\":\"#3b383e\",\"surface_container\":\"#211f24\",\"surface_container_high\":\"#2b292f\",\"surface_container_highest\":\"#36343a\",\"surface_container_low\":\"#1d1b20\",\"surface_container_lowest\":\"#0f0d13\",\"surface_dim\":\"#141218\",\"surface_tint\":\"#cfbcff\",\"surface_variant\":\"#36343a\",\"tertiary\":\"#e7c365\",\"tertiary_container\":\"#c9a74d\",\"tertiary_fixed\":\"#ffdf93\",\"tertiary_fixed_dim\":\"#e7c365\"},\"colorVariant\":\"FIDELITY\",\"spacingScale\":2,\"typography\":{\"body-md\":{\"fontFamily\":\"Inter\",\"fontSize\":\"16px\",\"fontWeight\":\"400\",\"lineHeight\":\"1.6\"},\"data-tabular\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"14px\",\"fontWeight\":\"500\",\"lineHeight\":\"1.4\",\"letterSpacing\":\"-0.01em\"},\"display-lg\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"48px\",\"fontWeight\":\"700\",\"lineHeight\":\"1.1\",\"letterSpacing\":\"-0.02em\"},\"headline-lg\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"32px\",\"fontWeight\":\"600\",\"lineHeight\":\"1.2\"},\"headline-lg-mobile\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"24px\",\"fontWeight\":\"600\",\"lineHeight\":\"1.2\"},\"label-caps\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"12px\",\"fontWeight\":\"700\",\"lineHeight\":\"1.2\"}},\"spacing\":{\"base\":\"8px\",\"container-max\":\"1440px\",\"gutter\":\"24px\",\"margin-mobile\":\"16px\",\"panel-padding\":\"24px\"},\"headlineFontFamily\":\"Space Grotesk\",\"bodyFontFamily\":\"Inter\",\"labelFontFamily\":\"Jetbrains Mono\"},\"deviceType\":\"DESKTOP\",\"screenType\":\"DESIGN\",\"screenMetadata\":{\"agentType\":\"PRO_AGENT\",\"status\":\"COMPLETE\"},\"designSystem\":{\"name\":\"assets/3a75f6d24c4a4456856eb052e44fc583\",\"designSystem\":{\"displayName\":\"AOTR Values\",\"styleGuidelines\":\"## Brand & Style\\nThe design system for this premium trading platform is built on a dual-personality framework that bridges high-performance technology with sophisticated aesthetics. \\n\\nThe primary aesthetic, **Espacio**, leverages a deep space-inspired minimalism. It utilizes heavy glassmorphism, translucent layers, and vibrant radial glows to create a sense of infinite depth. This mode is designed for prolonged, focused trading sessions where high-contrast neon accents guide the eye to critical data.\\n\\nThe secondary aesthetic, **Ceniza**, shifts the narrative to a \\\"physical\\\" tactile luxury. It uses a warm, organic palette reminiscent of stone and embers, providing a grounded, prestigious environment for portfolio review and market analysis. Both styles rely on ultra-precise geometric alignments and technical typography to maintain an aura of professional authority.\\n\\n## Layout & Spacing\\nThe design system utilizes a **12-column fluid grid** for dashboard layouts. \\n\\n- **Modular Panels:** All content must be housed in \\\"Floating Glass\\\" containers. \\n- **Rhythm:** An 8px linear scale governs all padding and margins. \\n- **Safe Zones:** High-density data views should maintain a 24px gutter between panels to allow the background radial glows to \\\"breathe\\\" through the gaps.\\n- **Mobile Reflow:** On mobile devices, the 12-column grid collapses to a single-column stack with 16px side margins.\\n\\n## Elevation & Depth\\nDepth is the primary navigator in this design system.\\n\\n- **The Backdrop:** In Espacio mode, use a 12px blur on background surfaces with a 10% white tint.\\n- **Neon Borders:** Active panels or \\\"Hot\\\" tickers should feature a 1px inner stroke using the Primary or Secondary colors, with a subtle outer glow (4px blur, 30% opacity) of the same hue.\\n- **3D Floating Effect:** Apply a \\\"Dual Shadow\\\" technique. Use a sharp, dark 2px shadow for contact, and a wide, soft 20px ambient shadow to simulate the panel lifting off the background.\\n- **Layering:** Modal overlays should increase the backdrop blur to 24px and darken the underlay to 40% opacity to isolate the user's focus.\\n\\n## Components\\n- **Floating Buttons:** Primary buttons use a solid gradient (Primary to Secondary) with a 3D \\\"press\\\" effect on active states. Secondary buttons are ghost-styled with a 1px glass border.\\n- **Glass Cards:** The signature component. Must include a 1px top-left highlight stroke to simulate light hitting an edge.\\n- **Price Tickers:** Use JetBrains Mono. Growth is indicated by Official Green text; decline by Ember Red (Ceniza) or a bright Red-Neon (Espacio).\\n- **Input Fields:** Semi-transparent backgrounds with a bottom-only 2px border that \\\"lights up\\\" with a neon glow on focus.\\n- **Trade Sliders:** Use a thick track with a high-contrast thumb. In Espacio, the thumb should emit a Cyan radial glow.\\n- **Segmented Controls:** Designed as a single glass bar with a sliding \\\"frosted\\\" indicator that moves behind the text labels.\",\"theme\":{\"colorMode\":\"DARK\",\"font\":\"SPACE_GROTESK\",\"roundness\":\"ROUND_EIGHT\",\"customColor\":\"#6750A4\",\"headlineFont\":\"SPACE_GROTESK\",\"bodyFont\":\"INTER\",\"labelFont\":\"JETBRAINS_MONO\",\"namedColors\":{\"background\":\"#141218\",\"error\":\"#ffb4ab\",\"error_container\":\"#93000a\",\"inverse_on_surface\":\"#322f35\",\"inverse_primary\":\"#6750a4\",\"inverse_surface\":\"#e6e0e9\",\"on_background\":\"#e6e0e9\",\"on_error\":\"#690005\",\"on_error_container\":\"#ffdad6\",\"on_primary\":\"#381e72\",\"on_primary_container\":\"#e0d2ff\",\"on_primary_fixed\":\"#22005d\",\"on_primary_fixed_variant\":\"#4f378a\",\"on_secondary\":\"#342b4b\",\"on_secondary_container\":\"#bfb2da\",\"on_secondary_fixed\":\"#1f1635\",\"on_secondary_fixed_variant\":\"#4b4263\",\"on_surface\":\"#e6e0e9\",\"on_surface_variant\":\"#cbc4d2\",\"on_tertiary\":\"#3e2e00\",\"on_tertiary_container\":\"#503d00\",\"on_tertiary_fixed\":\"#241a00\",\"on_tertiary_fixed_variant\":\"#594400\",\"outline\":\"#948e9c\",\"outline_variant\":\"#494551\",\"primary\":\"#cfbcff\",\"primary_container\":\"#6750a4\",\"primary_fixed\":\"#e9ddff\",\"primary_fixed_dim\":\"#cfbcff\",\"secondary\":\"#cdc0e9\",\"secondary_container\":\"#4d4465\",\"secondary_fixed\":\"#e9ddff\",\"secondary_fixed_dim\":\"#cdc0e9\",\"surface\":\"#141218\",\"surface_bright\":\"#3b383e\",\"surface_container\":\"#211f24\",\"surface_container_high\":\"#2b292f\",\"surface_container_highest\":\"#36343a\",\"surface_container_low\":\"#1d1b20\",\"surface_container_lowest\":\"#0f0d13\",\"surface_dim\":\"#141218\",\"surface_tint\":\"#cfbcff\",\"surface_variant\":\"#36343a\",\"tertiary\":\"#e7c365\",\"tertiary_container\":\"#c9a74d\",\"tertiary_fixed\":\"#ffdf93\",\"tertiary_fixed_dim\":\"#e7c365\"},\"designMd\":\"---\\nname: AOTR Values\\ncolors:\\n  surface: '#141218'\\n  surface-dim: '#141218'\\n  surface-bright: '#3b383e'\\n  surface-container-lowest: '#0f0d13'\\n  surface-container-low: '#1d1b20'\\n  surface-container: '#211f24'\\n  surface-container-high: '#2b292f'\\n  surface-container-highest: '#36343a'\\n  on-surface: '#e6e0e9'\\n  on-surface-variant: '#cbc4d2'\\n  inverse-surface: '#e6e0e9'\\n  inverse-on-surface: '#322f35'\\n  outline: '#948e9c'\\n  outline-variant: '#494551'\\n  surface-tint: '#cfbcff'\\n  primary: '#cfbcff'\\n  on-primary: '#381e72'\\n  primary-container: '#6750a4'\\n  on-primary-container: '#e0d2ff'\\n  inverse-primary: '#6750a4'\\n  secondary: '#cdc0e9'\\n  on-secondary: '#342b4b'\\n  secondary-container: '#4d4465'\\n  on-secondary-container: '#bfb2da'\\n  tertiary: '#e7c365'\\n  on-tertiary: '#3e2e00'\\n  tertiary-container: '#c9a74d'\\n  on-tertiary-container: '#503d00'\\n  error: '#ffb4ab'\\n  on-error: '#690005'\\n  error-container: '#93000a'\\n  on-error-container: '#ffdad6'\\n  primary-fixed: '#e9ddff'\\n  primary-fixed-dim: '#cfbcff'\\n  on-primary-fixed: '#22005d'\\n  on-primary-fixed-variant: '#4f378a'\\n  secondary-fixed: '#e9ddff'\\n  secondary-fixed-dim: '#cdc0e9'\\n  on-secondary-fixed: '#1f1635'\\n  on-secondary-fixed-variant: '#4b4263'\\n  tertiary-fixed: '#ffdf93'\\n  tertiary-fixed-dim: '#e7c365'\\n  on-tertiary-fixed: '#241a00'\\n  on-tertiary-fixed-variant: '#594400'\\n  background: '#141218'\\n  on-background: '#e6e0e9'\\n  surface-variant: '#36343a'\\ntypography:\\n  display-lg:\\n    fontFamily: Space Grotesk\\n    fontSize: 48px\\n    fontWeight: '700'\\n    lineHeight: '1.1'\\n    letterSpacing: -0.02em\\n  headline-lg:\\n    fontFamily: Space Grotesk\\n    fontSize: 32px\\n    fontWeight: '600'\\n    lineHeight: '1.2'\\n  headline-lg-mobile:\\n    fontFamily: Space Grotesk\\n    fontSize: 24px\\n    fontWeight: '600'\\n    lineHeight: '1.2'\\n  body-md:\\n    fontFamily: Inter\\n    fontSize: 16px\\n    fontWeight: '400'\\n    lineHeight: '1.6'\\n  data-tabular:\\n    fontFamily: JetBrains Mono\\n    fontSize: 14px\\n    fontWeight: '500'\\n    lineHeight: '1.4'\\n    letterSpacing: -0.01em\\n  label-caps:\\n    fontFamily: JetBrains Mono\\n    fontSize: 12px\\n    fontWeight: '700'\\n    lineHeight: '1.2'\\nrounded:\\n  sm: 0.25rem\\n  DEFAULT: 0.5rem\\n  md: 0.75rem\\n  lg: 1rem\\n  xl: 1.5rem\\n  full: 9999px\\nspacing:\\n  base: 8px\\n  container-max: 1440px\\n  gutter: 24px\\n  margin-mobile: 16px\\n  panel-padding: 24px\\n---\\n\\n## Brand & Style\\nThe design system for this premium trading platform is built on a dual-personality framework that bridges high-performance technology with sophisticated aesthetics. \\n\\nThe primary aesthetic, **Espacio**, leverages a deep space-inspired minimalism. It utilizes heavy glassmorphism, translucent layers, and vibrant radial glows to create a sense of infinite depth. This mode is designed for prolonged, focused trading sessions where high-contrast neon accents guide the eye to critical data.\\n\\nThe secondary aesthetic, **Ceniza**, shifts the narrative to a \\\"physical\\\" tactile luxury. It uses a warm, organic palette reminiscent of stone and embers, providing a grounded, prestigious environment for portfolio review and market analysis. Both styles rely on ultra-precise geometric alignments and technical typography to maintain an aura of professional authority.\\n\\n## Colors\\nThis design system operates on two distinct color palettes:\\n\\n**Espacio (Dark)**\\n- **Base:** Deep Near-Black Navy (#020617).\\n- **Glows:** Indigo (#6366f1) and Cyan (#22d3ee) are used as large-scale background radial gradients to create atmospheric depth.\\n- **Accents:** High-vibrancy neons for CTA and active states.\\n\\n**Ceniza (Light/Warm)**\\n- **Base:** Stone/Cream (#fafaf9).\\n- **Accents:** Ember Red (#ef4444) and Burnt Orange (#f97316) for a prestigious, warm-toned interface.\\n\\n**Global Indicators**\\n- **Trade Blue (#3b82f6):** Used for neutral market movements and informational data.\\n- **Official Green (#22c55e):** Used exclusively for bullish indicators, success states, and growth metrics.\\n\\n## Typography\\nThe typographic hierarchy ensures maximum readability across diverse data sets:\\n\\n1.  **Display & Headings:** **Space Grotesk** provides a technical, geometric edge. Use tight letter-spacing for large headlines to emphasize the \\\"engineered\\\" feel of the platform.\\n2.  **Body Text:** **Inter** is the workhorse for all descriptive content and interface labels, ensuring clarity at small sizes.\\n3.  **Data & Metrics:** **JetBrains Mono** is mandatory for all numerical values, price tickers, and trade logs. Its monospaced nature prevents \\\"jumping\\\" during real-time price updates.\\n\\n## Layout & Spacing\\nThe design system utilizes a **12-column fluid grid** for dashboard layouts. \\n\\n- **Modular Panels:** All content must be housed in \\\"Floating Glass\\\" containers. \\n- **Rhythm:** An 8px linear scale governs all padding and margins. \\n- **Safe Zones:** High-density data views should maintain a 24px gutter between panels to allow the background radial glows to \\\"breathe\\\" through the gaps.\\n- **Mobile Reflow:** On mobile devices, the 12-column grid collapses to a single-column stack with 16px side margins.\\n\\n## Elevation & Depth\\nDepth is the primary navigator in this design system.\\n\\n- **The Backdrop:** In Espacio mode, use a 12px blur on background surfaces with a 10% white tint.\\n- **Neon Borders:** Active panels or \\\"Hot\\\" tickers should feature a 1px inner stroke using the Primary or Secondary colors, with a subtle outer glow (4px blur, 30% opacity) of the same hue.\\n- **3D Floating Effect:** Apply a \\\"Dual Shadow\\\" technique. Use a sharp, dark 2px shadow for contact, and a wide, soft 20px ambient shadow to simulate the panel lifting off the background.\\n- **Layering:** Modal overlays should increase the backdrop blur to 24px and darken the underlay to 40% opacity to isolate the user's focus.\\n\\n## Shapes\\nThe shape language is \\\"Sophisticated Geometric.\\\" \\n\\n- **Standard Containers:** Use a 0.5rem (8px) radius for all dashboard panels and cards.\\n- **Interactive Elements:** Buttons and Input fields follow the `rounded-lg` (16px) convention to feel more approachable and \\\"touchable\\\" against the rigid grid.\\n- **Data Tags:** Status chips and badges should use the `rounded-xl` (24px) or full pill-shape to distinguish them from structural layout elements.\\n\\n## Components\\n- **Floating Buttons:** Primary buttons use a solid gradient (Primary to Secondary) with a 3D \\\"press\\\" effect on active states. Secondary buttons are ghost-styled with a 1px glass border.\\n- **Glass Cards:** The signature component. Must include a 1px top-left highlight stroke to simulate light hitting an edge.\\n- **Price Tickers:** Use JetBrains Mono. Growth is indicated by Official Green text; decline by Ember Red (Ceniza) or a bright Red-Neon (Espacio).\\n- **Input Fields:** Semi-transparent backgrounds with a bottom-only 2px border that \\\"lights up\\\" with a neon glow on focus.\\n- **Trade Sliders:** Use a thick track with a high-contrast thumb. In Espacio, the thumb should emit a Cyan radial glow.\\n- **Segmented Controls:** Designed as a single glass bar with a sliding \\\"frosted\\\" indicator that moves behind the text labels.\",\"colorVariant\":\"FIDELITY\",\"spacingScale\":2,\"typography\":{\"body-md\":{\"fontFamily\":\"Inter\",\"fontSize\":\"16px\",\"fontWeight\":\"400\",\"lineHeight\":\"1.6\"},\"data-tabular\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"14px\",\"fontWeight\":\"500\",\"lineHeight\":\"1.4\",\"letterSpacing\":\"-0.01em\"},\"display-lg\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"48px\",\"fontWeight\":\"700\",\"lineHeight\":\"1.1\",\"letterSpacing\":\"-0.02em\"},\"headline-lg\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"32px\",\"fontWeight\":\"600\",\"lineHeight\":\"1.2\"},\"headline-lg-mobile\":{\"fontFamily\":\"Space Grotesk\",\"fontSize\":\"24px\",\"fontWeight\":\"600\",\"lineHeight\":\"1.2\"},\"label-caps\":{\"fontFamily\":\"JetBrains Mono\",\"fontSize\":\"12px\",\"fontWeight\":\"700\",\"lineHeight\":\"1.2\"}},\"spacing\":{\"base\":\"8px\",\"container-max\":\"1440px\",\"gutter\":\"24px\",\"margin-mobile\":\"16px\",\"panel-padding\":\"24px\"},\"headlineFontFamily\":\"Space Grotesk\",\"bodyFontFamily\":\"Inter\",\"labelFontFamily\":\"Jetbrains Mono\"}},\"version\":\"1\"}}],\"theme\":{}}},{\"text\":\"He completado la traducción al español de las pantallas seleccionadas, ajustando la navegación y los elementos de la interfaz según tus instrucciones.\\n\\n**Cambios realizados:**\\n- **Navegación Simplificada**: He actualizado el menú superior a \\\"Inicio\\\", \\\"Precios\\\", \\\"Comparar\\\", \\\"Histórico\\\" y \\\"Salir\\\", eliminando los enlaces en inglés y los iconos de utilidades (notificaciones, ajustes).\\n- **Traducción Integral**: He localizado todos los textos, desde los títulos de las secciones (\\\"Administración de tasas\\\", \\\"Detalle de Item\\\") hasta los estados de demanda (\\\"Alta\\\", \\\"Media\\\") y los registros de sincronización.\\n- **Consistencia Visual**: Se ha mantenido el diseño oscuro (AOTR Values) y la disposición original de los elementos para asegurar una transición fluida entre idiomas.\\n\\n¿Hay alguna otra sección que desees traducir o algún ajuste específico en el vocabulario que prefieras?\"},{\"suggestion\":\"Traducir la página de Comparar también\"},{\"suggestion\":\"Cambiar el color de los botones de acción\"},{\"suggestion\":\"Añadir un modo claro para estas pantallas\"}]}",
+        "type": "text"
+      }
+    ],
+    "structuredContent": {
+      "outputComponents": [
+        {
+          "design": {
+            "screens": [
+              {
+                "designSystem": {
+                  "designSystem": {
+                    "displayName": "AOTR Values",
+                    "styleGuidelines": "## Brand & Style\nThe design system for this premium trading platform is built on a dual-personality framework that bridges high-performance technology with sophisticated aesthetics. \n\nThe primary aesthetic, **Espacio**, leverages a deep space-inspired minimalism. It utilizes heavy glassmorphism, translucent layers, and vibrant radial glows to create a sense of infinite depth. This mode is designed for prolonged, focused trading sessions where high-contrast neon accents guide the eye to critical data.\n\nThe secondary aesthetic, **Ceniza**, shifts the narrative to a \"physical\" tactile luxury. It uses a warm, organic palette reminiscent of stone and embers, providing a grounded, prestigious environment for portfolio review and market analysis. Both styles rely on ultra-precise geometric alignments and technical typography to maintain an aura of professional authority.\n\n## Layout & Spacing\nThe design system utilizes a **12-column fluid grid** for dashboard layouts. \n\n- **Modular Panels:** All content must be housed in \"Floating Glass\" containers. \n- **Rhythm:** An 8px linear scale governs all padding and margins. \n- **Safe Zones:** High-density data views should maintain a 24px gutter between panels to allow the background radial glows to \"breathe\" through the gaps.\n- **Mobile Reflow:** On mobile devices, the 12-column grid collapses to a single-column stack with 16px side margins.\n\n## Elevation & Depth\nDepth is the primary navigator in this design system.\n\n- **The Backdrop:** In Espacio mode, use a 12px blur on background surfaces with a 10% white tint.\n- **Neon Borders:** Active panels or \"Hot\" tickers should feature a 1px inner stroke using the Primary or Secondary colors, with a subtle outer glow (4px blur, 30% opacity) of the same hue.\n- **3D Floating Effect:** Apply a \"Dual Shadow\" technique. Use a sharp, dark 2px shadow for contact, and a wide, soft 20px ambient shadow to simulate the panel lifting off the background.\n- **Layering:** Modal overlays should increase the backdrop blur to 24px and darken the underlay to 40% opacity to isolate the user's focus.\n\n## Components\n- **Floating Buttons:** Primary buttons use a solid gradient (Primary to Secondary) with a 3D \"press\" effect on active states. Secondary buttons are ghost-styled with a 1px glass border.\n- **Glass Cards:** The signature component. Must include a 1px top-left highlight stroke to simulate light hitting an edge.\n- **Price Tickers:** Use JetBrains Mono. Growth is indicated by Official Green text; decline by Ember Red (Ceniza) or a bright Red-Neon (Espacio).\n- **Input Fields:** Semi-transparent backgrounds with a bottom-only 2px border that \"lights up\" with a neon glow on focus.\n- **Trade Sliders:** Use a thick track with a high-contrast thumb. In Espacio, the thumb should emit a Cyan radial glow.\n- **Segmented Controls:** Designed as a single glass bar with a sliding \"frosted\" indicator that moves behind the text labels.",
+                    "theme": {
+                      "bodyFont": "INTER",
+                      "bodyFontFamily": "Inter",
+                      "colorMode": "DARK",
+                      "colorVariant": "FIDELITY",
+                      "customColor": "#6750A4",
+                      "designMd": "---\nname: AOTR Values\ncolors:\n  surface: '#141218'\n  surface-dim: '#141218'\n  surface-bright: '#3b383e'\n  surface-container-lowest: '#0f0d13'\n  surface-container-low: '#1d1b20'\n  surface-container: '#211f24'\n  surface-container-high: '#2b292f'\n  surface-container-highest: '#36343a'\n  on-surface: '#e6e0e9'\n  on-surface-variant: '#cbc4d2'\n  inverse-surface: '#e6e0e9'\n  inverse-on-surface: '#322f35'\n  outline: '#948e9c'\n  outline-variant: '#494551'\n  surface-tint: '#cfbcff'\n  primary: '#cfbcff'\n  on-primary: '#381e72'\n  primary-container: '#6750a4'\n  on-primary-container: '#e0d2ff'\n  inverse-primary: '#6750a4'\n  secondary: '#cdc0e9'\n  on-secondary: '#342b4b'\n  secondary-container: '#4d4465'\n  on-secondary-container: '#bfb2da'\n  tertiary: '#e7c365'\n  on-tertiary: '#3e2e00'\n  tertiary-container: '#c9a74d'\n  on-tertiary-container: '#503d00'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#e9ddff'\n  primary-fixed-dim: '#cfbcff'\n  on-primary-fixed: '#22005d'\n  on-primary-fixed-variant: '#4f378a'\n  secondary-fixed: '#e9ddff'\n  secondary-fixed-dim: '#cdc0e9'\n  on-secondary-fixed: '#1f1635'\n  on-secondary-fixed-variant: '#4b4263'\n  tertiary-fixed: '#ffdf93'\n  tertiary-fixed-dim: '#e7c365'\n  on-tertiary-fixed: '#241a00'\n  on-tertiary-fixed-variant: '#594400'\n  background: '#141218'\n  on-background: '#e6e0e9'\n  surface-variant: '#36343a'\ntypography:\n  display-lg:\n    fontFamily: Space Grotesk\n    fontSize: 48px\n    fontWeight: '700'\n    lineHeight: '1.1'\n    letterSpacing: -0.02em\n  headline-lg:\n    fontFamily: Space Grotesk\n    fontSize: 32px\n    fontWeight: '600'\n    lineHeight: '1.2'\n  headline-lg-mobile:\n    fontFamily: Space Grotesk\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: '1.2'\n  body-md:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: '1.6'\n  data-tabular:\n    fontFamily: JetBrains Mono\n    fontSize: 14px\n    fontWeight: '500'\n    lineHeight: '1.4'\n    letterSpacing: -0.01em\n  label-caps:\n    fontFamily: JetBrains Mono\n    fontSize: 12px\n    fontWeight: '700'\n    lineHeight: '1.2'\nrounded:\n  sm: 0.25rem\n  DEFAULT: 0.5rem\n  md: 0.75rem\n  lg: 1rem\n  xl: 1.5rem\n  full: 9999px\nspacing:\n  base: 8px\n  container-max: 1440px\n  gutter: 24px\n  margin-mobile: 16px\n  panel-padding: 24px\n---\n\n## Brand & Style\nThe design system for this premium trading platform is built on a dual-personality framework that bridges high-performance technology with sophisticated aesthetics. \n\nThe primary aesthetic, **Espacio**, leverages a deep space-inspired minimalism. It utilizes heavy glassmorphism, translucent layers, and vibrant radial glows to create a sense of infinite depth. This mode is designed for prolonged, focused trading sessions where high-contrast neon accents guide the eye to critical data.\n\nThe secondary aesthetic, **Ceniza**, shifts the narrative to a \"physical\" tactile luxury. It uses a warm, organic palette reminiscent of stone and embers, providing a grounded, prestigious environment for portfolio review and market analysis. Both styles rely on ultra-precise geometric alignments and technical typography to maintain an aura of professional authority.\n\n## Colors\nThis design system operates on two distinct color palettes:\n\n**Espacio (Dark)**\n- **Base:** Deep Near-Black Navy (#020617).\n- **Glows:** Indigo (#6366f1) and Cyan (#22d3ee) are used as large-scale background radial gradients to create atmospheric depth.\n- **Accents:** High-vibrancy neons for CTA and active states.\n\n**Ceniza (Light/Warm)**\n- **Base:** Stone/Cream (#fafaf9).\n- **Accents:** Ember Red (#ef4444) and Burnt Orange (#f97316) for a prestigious, warm-toned interface.\n\n**Global Indicators**\n- **Trade Blue (#3b82f6):** Used for neutral market movements and informational data.\n- **Official Green (#22c55e):** Used exclusively for bullish indicators, success states, and growth metrics.\n\n## Typography\nThe typographic hierarchy ensures maximum readability across diverse data sets:\n\n1.  **Display & Headings:** **Space Grotesk** provides a technical, geometric edge. Use tight letter-spacing for large headlines to emphasize the \"engineered\" feel of the platform.\n2.  **Body Text:** **Inter** is the workhorse for all descriptive content and interface labels, ensuring clarity at small sizes.\n3.  **Data & Metrics:** **JetBrains Mono** is mandatory for all numerical values, price tickers, and trade logs. Its monospaced nature prevents \"jumping\" during real-time price updates.\n\n## Layout & Spacing\nThe design system utilizes a **12-column fluid grid** for dashboard layouts. \n\n- **Modular Panels:** All content must be housed in \"Floating Glass\" containers. \n- **Rhythm:** An 8px linear scale governs all padding and margins. \n- **Safe Zones:** High-density data views should maintain a 24px gutter between panels to allow the background radial glows to \"breathe\" through the gaps.\n- **Mobile Reflow:** On mobile devices, the 12-column grid collapses to a single-column stack with 16px side margins.\n\n## Elevation & Depth\nDepth is the primary navigator in this design system.\n\n- **The Backdrop:** In Espacio mode, use a 12px blur on background surfaces with a 10% white tint.\n- **Neon Borders:** Active panels or \"Hot\" tickers should feature a 1px inner stroke using the Primary or Secondary colors, with a subtle outer glow (4px blur, 30% opacity) of the same hue.\n- **3D Floating Effect:** Apply a \"Dual Shadow\" technique. Use a sharp, dark 2px shadow for contact, and a wide, soft 20px ambient shadow to simulate the panel lifting off the background.\n- **Layering:** Modal overlays should increase the backdrop blur to 24px and darken the underlay to 40% opacity to isolate the user's focus.\n\n## Shapes\nThe shape language is \"Sophisticated Geometric.\" \n\n- **Standard Containers:** Use a 0.5rem (8px) radius for all dashboard panels and cards.\n- **Interactive Elements:** Buttons and Input fields follow the `rounded-lg` (16px) convention to feel more approachable and \"touchable\" against the rigid grid.\n- **Data Tags:** Status chips and badges should use the `rounded-xl` (24px) or full pill-shape to distinguish them from structural layout elements.\n\n## Components\n- **Floating Buttons:** Primary buttons use a solid gradient (Primary to Secondary) with a 3D \"press\" effect on active states. Secondary buttons are ghost-styled with a 1px glass border.\n- **Glass Cards:** The signature component. Must include a 1px top-left highlight stroke to simulate light hitting an edge.\n- **Price Tickers:** Use JetBrains Mono. Growth is indicated by Official Green text; decline by Ember Red (Ceniza) or a bright Red-Neon (Espacio).\n- **Input Fields:** Semi-transparent backgrounds with a bottom-only 2px border that \"lights up\" with a neon glow on focus.\n- **Trade Sliders:** Use a thick track with a high-contrast thumb. In Espacio, the thumb should emit a Cyan radial glow.\n- **Segmented Controls:** Designed as a single glass bar with a sliding \"frosted\" indicator that moves behind the text labels.",
+                      "font": "SPACE_GROTESK",
+                      "headlineFont": "SPACE_GROTESK",
+                      "headlineFontFamily": "Space Grotesk",
+                      "labelFont": "JETBRAINS_MONO",
+                      "labelFontFamily": "Jetbrains Mono",
+                      "namedColors": {
+                        "background": "#141218",
+                        "error": "#ffb4ab",
+                        "error_container": "#93000a",
+                        "inverse_on_surface": "#322f35",
+                        "inverse_primary": "#6750a4",
+                        "inverse_surface": "#e6e0e9",
+                        "on_background": "#e6e0e9",
+                        "on_error": "#690005",
+                        "on_error_container": "#ffdad6",
+                        "on_primary": "#381e72",
+                        "on_primary_container": "#e0d2ff",
+                        "on_primary_fixed": "#22005d",
+                        "on_primary_fixed_variant": "#4f378a",
+                        "on_secondary": "#342b4b",
+                        "on_secondary_container": "#bfb2da",
+                        "on_secondary_fixed": "#1f1635",
+                        "on_secondary_fixed_variant": "#4b4263",
+                        "on_surface": "#e6e0e9",
+                        "on_surface_variant": "#cbc4d2",
+                        "on_tertiary": "#3e2e00",
+                        "on_tertiary_container": "#503d00",
+                        "on_tertiary_fixed": "#241a00",
+                        "on_tertiary_fixed_variant": "#594400",
+                        "outline": "#948e9c",
+                        "outline_variant": "#494551",
+                        "primary": "#cfbcff",
+                        "primary_container": "#6750a4",
+                        "primary_fixed": "#e9ddff",
+                        "primary_fixed_dim": "#cfbcff",
+                        "secondary": "#cdc0e9",
+                        "secondary_container": "#4d4465",
+                        "secondary_fixed": "#e9ddff",
+                        "secondary_fixed_dim": "#cdc0e9",
+                        "surface": "#141218",
+                        "surface_bright": "#3b383e",
+                        "surface_container": "#211f24",
+                        "surface_container_high": "#2b292f",
+                        "surface_container_highest": "#36343a",
+                        "surface_container_low": "#1d1b20",
+                        "surface_container_lowest": "#0f0d13",
+                        "surface_dim": "#141218",
+                        "surface_tint": "#cfbcff",
+                        "surface_variant": "#36343a",
+                        "tertiary": "#e7c365",
+                        "tertiary_container": "#c9a74d",
+                        "tertiary_fixed": "#ffdf93",
+                        "tertiary_fixed_dim": "#e7c365"
+                      },
+                      "roundness": "ROUND_EIGHT",
+                      "spacing": {
+                        "base": "8px",
+                        "container-max": "1440px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "panel-padding": "24px"
+                      },
+                      "spacingScale": 2,
+                      "typography": {
+                        "body-md": {
+                          "fontFamily": "Inter",
+                          "fontSize": "16px",
+                          "fontWeight": "400",
+                          "lineHeight": "1.6"
+                        },
+                        "data-tabular": {
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": "14px",
+                          "fontWeight": "500",
+                          "letterSpacing": "-0.01em",
+                          "lineHeight": "1.4"
+                        },
+                        "display-lg": {
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": "48px",
+                          "fontWeight": "700",
+                          "letterSpacing": "-0.02em",
+                          "lineHeight": "1.1"
+                        },
+                        "headline-lg": {
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": "32px",
+                          "fontWeight": "600",
+                          "lineHeight": "1.2"
+                        },
+                        "headline-lg-mobile": {
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": "24px",
+                          "fontWeight": "600",
+                          "lineHeight": "1.2"
+                        },
+                        "label-caps": {
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": "12px",
+                          "fontWeight": "700",
+                          "lineHeight": "1.2"
+                        }
+                      }
+                    }
+                  },
+                  "name": "assets/3a75f6d24c4a4456856eb052e44fc583",
+                  "version": "1"
+                },
+                "deviceType": "DESKTOP",
+                "generatedBy": "HatterAgent",
+                "height": "2838",
+                "htmlCode": {
+                  "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sXzI3YTY4ZGQ3ODczMzQ3OGE4ZmI0ZjM1OTFmZTllOTAwEgsSBxDhz76e_RgYAZIBJAoKcHJvamVjdF9pZBIWQhQxMjA4OTk5NTQxNDkzMzExODczNg&filename=&opi=96797242",
+                  "mimeType": "text/html",
+                  "name": "projects/12089995414933118736/files/407ac72ecf784203ba9e5b506d3d3a65"
+                },
+                "id": "496434ffde3d434f98f87aeda2a4d53d",
+                "name": "projects/12089995414933118736/screens/496434ffde3d434f98f87aeda2a4d53d",
+                "prompt": "Translate ALL UI labels and content to Spanish. \nUpdate the Top Navigation to exactly: Inicio, Precios, Comparar, Histórico. \nRemove: Markets, Trade, Portfolio, Analytics, Connect Wallet, Dashboard, Logs, notifications, settings. \nUse 'Salir' for the logout/exit button.\nEnsure all other text (labels, cards, demand status, etc.) is translated into Spanish while keeping the dark theme and layout identical.",
+                "screenMetadata": {
+                  "agentType": "PRO_AGENT",
+                  "status": "COMPLETE"
+                },
+                "screenType": "DESIGN",
+                "screenshot": {
+                  "downloadUrl": "https://lh3.googleusercontent.com/aida/AP1WRLs38_HzJSVablMR0fkujWr13l2cOB5gN0CQNGMaEomRD2FMmUi1fDP-a7cT9QxfqzqVYrgyfThxo0hxJWV1s-opamte7Ic6zlNqTyWx03clYDnT9bvr392TnHVNrrEQ0hHyuTIqDkmH4eSl660Ryg88kkGnWrAhi0A2l0912MMZfu2DzQP5zp3g1ND6SlObs_v3BTmkFy0U3x6VO7-vmf-SkXHBQOUp6K1jRHwCGcsvFJiz-V0nteACn5ac",
+                  "name": "projects/12089995414933118736/files/efbd42250c12435cbb6e371cc6efe36b"
+                },
+                "theme": {
+                  "bodyFont": "INTER",
+                  "bodyFontFamily": "Inter",
+                  "colorMode": "DARK",
+                  "colorVariant": "FIDELITY",
+                  "customColor": "#6750A4",
+                  "font": "SPACE_GROTESK",
+                  "headlineFont": "SPACE_GROTESK",
+                  "headlineFontFamily": "Space Grotesk",
+                  "labelFont": "JETBRAINS_MONO",
+                  "labelFontFamily": "Jetbrains Mono",
+                  "namedColors": {
+                    "background": "#141218",
+                    "error": "#ffb4ab",
+                    "error_container": "#93000a",
+                    "inverse_on_surface": "#322f35",
+                    "inverse_primary": "#6750a4",
+                    "inverse_surface": "#e6e0e9",
+                    "on_background": "#e6e0e9",
+                    "on_error": "#690005",
+                    "on_error_container": "#ffdad6",
+                    "on_primary": "#381e72",
+                    "on_primary_container": "#e0d2ff",
+                    "on_primary_fixed": "#22005d",
+                    "on_primary_fixed_variant": "#4f378a",
+                    "on_secondary": "#342b4b",
+                    "on_secondary_container": "#bfb2da",
+                    "on_secondary_fixed": "#1f1635",
+                    "on_secondary_fixed_variant": "#4b4263",
+                    "on_surface": "#e6e0e9",
+                    "on_surface_variant": "#cbc4d2",
+                    "on_tertiary": "#3e2e00",
+                    "on_tertiary_container": "#503d00",
+                    "on_tertiary_fixed": "#241a00",
+                    "on_tertiary_fixed_variant": "#594400",
+                    "outline": "#948e9c",
+                    "outline_variant": "#494551",
+                    "primary": "#cfbcff",
+                    "primary_container": "#6750a4",
+                    "primary_fixed": "#e9ddff",
+                    "primary_fixed_dim": "#cfbcff",
+                    "secondary": "#cdc0e9",
+                    "secondary_container": "#4d4465",
+                    "secondary_fixed": "#e9ddff",
+                    "secondary_fixed_dim": "#cdc0e9",
+                    "surface": "#141218",
+                    "surface_bright": "#3b383e",
+                    "surface_container": "#211f24",
+                    "surface_container_high": "#2b292f",
+                    "surface_container_highest": "#36343a",
+                    "surface_container_low": "#1d1b20",
+                    "surface_container_lowest": "#0f0d13",
+                    "surface_dim": "#141218",
+                    "surface_tint": "#cfbcff",
+                    "surface_variant": "#36343a",
+                    "tertiary": "#e7c365",
+                    "tertiary_container": "#c9a74d",
+                    "tertiary_fixed": "#ffdf93",
+                    "tertiary_fixed_dim": "#e7c365"
+                  },
+                  "roundness": "ROUND_EIGHT",
+                  "spacing": {
+                    "base": "8px",
+                    "container-max": "1440px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px",
+                    "panel-padding": "24px"
+                  },
+                  "spacingScale": 2,
+                  "typography": {
+                    "body-md": {
+                      "fontFamily": "Inter",
+                      "fontSize": "16px",
+                      "fontWeight": "400",
+                      "lineHeight": "1.6"
+                    },
+                    "data-tabular": {
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": "14px",
+                      "fontWeight": "500",
+                      "letterSpacing": "-0.01em",
+                      "lineHeight": "1.4"
+                    },
+                    "display-lg": {
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": "48px",
+                      "fontWeight": "700",
+                      "letterSpacing": "-0.02em",
+                      "lineHeight": "1.1"
+                    },
+                    "headline-lg": {
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": "32px",
+                      "fontWeight": "600",
+                      "lineHeight": "1.2"
+                    },
+                    "headline-lg-mobile": {
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": "24px",
+                      "fontWeight": "600",
+                      "lineHeight": "1.2"
+                    },
+                    "label-caps": {
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": "12px",
+                      "fontWeight": "700",
+                      "lineHeight": "1.2"
+                    }
+                  }
+                },
+                "title": "Detalle de Item - Azure Flames (Spanish) v2",
+                "width": "2560"
+              },
+              {
+                "designSystem": {
+                  "designSystem": {
+                    "displayName": "AOTR Values",
+                    "styleGuidelines": "## Brand & Style\nThe design system for this premium trading platform is built on a dual-personality framework that bridges high-performance technology with sophisticated aesthetics. \n\nThe primary aesthetic, **Espacio**, leverages a deep space-inspired minimalism. It utilizes heavy glassmorphism, translucent layers, and vibrant radial glows to create a sense of infinite depth. This mode is designed for prolonged, focused trading sessions where high-contrast neon accents guide the eye to critical data.\n\nThe secondary aesthetic, **Ceniza**, shifts the narrative to a \"physical\" tactile luxury. It uses a warm, organic palette reminiscent of stone and embers, providing a grounded, prestigious environment for portfolio review and market analysis. Both styles rely on ultra-precise geometric alignments and technical typography to maintain an aura of professional authority.\n\n## Layout & Spacing\nThe design system utilizes a **12-column fluid grid** for dashboard layouts. \n\n- **Modular Panels:** All content must be housed in \"Floating Glass\" containers. \n- **Rhythm:** An 8px linear scale governs all padding and margins. \n- **Safe Zones:** High-density data views should maintain a 24px gutter between panels to allow the background radial glows to \"breathe\" through the gaps.\n- **Mobile Reflow:** On mobile devices, the 12-column grid collapses to a single-column stack with 16px side margins.\n\n## Elevation & Depth\nDepth is the primary navigator in this design system.\n\n- **The Backdrop:** In Espacio mode, use a 12px blur on background surfaces with a 10% white tint.\n- **Neon Borders:** Active panels or \"Hot\" tickers should feature a 1px inner stroke using the Primary or Secondary colors, with a subtle outer glow (4px blur, 30% opacity) of the same hue.\n- **3D Floating Effect:** Apply a \"Dual Shadow\" technique. Use a sharp, dark 2px shadow for contact, and a wide, soft 20px ambient shadow to simulate the panel lifting off the background.\n- **Layering:** Modal overlays should increase the backdrop blur to 24px and darken the underlay to 40% opacity to isolate the user's focus.\n\n## Components\n- **Floating Buttons:** Primary buttons use a solid gradient (Primary to Secondary) with a 3D \"press\" effect on active states. Secondary buttons are ghost-styled with a 1px glass border.\n- **Glass Cards:** The signature component. Must include a 1px top-left highlight stroke to simulate light hitting an edge.\n- **Price Tickers:** Use JetBrains Mono. Growth is indicated by Official Green text; decline by Ember Red (Ceniza) or a bright Red-Neon (Espacio).\n- **Input Fields:** Semi-transparent backgrounds with a bottom-only 2px border that \"lights up\" with a neon glow on focus.\n- **Trade Sliders:** Use a thick track with a high-contrast thumb. In Espacio, the thumb should emit a Cyan radial glow.\n- **Segmented Controls:** Designed as a single glass bar with a sliding \"frosted\" indicator that moves behind the text labels.",
+                    "theme": {
+                      "bodyFont": "INTER",
+                      "bodyFontFamily": "Inter",
+                      "colorMode": "DARK",
+                      "colorVariant": "FIDELITY",
+                      "customColor": "#6750A4",
+                      "designMd": "---\nname: AOTR Values\ncolors:\n  surface: '#141218'\n  surface-dim: '#141218'\n  surface-bright: '#3b383e'\n  surface-container-lowest: '#0f0d13'\n  surface-container-low: '#1d1b20'\n  surface-container: '#211f24'\n  surface-container-high: '#2b292f'\n  surface-container-highest: '#36343a'\n  on-surface: '#e6e0e9'\n  on-surface-variant: '#cbc4d2'\n  inverse-surface: '#e6e0e9'\n  inverse-on-surface: '#322f35'\n  outline: '#948e9c'\n  outline-variant: '#494551'\n  surface-tint: '#cfbcff'\n  primary: '#cfbcff'\n  on-primary: '#381e72'\n  primary-container: '#6750a4'\n  on-primary-container: '#e0d2ff'\n  inverse-primary: '#6750a4'\n  secondary: '#cdc0e9'\n  on-secondary: '#342b4b'\n  secondary-container: '#4d4465'\n  on-secondary-container: '#bfb2da'\n  tertiary: '#e7c365'\n  on-tertiary: '#3e2e00'\n  tertiary-container: '#c9a74d'\n  on-tertiary-container: '#503d00'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#e9ddff'\n  primary-fixed-dim: '#cfbcff'\n  on-primary-fixed: '#22005d'\n  on-primary-fixed-variant: '#4f378a'\n  secondary-fixed: '#e9ddff'\n  secondary-fixed-dim: '#cdc0e9'\n  on-secondary-fixed: '#1f1635'\n  on-secondary-fixed-variant: '#4b4263'\n  tertiary-fixed: '#ffdf93'\n  tertiary-fixed-dim: '#e7c365'\n  on-tertiary-fixed: '#241a00'\n  on-tertiary-fixed-variant: '#594400'\n  background: '#141218'\n  on-background: '#e6e0e9'\n  surface-variant: '#36343a'\ntypography:\n  display-lg:\n    fontFamily: Space Grotesk\n    fontSize: 48px\n    fontWeight: '700'\n    lineHeight: '1.1'\n    letterSpacing: -0.02em\n  headline-lg:\n    fontFamily: Space Grotesk\n    fontSize: 32px\n    fontWeight: '600'\n    lineHeight: '1.2'\n  headline-lg-mobile:\n    fontFamily: Space Grotesk\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: '1.2'\n  body-md:\n    fontFamily: Inter\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: '1.6'\n  data-tabular:\n    fontFamily: JetBrains Mono\n    fontSize: 14px\n    fontWeight: '500'\n    lineHeight: '1.4'\n    letterSpacing: -0.01em\n  label-caps:\n    fontFamily: JetBrains Mono\n    fontSize: 12px\n    fontWeight: '700'\n    lineHeight: '1.2'\nrounded:\n  sm: 0.25rem\n  DEFAULT: 0.5rem\n  md: 0.75rem\n  lg: 1rem\n  xl: 1.5rem\n  full: 9999px\nspacing:\n  base: 8px\n  container-max: 1440px\n  gutter: 24px\n  margin-mobile: 16px\n  panel-padding: 24px\n---\n\n## Brand & Style\nThe design system for this premium trading platform is built on a dual-personality framework that bridges high-performance technology with sophisticated aesthetics. \n\nThe primary aesthetic, **Espacio**, leverages a deep space-inspired minimalism. It utilizes heavy glassmorphism, translucent layers, and vibrant radial glows to create a sense of infinite depth. This mode is designed for prolonged, focused trading sessions where high-contrast neon accents guide the eye to critical data.\n\nThe secondary aesthetic, **Ceniza**, shifts the narrative to a \"physical\" tactile luxury. It uses a warm, organic palette reminiscent of stone and embers, providing a grounded, prestigious environment for portfolio review and market analysis. Both styles rely on ultra-precise geometric alignments and technical typography to maintain an aura of professional authority.\n\n## Colors\nThis design system operates on two distinct color palettes:\n\n**Espacio (Dark)**\n- **Base:** Deep Near-Black Navy (#020617).\n- **Glows:** Indigo (#6366f1) and Cyan (#22d3ee) are used as large-scale background radial gradients to create atmospheric depth.\n- **Accents:** High-vibrancy neons for CTA and active states.\n\n**Ceniza (Light/Warm)**\n- **Base:** Stone/Cream (#fafaf9).\n- **Accents:** Ember Red (#ef4444) and Burnt Orange (#f97316) for a prestigious, warm-toned interface.\n\n**Global Indicators**\n- **Trade Blue (#3b82f6):** Used for neutral market movements and informational data.\n- **Official Green (#22c55e):** Used exclusively for bullish indicators, success states, and growth metrics.\n\n## Typography\nThe typographic hierarchy ensures maximum readability across diverse data sets:\n\n1.  **Display & Headings:** **Space Grotesk** provides a technical, geometric edge. Use tight letter-spacing for large headlines to emphasize the \"engineered\" feel of the platform.\n2.  **Body Text:** **Inter** is the workhorse for all descriptive content and interface labels, ensuring clarity at small sizes.\n3.  **Data & Metrics:** **JetBrains Mono** is mandatory for all numerical values, price tickers, and trade logs. Its monospaced nature prevents \"jumping\" during real-time price updates.\n\n## Layout & Spacing\nThe design system utilizes a **12-column fluid grid** for dashboard layouts. \n\n- **Modular Panels:** All content must be housed in \"Floating Glass\" containers. \n- **Rhythm:** An 8px linear scale governs all padding and margins. \n- **Safe Zones:** High-density data views should maintain a 24px gutter between panels to allow the background radial glows to \"breathe\" through the gaps.\n- **Mobile Reflow:** On mobile devices, the 12-column grid collapses to a single-column stack with 16px side margins.\n\n## Elevation & Depth\nDepth is the primary navigator in this design system.\n\n- **The Backdrop:** In Espacio mode, use a 12px blur on background surfaces with a 10% white tint.\n- **Neon Borders:** Active panels or \"Hot\" tickers should feature a 1px inner stroke using the Primary or Secondary colors, with a subtle outer glow (4px blur, 30% opacity) of the same hue.\n- **3D Floating Effect:** Apply a \"Dual Shadow\" technique. Use a sharp, dark 2px shadow for contact, and a wide, soft 20px ambient shadow to simulate the panel lifting off the background.\n- **Layering:** Modal overlays should increase the backdrop blur to 24px and darken the underlay to 40% opacity to isolate the user's focus.\n\n## Shapes\nThe shape language is \"Sophisticated Geometric.\" \n\n- **Standard Containers:** Use a 0.5rem (8px) radius for all dashboard panels and cards.\n- **Interactive Elements:** Buttons and Input fields follow the `rounded-lg` (16px) convention to feel more approachable and \"touchable\" against the rigid grid.\n- **Data Tags:** Status chips and badges should use the `rounded-xl` (24px) or full pill-shape to distinguish them from structural layout elements.\n\n## Components\n- **Floating Buttons:** Primary buttons use a solid gradient (Primary to Secondary) with a 3D \"press\" effect on active states. Secondary buttons are ghost-styled with a 1px glass border.\n- **Glass Cards:** The signature component. Must include a 1px top-left highlight stroke to simulate light hitting an edge.\n- **Price Tickers:** Use JetBrains Mono. Growth is indicated by Official Green text; decline by Ember Red (Ceniza) or a bright Red-Neon (Espacio).\n- **Input Fields:** Semi-transparent backgrounds with a bottom-only 2px border that \"lights up\" with a neon glow on focus.\n- **Trade Sliders:** Use a thick track with a high-contrast thumb. In Espacio, the thumb should emit a Cyan radial glow.\n- **Segmented Controls:** Designed as a single glass bar with a sliding \"frosted\" indicator that moves behind the text labels.",
+                      "font": "SPACE_GROTESK",
+                      "headlineFont": "SPACE_GROTESK",
+                      "headlineFontFamily": "Space Grotesk",
+                      "labelFont": "JETBRAINS_MONO",
+                      "labelFontFamily": "Jetbrains Mono",
+                      "namedColors": {
+                        "background": "#141218",
+                        "error": "#ffb4ab",
+                        "error_container": "#93000a",
+                        "inverse_on_surface": "#322f35",
+                        "inverse_primary": "#6750a4",
+                        "inverse_surface": "#e6e0e9",
+                        "on_background": "#e6e0e9",
+                        "on_error": "#690005",
+                        "on_error_container": "#ffdad6",
+                        "on_primary": "#381e72",
+                        "on_primary_container": "#e0d2ff",
+                        "on_primary_fixed": "#22005d",
+                        "on_primary_fixed_variant": "#4f378a",
+                        "on_secondary": "#342b4b",
+                        "on_secondary_container": "#bfb2da",
+                        "on_secondary_fixed": "#1f1635",
+                        "on_secondary_fixed_variant": "#4b4263",
+                        "on_surface": "#e6e0e9",
+                        "on_surface_variant": "#cbc4d2",
+                        "on_tertiary": "#3e2e00",
+                        "on_tertiary_container": "#503d00",
+                        "on_tertiary_fixed": "#241a00",
+                        "on_tertiary_fixed_variant": "#594400",
+                        "outline": "#948e9c",
+                        "outline_variant": "#494551",
+                        "primary": "#cfbcff",
+                        "primary_container": "#6750a4",
+                        "primary_fixed": "#e9ddff",
+                        "primary_fixed_dim": "#cfbcff",
+                        "secondary": "#cdc0e9",
+                        "secondary_container": "#4d4465",
+                        "secondary_fixed": "#e9ddff",
+                        "secondary_fixed_dim": "#cdc0e9",
+                        "surface": "#141218",
+                        "surface_bright": "#3b383e",
+                        "surface_container": "#211f24",
+                        "surface_container_high": "#2b292f",
+                        "surface_container_highest": "#36343a",
+                        "surface_container_low": "#1d1b20",
+                        "surface_container_lowest": "#0f0d13",
+                        "surface_dim": "#141218",
+                        "surface_tint": "#cfbcff",
+                        "surface_variant": "#36343a",
+                        "tertiary": "#e7c365",
+                        "tertiary_container": "#c9a74d",
+                        "tertiary_fixed": "#ffdf93",
+                        "tertiary_fixed_dim": "#e7c365"
+                      },
+                      "roundness": "ROUND_EIGHT",
+                      "spacing": {
+                        "base": "8px",
+                        "container-max": "1440px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "panel-padding": "24px"
+                      },
+                      "spacingScale": 2,
+                      "typography": {
+                        "body-md": {
+                          "fontFamily": "Inter",
+                          "fontSize": "16px",
+                          "fontWeight": "400",
+                          "lineHeight": "1.6"
+                        },
+                        "data-tabular": {
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": "14px",
+                          "fontWeight": "500",
+                          "letterSpacing": "-0.01em",
+                          "lineHeight": "1.4"
+                        },
+                        "display-lg": {
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": "48px",
+                          "fontWeight": "700",
+                          "letterSpacing": "-0.02em",
+                          "lineHeight": "1.1"
+                        },
+                        "headline-lg": {
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": "32px",
+                          "fontWeight": "600",
+                          "lineHeight": "1.2"
+                        },
+                        "headline-lg-mobile": {
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": "24px",
+                          "fontWeight": "600",
+                          "lineHeight": "1.2"
+                        },
+                        "label-caps": {
+                          "fontFamily": "JetBrains Mono",
+                          "fontSize": "12px",
+                          "fontWeight": "700",
+                          "lineHeight": "1.2"
+                        }
+                      }
+                    }
+                  },
+                  "name": "assets/3a75f6d24c4a4456856eb052e44fc583",
+                  "version": "1"
+                },
+                "deviceType": "DESKTOP",
+                "generatedBy": "HatterAgent",
+                "height": "2124",
+                "htmlCode": {
+                  "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sXzM5ZWU1MDRiOTYyZDRiMzQ5NGY1ZmI2MmM5NTUzZmYzEgsSBxDhz76e_RgYAZIBJAoKcHJvamVjdF9pZBIWQhQxMjA4OTk5NTQxNDkzMzExODczNg&filename=&opi=96797242",
+                  "mimeType": "text/html",
+                  "name": "projects/12089995414933118736/files/fefd73cf19554fb88d38073fe707640e"
+                },
+                "id": "0b4bc94fc4f4438e9262965d505fa7b0",
+                "name": "projects/12089995414933118736/screens/0b4bc94fc4f4438e9262965d505fa7b0",
+                "prompt": "Translate ALL UI labels and content to Spanish. \nUpdate the Top Navigation to exactly: Inicio, Precios, Comparar, Histórico. \nRemove: Dashboard, Tasas, Logs, notifications, settings. \nUse 'Salir' for the logout/exit button.\nTranslate content like \"Administración de tasas\", \"Sincronización de precios\", \"Últimas 30 sincronizaciones\", \"Guardar tasas\", \"Restaurar por defecto\".\nKeep the layout and dark theme identical.",
+                "screenMetadata": {
+                  "agentType": "PRO_AGENT",
+                  "status": "COMPLETE"
+                },
+                "screenType": "DESIGN",
+                "screenshot": {
+                  "downloadUrl": "https://lh3.googleusercontent.com/aida/AP1WRLuq4XCwvng2JLd3HTYnXaYm0Al-XTmagIckUSKFRwKAHARNSMtIr5iLy37oxhdB62B4oE_K9tZXibYB0Br5MiaJZJp2_Es8CD5O37-kkLm3kxH769l7ziJmPv8OpJ-fb5n_1zMBcMewxje8MiIRw-wWFSXHb5YGMPwhtm7f_JHEq4E31jU1gRBY576ig4YAlGlA_xdpHo6J_rdcxfT94uwFOtZslMTMjpczZiKr6Z-3hXRvVzjsI5xmNRE",
+                  "name": "projects/12089995414933118736/files/d79ed0d181914d2fabb771ff5871fdb0"
+                },
+                "theme": {
+                  "bodyFont": "INTER",
+                  "bodyFontFamily": "Inter",
+                  "colorMode": "DARK",
+                  "colorVariant": "FIDELITY",
+                  "customColor": "#6750A4",
+                  "font": "SPACE_GROTESK",
+                  "headlineFont": "SPACE_GROTESK",
+                  "headlineFontFamily": "Space Grotesk",
+                  "labelFont": "JETBRAINS_MONO",
+                  "labelFontFamily": "Jetbrains Mono",
+                  "namedColors": {
+                    "background": "#141218",
+                    "error": "#ffb4ab",
+                    "error_container": "#93000a",
+                    "inverse_on_surface": "#322f35",
+                    "inverse_primary": "#6750a4",
+                    "inverse_surface": "#e6e0e9",
+                    "on_background": "#e6e0e9",
+                    "on_error": "#690005",
+                    "on_error_container": "#ffdad6",
+                    "on_primary": "#381e72",
+                    "on_primary_container": "#e0d2ff",
+                    "on_primary_fixed": "#22005d",
+                    "on_primary_fixed_variant": "#4f378a",
+                    "on_secondary": "#342b4b",
+                    "on_secondary_container": "#bfb2da",
+                    "on_secondary_fixed": "#1f1635",
+                    "on_secondary_fixed_variant": "#4b4263",
+                    "on_surface": "#e6e0e9",
+                    "on_surface_variant": "#cbc4d2",
+                    "on_tertiary": "#3e2e00",
+                    "on_tertiary_container": "#503d00",
+                    "on_tertiary_fixed": "#241a00",
+                    "on_tertiary_fixed_variant": "#594400",
+                    "outline": "#948e9c",
+                    "outline_variant": "#494551",
+                    "primary": "#cfbcff",
+                    "primary_container": "#6750a4",
+                    "primary_fixed": "#e9ddff",
+                    "primary_fixed_dim": "#cfbcff",
+                    "secondary": "#cdc0e9",
+                    "secondary_container": "#4d4465",
+                    "secondary_fixed": "#e9ddff",
+                    "secondary_fixed_dim": "#cdc0e9",
+                    "surface": "#141218",
+                    "surface_bright": "#3b383e",
+                    "surface_container": "#211f24",
+                    "surface_container_high": "#2b292f",
+                    "surface_container_highest": "#36343a",
+                    "surface_container_low": "#1d1b20",
+                    "surface_container_lowest": "#0f0d13",
+                    "surface_dim": "#141218",
+                    "surface_tint": "#cfbcff",
+                    "surface_variant": "#36343a",
+                    "tertiary": "#e7c365",
+                    "tertiary_container": "#c9a74d",
+                    "tertiary_fixed": "#ffdf93",
+                    "tertiary_fixed_dim": "#e7c365"
+                  },
+                  "roundness": "ROUND_EIGHT",
+                  "spacing": {
+                    "base": "8px",
+                    "container-max": "1440px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px",
+                    "panel-padding": "24px"
+                  },
+                  "spacingScale": 2,
+                  "typography": {
+                    "body-md": {
+                      "fontFamily": "Inter",
+                      "fontSize": "16px",
+                      "fontWeight": "400",
+                      "lineHeight": "1.6"
+                    },
+                    "data-tabular": {
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": "14px",
+                      "fontWeight": "500",
+                      "letterSpacing": "-0.01em",
+                      "lineHeight": "1.4"
+                    },
+                    "display-lg": {
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": "48px",
+                      "fontWeight": "700",
+                      "letterSpacing": "-0.02em",
+                      "lineHeight": "1.1"
+                    },
+                    "headline-lg": {
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": "32px",
+                      "fontWeight": "600",
+                      "lineHeight": "1.2"
+                    },
+                    "headline-lg-mobile": {
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": "24px",
+                      "fontWeight": "600",
+                      "lineHeight": "1.2"
+                    },
+                    "label-caps": {
+                      "fontFamily": "JetBrains Mono",
+                      "fontSize": "12px",
+                      "fontWeight": "700",
+                      "lineHeight": "1.2"
+                    }
+                  }
+                },
+                "title": "Administración de Tasas (Spanish) v2",
+                "width": "2560"
+              }
+            ],
+            "theme": {}
+          }
+        },
+        {
+          "text": "He completado la traducción al español de las pantallas seleccionadas, ajustando la navegación y los elementos de la interfaz según tus instrucciones.\n\n**Cambios realizados:**\n- **Navegación Simplificada**: He actualizado el menú superior a \"Inicio\", \"Precios\", \"Comparar\", \"Histórico\" y \"Salir\", eliminando los enlaces en inglés y los iconos de utilidades (notificaciones, ajustes).\n- **Traducción Integral**: He localizado todos los textos, desde los títulos de las secciones (\"Administración de tasas\", \"Detalle de Item\") hasta los estados de demanda (\"Alta\", \"Media\") y los registros de sincronización.\n- **Consistencia Visual**: Se ha mantenido el diseño oscuro (AOTR Values) y la disposición original de los elementos para asegurar una transición fluida entre idiomas.\n\n¿Hay alguna otra sección que desees traducir o algún ajuste específico en el vocabulario que prefieras?"
+        },
+        {
+          "suggestion": "Traducir la página de Comparar también"
+        },
+        {
+          "suggestion": "Cambiar el color de los botones de acción"
+        },
+        {
+          "suggestion": "Añadir un modo claro para estas pantallas"
+        }
+      ],
+      "projectId": "12089995414933118736",
+      "sessionId": "4794967289651055443"
+    }
+  }
+}

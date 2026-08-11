@@ -73,7 +73,10 @@ export function PriceSourceToggle({ className }: { className?: string }) {
     <div
       role="tablist"
       aria-label="Lista de precios"
-      className={cn("glass relative flex items-center rounded-full p-1", className)}
+      className={cn(
+        "relative flex items-center rounded-full border border-outline-variant/50 bg-surface-container p-1",
+        className
+      )}
     >
       {/* Cursor deslizante */}
       <span
@@ -81,14 +84,14 @@ export function PriceSourceToggle({ className }: { className?: string }) {
         className={cn(
           "absolute inset-y-1 w-[calc(50%-4px)] rounded-full transition-all duration-300 ease-out",
           isOfficial
-            ? "left-1 bg-emerald-500/25 ring-1 ring-emerald-400/40"
-            : "left-[calc(50%)] bg-blue-500/25 ring-1 ring-blue-400/40"
+            ? "left-1 bg-[#4ade80]/20 shadow-[0_0_10px_rgba(74,222,128,0.25)] ring-1 ring-[#4ade80]/40"
+            : "left-[calc(50%)] bg-[#60a5fa]/20 shadow-[0_0_10px_rgba(96,165,250,0.25)] ring-1 ring-[#60a5fa]/40"
         )}
       />
       {(
         [
-          ["official", "🟢 Oficial"],
-          ["trade", "🔵 Tradeo"],
+          ["official", "Oficial"],
+          ["trade", "Tradeo"],
         ] as const
       ).map(([key, label]) => (
         <button
@@ -97,12 +100,12 @@ export function PriceSourceToggle({ className }: { className?: string }) {
           aria-selected={source === key}
           onClick={() => setSource(key)}
           className={cn(
-            "relative z-10 flex-1 whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs font-bold transition-colors duration-200",
+            "relative z-10 flex-1 whitespace-nowrap rounded-full px-3.5 py-1.5 font-label-caps text-xs font-bold tracking-wider transition-colors duration-200",
             source === key
               ? isOfficial
-                ? "text-emerald-300"
-                : "text-blue-300"
-              : "text-white/45 hover:text-white"
+                ? "text-neon-green drop-shadow-[0_0_4px_rgba(74,222,128,0.5)]"
+                : "text-[#60a5fa] drop-shadow-[0_0_4px_rgba(96,165,250,0.5)]"
+              : "text-on-surface-variant hover:text-on-surface"
           )}
         >
           {label}

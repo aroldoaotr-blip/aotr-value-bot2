@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Activity, Flame, Menu, Moon, X } from "lucide-react";
 import { cn, formatRelative } from "@/lib/format";
 import { PriceSourceToggle } from "@/lib/price-source";
+import { Logo } from "./Logo";
 
 const LINKS = [
   { href: "/", label: "Inicio" },
@@ -55,15 +56,15 @@ export function Navbar() {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#05060f]/70 backdrop-blur-xl">
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-outline-variant/30 bg-surface/80 shadow-[0_4px_20px_rgba(0,0,0,0.4)] backdrop-blur-xl">
+      <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="group flex items-center gap-3">
-          <div className="orb h-9 w-9 transition-transform duration-300 group-hover:scale-110" />
+          <Logo className="h-10 w-10 transition-transform duration-300 group-hover:scale-110" />
           <div className="leading-tight">
-            <span className="font-display text-sm font-bold tracking-widest text-white">
+            <span className="font-display-lg text-lg font-bold tracking-tighter text-on-surface drop-shadow-[0_0_8px_rgba(207,188,255,0.6)]">
               AOTR <span className="text-gradient">VALUES</span>
             </span>
-            <span className="block text-[10px] font-medium text-white/40">
+            <span className="block text-[10px] font-medium text-on-surface-variant/60">
               Precios oficiales + tradeo
             </span>
           </div>
@@ -75,20 +76,20 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               className={cn(
-                "rounded-full px-4 py-2 text-sm font-medium transition-all duration-200",
+                "rounded-lg px-3 py-1.5 font-label-caps text-xs font-bold tracking-wider transition-all duration-200",
                 isActive(link.href)
-                  ? "bg-white/[0.08] text-white shadow-inner"
-                  : "text-white/55 hover:bg-white/[0.05] hover:text-white",
+                  ? "border-b-2 border-primary text-primary"
+                  : "text-on-surface-variant hover:bg-white/5 hover:text-on-surface",
               )}
             >
               {link.label}
             </Link>
           ))}
-          <PriceSourceToggle className="ml-2 hidden lg:flex" />
+          <PriceSourceToggle className="ml-3 hidden lg:flex" />
 
           <button
             onClick={toggleTheme}
-            className="ml-2 flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-white/70 transition-all hover:border-white/25 hover:text-white"
+            className="ml-2 flex items-center gap-1.5 rounded-full border border-outline-variant/50 bg-surface-container px-3 py-1.5 text-xs font-medium text-on-surface-variant transition-all hover:border-primary/40 hover:text-on-surface"
             aria-label={
               ember ? "Cambiar a tema oscuro" : "Cambiar a tema rojo ceniza"
             }
@@ -101,45 +102,20 @@ export function Navbar() {
             )}
           </button>
 
-          {/*           <Link
-            href="/administrador"
-            className={cn(
-              "ml-2 flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all",
-              isActive("/administrador")
-                ? "border-indigo-400/40 bg-indigo-500/15 text-white"
-                : "border-white/10 bg-white/[0.04] text-white/50 hover:border-white/25 hover:text-white"
-            )}
-            title="Administrar tasas de conversión"
-          >
-            ⚙️ <span className="hidden lg:inline">Admin</span>
-          </Link>
-
-          <Link
-            href="/test"
-            className={cn(
-              "ml-1.5 flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all",
-              isActive("/test")
-                ? "border-cyan-400/40 bg-cyan-500/15 text-white"
-                : "border-white/10 bg-white/[0.04] text-white/50 hover:border-white/25 hover:text-white"
-            )}
-            title="Página de test: datos crudos de ambas fuentes"
-          >
-            🧪 <span className="hidden lg:inline">Test</span>
-          </Link> */}
-          <div className="ml-3 flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-500/[0.07] px-3 py-1.5">
+          <div className="ml-3 flex items-center gap-2 rounded-full border border-[#4ade80]/20 bg-[#4ade80]/[0.07] px-3 py-1.5">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
             </span>
-            <span className="flex items-center gap-1 text-[11px] font-medium text-emerald-300">
+            <span className="flex items-center gap-1 font-data-tabular text-[11px] font-medium text-neon-green">
               <Activity className="h-3 w-3" />
-              {lastSync ? formatRelative(lastSync) : "sync"}
+              {lastSync ? `Sincronizado: ${formatRelative(lastSync)}` : "sync"}
             </span>
           </div>
         </div>
 
         <button
-          className="rounded-lg p-2 text-white/70 hover:bg-white/10 md:hidden"
+          className="rounded-lg p-2 text-on-surface-variant hover:bg-white/10 hover:text-on-surface md:hidden"
           onClick={() => setOpen(!open)}
           aria-label="Menú"
         >
@@ -148,7 +124,10 @@ export function Navbar() {
       </nav>
 
       {open && (
-        <div className="border-t border-white/[0.06] bg-[#07081a]/95 px-4 py-3 md:hidden">
+        <div className="border-t border-outline-variant/30 bg-surface-low/95 px-4 py-3 backdrop-blur-xl md:hidden">
+          <div className="mb-3">
+            <PriceSourceToggle className="w-full" />
+          </div>
           {LINKS.map((link) => (
             <Link
               key={link.href}
@@ -157,8 +136,8 @@ export function Navbar() {
               className={cn(
                 "block rounded-lg px-3 py-2.5 text-sm font-medium",
                 isActive(link.href)
-                  ? "bg-white/[0.08] text-white"
-                  : "text-white/60 hover:bg-white/5",
+                  ? "bg-primary/10 text-primary"
+                  : "text-on-surface-variant hover:bg-white/5",
               )}
             >
               {link.label}
@@ -170,8 +149,8 @@ export function Navbar() {
             className={cn(
               "block rounded-lg px-3 py-2.5 text-sm font-medium",
               isActive("/test")
-                ? "bg-white/[0.08] text-white"
-                : "text-white/60 hover:bg-white/5",
+                ? "bg-primary/10 text-primary"
+                : "text-on-surface-variant hover:bg-white/5",
             )}
           >
             🧪 Test de datos

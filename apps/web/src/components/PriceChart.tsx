@@ -13,7 +13,7 @@ type Pt = Point & { x: number; y: number };
 
 export function PriceChart({
   data,
-  color = "#818cf8",
+  color = "#cfbcff",
   height = 240
 }: {
   data: Point[];
@@ -59,7 +59,7 @@ export function PriceChart({
 
   if (!data.length || !linePath) {
     return (
-      <div className="flex h-40 items-center justify-center text-sm text-white/40">
+      <div className="flex h-40 items-center justify-center text-sm text-on-surface-variant/70">
         Sin histórico disponible
       </div>
     );
@@ -72,15 +72,15 @@ export function PriceChart({
     <div>
       <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
         <div>
-          <p className="text-2xl font-bold text-white">
+          <p className="text-2xl font-bold text-on-surface">
             {formatCompact(data[data.length - 1].value)}
-            <span className="ml-1 text-sm font-medium text-white/40">viz</span>
+            <span className="ml-1 text-sm font-medium text-on-surface-variant">viz</span>
           </p>
-          <p className={`text-xs font-semibold ${up ? "text-emerald-400" : "text-rose-400"}`}>
+          <p className={`text-xs font-semibold ${up ? "text-neon-green" : "text-neon-red"}`}>
             {up ? "▲" : "▼"} {formatCompact(Math.abs(change))} viz en {data.length} días
           </p>
         </div>
-        <div className="flex gap-3 text-[10px] text-white/40">
+        <div className="flex gap-3 font-data-tabular text-[10px] text-on-surface-variant">
           <span>Mín: {formatCompact(min)}</span>
           <span>Máx: {formatCompact(max)}</span>
         </div>
@@ -101,7 +101,7 @@ export function PriceChart({
             </linearGradient>
             <linearGradient id="chart-line" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" stopColor={color} />
-              <stop offset="100%" stopColor="#22d3ee" />
+              <stop offset="100%" stopColor="#e7c365" />
             </linearGradient>
           </defs>
 
@@ -153,7 +153,7 @@ export function PriceChart({
                 cy={points[hover].y}
                 r="5"
                 fill={color}
-                stroke="#05060f"
+                stroke="#141218"
                 strokeWidth="2"
               />
             </>
@@ -163,14 +163,14 @@ export function PriceChart({
         {/* Tooltip */}
         {hover !== null && points[hover] && (
           <div
-            className="pointer-events-none absolute z-10 -translate-x-1/2 rounded-lg border border-white/10 bg-[#0b0d1f]/95 px-3 py-1.5 text-center shadow-card backdrop-blur"
+            className="pointer-events-none absolute z-10 -translate-x-1/2 rounded-lg border border-outline-variant/40 bg-surface-low/95 px-3 py-1.5 text-center shadow-card backdrop-blur"
             style={{
               left: `${(points[hover].x / W) * 100}%`,
               top: `${(points[hover].y / H) * 100}%`
             }}
           >
-            <p className="text-xs font-bold text-white">{formatCompact(points[hover].value)} viz</p>
-            <p className="text-[10px] text-white/45">{formatDate(points[hover].ts)}</p>
+            <p className="text-xs font-bold text-on-surface">{formatCompact(points[hover].value)} viz</p>
+            <p className="text-[10px] text-on-surface-variant">{formatDate(points[hover].ts)}</p>
           </div>
         )}
       </div>

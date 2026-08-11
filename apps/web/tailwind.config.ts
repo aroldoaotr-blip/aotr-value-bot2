@@ -5,57 +5,123 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // 🎨 Tema "Espacio" (oscuro) — rediseño Stitch: negro violeta + lavanda + dorado
         space: {
-          DEFAULT: "#05060f",
-          800: "#0b0d1f",
-          700: "#111430",
-          600: "#1a1e44"
+          DEFAULT: "#141218",
+          900: "#0f0d13",
+          800: "#1d1b20",
+          700: "#211f24",
+          600: "#2b292f",
+          500: "#36343a",
+        },
+        // 🎨 Tema "Ceniza" (claro cálido) — rediseño Stitch: crema piedra + ember red + oro
+        ceniza: {
+          DEFAULT: "#fff8f5",
+          surface: "#f4ece8",
+          low: "#faf2ee",
+          hi: "#eee7e3",
+          ink: "#1e1b19",
+          inkSoft: "#5c403c",
+          red: "#dc2626",
+          redDeep: "#b70011",
+          orange: "#ea580c",
+          gold: "#e7c365",
         },
         official: "#22c55e",
         trade: "#3b82f6",
+        lavender: "#cfbcff",
+        gold: "#e7c365",
         accent: {
           cyan: "#22d3ee",
           violet: "#8b5cf6",
-          gold: "#f59e0b",
-          rose: "#f43f5e"
-        }
+          gold: "#e7c365",
+          rose: "#f43f5e",
+          lavender: "#cfbcff",
+        },
+        // ═══ Design System Stitch (Material 3) — flipa con el tema ═══
+        surface: "rgb(var(--surface) / <alpha-value>)",
+        "surface-lowest": "rgb(var(--surface-lowest) / <alpha-value>)",
+        "surface-low": "rgb(var(--surface-low) / <alpha-value>)",
+        "surface-container": "rgb(var(--surface-container) / <alpha-value>)",
+        "surface-high": "rgb(var(--surface-high) / <alpha-value>)",
+        "surface-highest": "rgb(var(--surface-highest) / <alpha-value>)",
+        "surface-dim": "rgb(var(--surface-dim) / <alpha-value>)",
+        "surface-bright": "rgb(var(--surface-bright) / <alpha-value>)",
+        "surface-variant": "rgb(var(--surface-variant) / <alpha-value>)",
+        "on-surface": "rgb(var(--on-surface) / <alpha-value>)",
+        "on-surface-variant": "rgb(var(--on-surface-variant) / <alpha-value>)",
+        "on-background": "rgb(var(--on-background) / <alpha-value>)",
+        outline: "rgb(var(--outline) / <alpha-value>)",
+        "outline-variant": "rgb(var(--outline-variant) / <alpha-value>)",
+        primary: "rgb(var(--primary) / <alpha-value>)",
+        "on-primary": "rgb(var(--on-primary) / <alpha-value>)",
+        "primary-container": "rgb(var(--primary-container) / <alpha-value>)",
+        "on-primary-container": "rgb(var(--on-primary-container) / <alpha-value>)",
+        "primary-fixed": "rgb(var(--primary-fixed) / <alpha-value>)",
+        "primary-fixed-dim": "rgb(var(--primary-fixed-dim) / <alpha-value>)",
+        secondary: "rgb(var(--secondary) / <alpha-value>)",
+        "on-secondary": "rgb(var(--on-secondary) / <alpha-value>)",
+        "secondary-container": "rgb(var(--secondary-container) / <alpha-value>)",
+        "on-secondary-container": "rgb(var(--on-secondary-container) / <alpha-value>)",
+        tertiary: "rgb(var(--tertiary) / <alpha-value>)",
+        "on-tertiary": "rgb(var(--on-tertiary) / <alpha-value>)",
+        "tertiary-container": "rgb(var(--tertiary-container) / <alpha-value>)",
+        "on-tertiary-container": "rgb(var(--on-tertiary-container) / <alpha-value>)",
+        error: "rgb(var(--error) / <alpha-value>)",
+        "on-error": "rgb(var(--on-error) / <alpha-value>)",
+        "error-container": "rgb(var(--error-container) / <alpha-value>)",
+        "on-error-container": "rgb(var(--on-error-container) / <alpha-value>)",
+        "official-green": "var(--official-green)",
+        "trade-blue": "var(--trade-blue)",
+        "neon-green": "var(--neon-green)",
+        "neon-red": "var(--neon-red)",
+        "mythic-red": "rgb(var(--mythic) / <alpha-value>)",
+        "legendary-orange": "rgb(var(--legendary) / <alpha-value>)",
+        "epic-violet": "rgb(var(--epic) / <alpha-value>)",
+        "rare-blue": "rgb(var(--rare) / <alpha-value>)",
       },
       fontFamily: {
-        display: ["Orbitron", "ui-sans-serif", "system-ui", "sans-serif"],
-        sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"]
+        display: ["Space Grotesk", "ui-sans-serif", "system-ui", "sans-serif"],
+        sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "monospace"],
+        "display-lg": ["Space Grotesk", "ui-sans-serif", "system-ui", "sans-serif"],
+        "headline-lg": ["Space Grotesk", "ui-sans-serif", "system-ui", "sans-serif"],
+        "label-caps": ["JetBrains Mono", "ui-monospace", "monospace"],
+        "data-tabular": ["JetBrains Mono", "ui-monospace", "monospace"],
       },
       boxShadow: {
-        glow: "0 0 40px -8px rgba(99, 102, 241, 0.55)",
-        "glow-cyan": "0 0 40px -8px rgba(34, 211, 238, 0.5)",
-        card: "0 8px 40px -12px rgba(0, 0, 0, 0.7)"
+        glow: "0 0 40px -8px rgba(207, 188, 255, 0.35)",
+        "glow-lavender": "0 0 40px -8px rgba(207, 188, 255, 0.45)",
+        "glow-gold": "0 0 40px -8px rgba(231, 195, 101, 0.4)",
+        card: "0 8px 40px -12px rgba(0, 0, 0, 0.7)",
       },
       animation: {
         float: "float 7s ease-in-out infinite",
         "float-slow": "float 12s ease-in-out infinite",
         "spin-slow": "spin 24s linear infinite",
         "pulse-glow": "pulseGlow 4s ease-in-out infinite",
-        shimmer: "shimmer 2.5s linear infinite"
+        shimmer: "shimmer 2.5s linear infinite",
       },
       keyframes: {
         float: {
           "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-18px)" }
+          "50%": { transform: "translateY(-18px)" },
         },
         pulseGlow: {
           "0%, 100%": { opacity: "0.6" },
-          "50%": { opacity: "1" }
+          "50%": { opacity: "1" },
         },
         shimmer: {
           "0%": { backgroundPosition: "-200% 0" },
-          "100%": { backgroundPosition: "200% 0" }
-        }
+          "100%": { backgroundPosition: "200% 0" },
+        },
       },
       backdropBlur: {
-        xs: "2px"
-      }
-    }
+        xs: "2px",
+      },
+    },
   },
-  plugins: []
+  plugins: [],
 };
 
 export default config;

@@ -1,4 +1,4 @@
-// Loading de streaming: se muestra mientras el servidor ejecuta
+/* // Loading de streaming: se muestra mientras el servidor ejecuta
 // los loaders reales (hoja oficial + API externa) en /test.
 export default function TestLoading() {
   return (
@@ -25,4 +25,4 @@ export default function TestLoading() {
       </div>
     </div>
   );
-}
+} */

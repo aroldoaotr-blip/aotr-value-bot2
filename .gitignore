@@ -11,3 +11,7 @@ coverage
 .DS_Store
 .freebuff/
 *.log
+
+# Diseños exportados de Stitch (artefactos generados, no versionar)
+stitch/exports/*
+!stitch/exports/.gitkeep

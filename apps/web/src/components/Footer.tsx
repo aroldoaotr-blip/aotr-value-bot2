@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "./Logo";
 
 const EXPLORE_LINKS = [
   { href: "/", label: "Inicio" },
@@ -11,35 +12,35 @@ const EXPLORE_LINKS = [
 
 export function Footer() {
   return (
-    <footer className="relative z-10 mt-24 border-t border-white/[0.06] bg-[#05060f]/80">
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-        <div className="grid gap-8 md:grid-cols-3">
-          <div>
-            <div className="flex items-center gap-2">
-              <div className="orb h-7 w-7" />
-              <span className="font-display text-sm font-bold tracking-widest text-white">
+    <footer className="relative z-10 mt-24 border-t border-outline-variant/20 bg-surface-lowest/90">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+        <div className="flex flex-col items-center justify-between gap-8 md:flex-row md:items-start">
+          <div className="max-w-sm text-center md:text-left">
+            <div className="flex items-center justify-center gap-2 md:justify-start">
+              <Logo className="h-7 w-7" />
+              <span className="font-display-lg text-xl font-bold tracking-tighter text-on-surface">
                 AOTR <span className="text-gradient">VALUES</span>
               </span>
             </div>
-            <p className="mt-3 text-sm leading-relaxed text-white/45">
+            <p className="mt-3 text-sm leading-relaxed text-on-surface-variant">
               Plataforma profesional de valores de AOTR. Consulta precios oficiales
               y de tradeo, y comparativas justas en segundos.
             </p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <span className="rounded-full border border-emerald-400/20 bg-emerald-500/[0.07] px-2.5 py-1 text-[10px] font-semibold text-emerald-300">
+            <div className="mt-4 flex flex-wrap justify-center gap-2 md:justify-start">
+              <span className="rounded-full border border-[#22c55e]/20 bg-[#22c55e]/10 px-2.5 py-1 text-[10px] font-semibold text-official-green">
                 🟢 Hoja oficial
               </span>
-              <span className="rounded-full border border-blue-400/20 bg-blue-500/[0.07] px-2.5 py-1 text-[10px] font-semibold text-blue-300">
+              <span className="rounded-full border border-[#3b82f6]/20 bg-[#3b82f6]/10 px-2.5 py-1 text-[10px] font-semibold text-trade-blue">
                 🔵 API de tradeo
               </span>
-              <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[10px] font-semibold text-white/60">
+              <span className="rounded-full border border-outline-variant/40 bg-surface-container px-2.5 py-1 text-[10px] font-semibold text-on-surface-variant">
                 ⏱️ Actualizado cada 30 min
               </span>
             </div>
           </div>
 
-          <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40">
+          <div className="text-center md:text-left">
+            <h4 className="font-label-caps text-xs font-bold uppercase tracking-widest text-on-surface-variant">
               Explora
             </h4>
             <ul className="mt-3 space-y-2.5 text-sm">
@@ -47,9 +48,9 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="group inline-flex items-center gap-2 text-white/55 transition-colors hover:text-white"
+                    className="group inline-flex items-center gap-2 text-on-surface-variant/80 transition-colors hover:text-primary"
                   >
-                    <span className="h-px w-3 bg-white/25 transition-all group-hover:w-5 group-hover:bg-emerald-400" />
+                    <span className="h-px w-3 bg-outline/40 transition-all group-hover:w-5 group-hover:bg-primary" />
                     {link.label}
                   </Link>
                 </li>
@@ -57,45 +58,33 @@ export function Footer() {
             </ul>
           </div>
 
-          <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40">
+          <div className="text-center md:text-left">
+            <h4 className="font-label-caps text-xs font-bold uppercase tracking-widest text-on-surface-variant">
               Fuentes de datos
             </h4>
-            <ul className="mt-3 space-y-2 text-sm text-white/55">
+            <ul className="mt-3 space-y-2 text-sm text-on-surface-variant/80">
               <li>
-                🟢{" "}
-                <strong className="font-semibold text-white/80">
-                  Hoja oficial AOTR
-                </strong>{" "}
+                🟢 <strong className="font-semibold text-on-surface">Hoja oficial AOTR</strong>{" "}
                 — 679 items sincronizados por el bot
               </li>
               <li>
-                🔵{" "}
-                <strong className="font-semibold text-white/80">
-                  API de tradeo
-                </strong>{" "}
-                — 379 items, actualizados cada 30 min
+                🔵 <strong className="font-semibold text-on-surface">API de tradeo</strong> — 379
+                items, actualizados cada 30 min
               </li>
               <li>
-                📈{" "}
-                <strong className="font-semibold text-white/80">
-                  Histórico
-                </strong>{" "}
-                — 60 días de tendencias por item
+                📈 <strong className="font-semibold text-on-surface">Histórico</strong> — 60 días
+                de tendencias por item
               </li>
               <li>
-                ⚖️{" "}
-                <strong className="font-semibold text-white/80">
-                  Comparador
-                </strong>{" "}
-                — oferta vs. demanda con ganancia o pérdida
+                ⚖️ <strong className="font-semibold text-on-surface">Comparador</strong> — oferta
+                vs. demanda con ganancia o pérdida
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-white/[0.06] pt-6 text-xs text-white/35 sm:flex-row">
-          <span>© {new Date().getFullYear()} AOTR Values — Diseñado por melevengo</span>
+        <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-outline-variant/20 pt-6 font-data-tabular text-xs text-on-surface-variant/70 sm:flex-row">
+          <span>© {new Date().getFullYear()} AOTR Values — Todos los derechos reservados.</span>
           <span className="flex items-center gap-4">
             <span>Los precios son referenciales y pueden variar.</span>
             <span className="hidden items-center gap-1.5 sm:flex">

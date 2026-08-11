@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Hero } from "@/components/Hero";
 import { Reveal } from "@/components/Reveal";
 import { StatCards } from "@/components/StatCards";
+import { HScroll } from "@/components/HScroll";
 import { MoverCard } from "@/components/TopMovers";
 import { getItems, computeMovers, getMeta } from "@/lib/data";
 
@@ -24,60 +25,70 @@ export default async function HomePage() {
     <div>
       <Hero />
 
-      {/* ── Stats ─────────────────────────────────────── */}
-      <section className="relative z-10 mx-auto mt-12 max-w-7xl px-4 sm:px-6">
+      {/* ── Stats (strips de cristal, solapa al hero) ─── */}
+      <section className="relative z-20 mx-auto -mt-24 max-w-7xl px-4 sm:px-6">
         <Reveal>
           <StatCards
             stats={[
-              { label: "Items totales", value: meta.counts.total, icon: "📦", sub: "oficial + tradeo" },
-              { label: "Con ambas fuentes", value: meta.counts.both, icon: "🔄", sub: "oficial + API" },
-              { label: "Solo tradeo (API)", value: meta.counts.api - meta.counts.both, icon: "🔵", sub: "nuevos de la comunidad" },
-              { label: "Solo hoja oficial", value: meta.counts.official - meta.counts.both, icon: "🟢", sub: "sets, perks y más" }
+              { label: "Objetos Indexados", value: meta.counts.total, icon: "📦", sub: "+" },
+              { label: "Fuentes de Datos", value: 2, icon: "🔄", sub: "Sincronizadas" },
+              { label: "Frecuencia", value: 48, icon: "⏱️", sub: "/Día" }
             ]}
           />
         </Reveal>
       </section>
 
-      {/* ── Movimientos ───────────────────────────────── */}
+      {/* ── Movimientos destacados (carrusel horizontal) ── */}
       <section className="mx-auto mt-20 max-w-7xl px-4 sm:px-6">
         <Reveal>
           <div className="mb-6 flex items-end justify-between gap-4">
             <div>
-              <h2 className="font-display text-2xl font-bold text-white sm:text-3xl">
-                Movimientos de la semana
+              <h2 className="flex items-center gap-3 font-headline-lg text-2xl font-semibold text-on-surface sm:text-3xl">
+                📈 Movimientos Destacados
               </h2>
-              <p className="mt-1 text-sm text-white/45">
-                Items con mayor subida y caída en los últimos 60 días.
+              <p className="mt-1 text-sm text-on-surface-variant">
+                Variaciones de precio en los últimos 60 días.
               </p>
             </div>
             <Link
               href="/historico"
-              className="shrink-0 text-sm font-semibold text-indigo-300 transition-colors hover:text-indigo-200"
+              className="flex shrink-0 items-center gap-1 font-label-caps text-xs font-bold tracking-wider text-primary transition-colors hover:text-on-surface"
             >
-              Ver histórico completo →
+              VER TODOS →
             </Link>
           </div>
         </Reveal>
 
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Reveal delay={0.1}>
-            <div className="space-y-3">
-              <h3 className="text-sm font-bold uppercase tracking-widest text-emerald-400">
+        <div className="space-y-8">
+          <Reveal>
+            <div>
+              <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-neon-green">
                 ▲ Mayores subidas
               </h3>
-              {gainers.map((m, i) => (
-                <MoverCard key={m.item.id} mover={m} kind="up" rank={i} />
-              ))}
+              {/* Podio 3D: las primeras 3 giran sobre sí mismas (autoSpinLoop) */}
+              <HScroll trackClassName="rankingList">
+                {gainers.map((m, i) => (
+                  <MoverCard
+                    key={m.item.id}
+                    mover={m}
+                    kind="up"
+                    rank={i}
+                    className={i < 3 ? "podiumHoverCard" : undefined}
+                  />
+                ))}
+              </HScroll>
             </div>
           </Reveal>
-          <Reveal delay={0.2}>
-            <div className="space-y-3">
-              <h3 className="text-sm font-bold uppercase tracking-widest text-rose-400">
+          <Reveal delay={0.1}>
+            <div>
+              <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-neon-red">
                 ▼ Mayores caídas
               </h3>
-              {losers.map((m, i) => (
-                <MoverCard key={m.item.id} mover={m} kind="down" rank={i} />
-              ))}
+              <HScroll>
+                {losers.map((m, i) => (
+                  <MoverCard key={m.item.id} mover={m} kind="down" rank={i} />
+                ))}
+              </HScroll>
             </div>
           </Reveal>
         </div>
@@ -86,22 +97,26 @@ export default async function HomePage() {
       {/* ── Categorías ────────────────────────────────── */}
       <section className="mx-auto mt-20 max-w-7xl px-4 sm:px-6">
         <Reveal>
-          <h2 className="font-display text-2xl font-bold text-white sm:text-3xl">
+          <h2 className="font-headline-lg text-2xl font-semibold text-on-surface sm:text-3xl">
             Explora por categoría
           </h2>
-          <p className="mt-1 text-sm text-white/45">Encuentra rápido lo que buscas.</p>
+          <p className="mt-1 text-sm text-on-surface-variant">
+            Encuentra rápido lo que buscas.
+          </p>
         </Reveal>
         <div className="mt-6 flex flex-wrap gap-3">
           {categories.map(([cat, count], i) => (
             <Reveal key={cat} delay={i * 0.04}>
               <Link
                 href={`/precios?cat=${encodeURIComponent(cat)}`}
-                className="glass group flex items-center gap-2 rounded-2xl px-4 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:border-indigo-400/40 hover:shadow-glow"
+                className="glass-panel glass-card-hover group flex items-center gap-2 rounded-2xl px-4 py-3"
               >
                 <span className="text-lg">{["⚔️", "👹", "✨", "🎭", "🗡️", "🛡️", "🔥", "💎", "🧊", "🌪️"][i % 10]}</span>
                 <div>
-                  <p className="text-sm font-semibold text-white group-hover:text-indigo-200">{cat}</p>
-                  <p className="text-[11px] text-white/40">{count} items</p>
+                  <p className="text-sm font-semibold text-on-surface group-hover:text-primary">
+                    {cat}
+                  </p>
+                  <p className="text-[11px] text-on-surface-variant/70">{count} items</p>
                 </div>
               </Link>
             </Reveal>
@@ -109,68 +124,90 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── Cómo funciona ──────────────────────────────── */}
-      <section className="mx-auto mt-24 max-w-7xl px-4 sm:px-6">
+      {/* ── Arquitectura de datos (3 pasos) ────────────── */}
+      <section className="relative mx-auto mt-24 max-w-7xl px-4 sm:px-6">
+        <div className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-3/4 w-3/4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-[100px]" />
         <Reveal>
-          <div className="gradient-border rounded-3xl p-8 sm:p-12">
-            <h2 className="font-display text-center text-2xl font-bold text-white sm:text-3xl">
-              Cómo funciona
+          <div className="relative z-10 mb-12 text-center">
+            <h2 className="font-headline-lg text-2xl font-semibold text-on-surface sm:text-3xl">
+              La Arquitectura de Datos
             </h2>
-            <div className="mt-10 grid gap-8 md:grid-cols-3">
-              {[
-                {
-                  icon: "🤖",
-                  title: "El bot sincroniza",
-                  text: "Cada 30 minutos descarga los precios de tradeo de la API y refresca la hoja oficial AOTR: 2 scripts, 2 listas, 2 históricos."
-                },
-                {
-                  icon: "🗄️",
-                  title: "Se almacenan 2 listas",
-                  text: "Una tabla para precios oficiales (hoja) y otra para precios de tradeo (API), cada una con su histórico. Bot y web leen la misma base de datos."
-                },
-                {
-                  icon: "🌐",
-                  title: "Tú eliges la lista",
-                  text: "En la web alterna entre la lista oficial y la de tradeo con el deslizable; el bot responde en tus canales con los mismos datos."
-                }
-              ].map((step, i) => (
-                <Reveal key={step.title} delay={i * 0.12}>
-                  <div className="text-center">
-                    <div className="orb mx-auto flex h-16 w-16 items-center justify-center text-2xl">
-                      {step.icon}
-                    </div>
-                    <h3 className="mt-4 font-semibold text-white">{step.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-white/50">{step.text}</p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
+            <p className="mx-auto mt-2 max-w-2xl text-sm text-on-surface-variant sm:text-base">
+              Nuestro sistema procesa y cruza información de múltiples fuentes para garantizar el
+              valor más preciso del mercado.
+            </p>
           </div>
         </Reveal>
+        <div className="relative z-10 grid gap-8 md:grid-cols-3">
+          {[
+            {
+              icon: "🤖",
+              title: "Sincronización de Scripts",
+              text: "Cada 30 minutos descarga los precios de tradeo de la API y refresca la hoja oficial AOTR: 2 scripts, 2 listas, 2 históricos.",
+              highlight: false
+            },
+            {
+              icon: "🗄️",
+              title: "Listas de Precios",
+              text: "Una tabla para precios oficiales (hoja) y otra para precios de tradeo (API), cada una con su histórico. Bot y web leen la misma base de datos.",
+              highlight: true
+            },
+            {
+              icon: "🌐",
+              title: "Historial de Comercio",
+              text: "Registro inmutable de fluctuaciones para generar tendencias predictivas y análisis técnico del mercado.",
+              highlight: false
+            }
+          ].map((step, i) => (
+            <Reveal key={step.title} delay={i * 0.12}>
+              <div
+                className={
+                  "glass-panel glass-card-hover relative flex flex-col items-center gap-4 overflow-hidden rounded-2xl p-8 text-center" +
+                  (step.highlight ? " border-t-2 border-t-primary/50" : "")
+                }
+              >
+                <div
+                  className={
+                    "mb-2 flex h-16 w-16 items-center justify-center rounded-full text-2xl transition-transform duration-500 group-hover:scale-110 " +
+                    (step.highlight
+                      ? "border border-primary bg-primary/20 shadow-[0_0_20px_rgba(207,188,255,0.4)]"
+                      : "border border-primary/30 bg-surface-container shadow-[0_0_15px_rgba(207,188,255,0.2)]")
+                  }
+                >
+                  {step.icon}
+                </div>
+                <h3 className={"font-headline-lg text-xl font-semibold " + (step.highlight ? "text-primary" : "text-on-surface")}>
+                  {step.title}
+                </h3>
+                <p className="text-sm leading-relaxed text-on-surface-variant">{step.text}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </section>
 
       {/* ── CTA ───────────────────────────────────────── */}
       <section className="mx-auto mt-20 max-w-7xl px-4 sm:px-6">
         <Reveal>
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-600/30 via-violet-600/20 to-cyan-500/20 p-8 text-center sm:p-12">
-            <div className="animate-aurora absolute inset-0 bg-[radial-gradient(40%_60%_at_50%_0%,rgba(99,102,241,0.25),transparent)]" />
+          <div className="glass-panel relative overflow-hidden rounded-3xl p-8 text-center sm:p-12">
+            <div className="pointer-events-none absolute inset-0 animate-aurora bg-[radial-gradient(40%_60%_at_50%_0%,rgba(207,188,255,0.2),transparent)]" />
             <div className="relative">
-              <h2 className="font-display text-2xl font-bold text-white sm:text-3xl">
+              <h2 className="font-headline-lg text-2xl font-semibold text-on-surface sm:text-3xl">
                 ¿Listo para saber cuánto valen tus items?
               </h2>
-              <p className="mx-auto mt-3 max-w-xl text-sm text-white/60 sm:text-base">
+              <p className="mx-auto mt-3 max-w-xl text-sm text-on-surface-variant sm:text-base">
                 Explora el listado completo, compara precios y sigue las tendencias del mercado.
               </p>
               <div className="mt-6 flex flex-wrap justify-center gap-3">
                 <Link
                   href="/precios"
-                  className="rounded-xl bg-white px-6 py-3 text-sm font-bold text-[#0b0d1f] shadow-lg transition-all hover:scale-105"
+                  className="rounded-xl bg-gradient-to-r from-primary to-primary-container px-6 py-3 text-sm font-bold text-on-primary shadow-[inset_0_2px_0_rgba(255,255,255,0.2),0_4px_12px_rgba(103,80,164,0.4)] transition-all hover:brightness-110"
                 >
                   Explorar precios
                 </Link>
                 <Link
                   href="/historico"
-                  className="glass rounded-xl px-6 py-3 text-sm font-bold text-white transition-all hover:scale-105 hover:border-white/25"
+                  className="glass-panel rounded-xl px-6 py-3 text-sm font-bold text-on-surface transition-all hover:border-primary/40"
                 >
                   Ver histórico
                 </Link>

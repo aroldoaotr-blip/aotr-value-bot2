@@ -50,7 +50,7 @@ export default function AdminLoginPage() {
   return (
     <div className="relative mx-auto flex min-h-screen max-w-md flex-col items-center justify-center px-4 py-24">
       {/* Halo de fondo */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/10 blur-[120px]" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#cfbcff]/10 blur-[120px]" />
 
       <div className="flex flex-col items-center text-center">
         <div className="orb h-14 w-14 animate-pulse-slow" />
@@ -67,8 +67,8 @@ export default function AdminLoginPage() {
         className="glass mt-8 w-full rounded-3xl p-6 shadow-2xl sm:p-8"
       >
         <div className="flex items-center gap-2 text-white/70">
-          <ShieldCheck className="h-4 w-4 text-indigo-300" />
-          <span className="text-xs font-semibold uppercase tracking-widest text-indigo-300">
+          <ShieldCheck className="h-4 w-4 text-lavender" />
+          <span className="text-xs font-semibold uppercase tracking-widest text-lavender">
             Iniciar sesión
           </span>
         </div>
@@ -83,7 +83,7 @@ export default function AdminLoginPage() {
               value={user}
               onChange={(e) => setUser(e.target.value)}
               placeholder="admin"
-              className="w-full rounded-xl border border-white/10 bg-white/[0.05] py-3 pl-10 pr-4 text-sm text-white outline-none transition-all placeholder:text-white/25 focus:border-indigo-400/60 focus:bg-white/[0.08]"
+              className="w-full rounded-xl border border-white/10 bg-white/[0.05] py-3 pl-10 pr-4 text-sm text-white outline-none transition-all placeholder:text-white/25 focus:border-lavender/40 focus:bg-white/[0.08]"
             />
           </div>
         </label>
@@ -98,7 +98,7 @@ export default function AdminLoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full rounded-xl border border-white/10 bg-white/[0.05] py-3 pl-10 pr-11 text-sm text-white outline-none transition-all placeholder:text-white/25 focus:border-indigo-400/60 focus:bg-white/[0.08]"
+              className="w-full rounded-xl border border-white/10 bg-white/[0.05] py-3 pl-10 pr-11 text-sm text-white outline-none transition-all placeholder:text-white/25 focus:border-lavender/40 focus:bg-white/[0.08]"
             />
             <button
               type="button"
@@ -120,7 +120,7 @@ export default function AdminLoginPage() {
         <button
           type="submit"
           disabled={submitting || loading}
-          className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 py-3 text-sm font-bold text-white transition-all hover:brightness-110 disabled:opacity-40"
+          className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#6750a4] to-[#4f378a] py-3 text-sm font-bold text-white transition-all hover:brightness-110 disabled:opacity-40"
         >
           {submitting ? (
             <>

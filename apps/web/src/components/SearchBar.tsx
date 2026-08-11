@@ -16,7 +16,7 @@ import type { Item } from "@/lib/types";
 export function SearchBar({
   autoFocus = false,
   big = false,
-  placeholder = "Busca un item… ej: Susanoo's Wings, Vizard Mask, azure flames…",
+  placeholder = "Buscar objetos, precios, historiales…",
 }: {
   autoFocus?: boolean;
   big?: boolean;
@@ -81,55 +81,83 @@ export function SearchBar({
     }
   };
 
+  const preview = results[0];
+
   return (
     <div ref={wrapRef} className="relative w-full">
-      <div
-        className={cn(
-          "group relative flex items-center gap-3 rounded-2xl border transition-all duration-300",
-          big
-            ? "border-white/10 bg-white/[0.05] px-5 py-4 backdrop-blur-xl focus-within:border-indigo-400/50 focus-within:shadow-glow"
-            : "border-white/[0.08] bg-white/[0.04] px-4 py-2.5 backdrop-blur-xl focus-within:border-indigo-400/40",
-        )}
-      >
-        <Search className={cn("text-white/35", big ? "h-6 w-6" : "h-4 w-4")} />
-        <input
-          autoFocus={autoFocus}
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") submit();
-            if (e.key === "ArrowDown")
-              setActive((a) =>
-                Math.min(a + 1, Math.min(MAX_SUGGESTIONS, results.length) - 1),
-              );
-            if (e.key === "ArrowUp") setActive((a) => Math.max(a - 1, 0));
-            if (e.key === "Escape") setOpen(false);
-          }}
-          placeholder={placeholder}
-          className={cn(
-            "w-full bg-transparent text-white placeholder-white/35 outline-none",
-            big ? "text-base sm:text-lg" : "text-sm",
+      <div className="glass-panel group relative flex flex-col items-center gap-3 overflow-hidden rounded-2xl p-2 transition-colors duration-500 hover:border-primary/50 sm:flex-row">
+        {/* Glow sweep on hover */}
+        <div className="pointer-events-none absolute inset-0 -translate-x-[100%] bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 transition-transform duration-1000 ease-in-out group-hover:translate-x-[100%]" />
+
+        {/* Input con borde inferior neón */}
+        <div className="flex w-full flex-1 items-center bg-surface/50 px-4 py-3 rounded-xl border-b-2 border-primary/20 transition-all focus-within:border-primary focus-within:shadow-[0_4px_20px_rgba(207,188,255,0.15)]">
+          <Search
+            className={cn(
+              "mr-3 shrink-0 text-primary",
+              big ? "h-6 w-6" : "h-4 w-4",
+            )}
+          />
+          <input
+            autoFocus={autoFocus}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") submit();
+              if (e.key === "ArrowDown")
+                setActive((a) =>
+                  Math.min(a + 1, Math.min(MAX_SUGGESTIONS, results.length) - 1),
+                );
+              if (e.key === "ArrowUp") setActive((a) => Math.max(a - 1, 0));
+              if (e.key === "Escape") setOpen(false);
+            }}
+            placeholder={placeholder}
+            className={cn(
+              "w-full bg-transparent text-on-surface outline-none placeholder:text-on-surface-variant/50",
+              big ? "text-base sm:text-lg" : "text-sm",
+            )}
+          />
+          {loading && (
+            <span className="h-4 w-4 shrink-0 animate-spin rounded-full border-2 border-primary border-t-transparent" />
           )}
-        />
-        {loading && (
-          <span className="h-4 w-4 animate-spin rounded-full border-2 border-indigo-400 border-t-transparent" />
-        )}
-        {!loading && query && (
+        </div>
+
+        {/* Live preview (primer resultado) o botón Ir */}
+        {preview && !loading ? (
+          <button
+            onClick={() => goTo(preview.slug)}
+            className="flex w-full shrink-0 cursor-pointer items-center justify-between gap-3 whitespace-nowrap rounded-xl border border-white/5 bg-surface-high/80 px-4 py-3 transition-colors hover:bg-surface-highest sm:w-auto sm:justify-start"
+          >
+            <span className="flex items-center gap-2">
+              <span className="text-xl">🔮</span>
+              <span className="text-sm font-medium text-on-surface">
+                {preview.name}
+              </span>
+            </span>
+            <span className="flex flex-col items-end">
+              <span className="font-data-tabular text-sm font-bold text-primary">
+                {searchPriceLine(preview, listSource)}
+              </span>
+              <span className="text-neon-green flex items-center gap-0.5 font-data-tabular text-[10px]">
+                <ArrowRight className="h-3 w-3" /> ir
+              </span>
+            </span>
+          </button>
+        ) : query && !loading ? (
           <button
             onClick={submit}
             className={cn(
-              "flex items-center gap-1 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 font-semibold text-white transition-all hover:brightness-110",
-              big ? "px-4 py-2 text-sm" : "px-3 py-1.5 text-xs",
+              "flex shrink-0 items-center gap-1 rounded-xl bg-gradient-to-r from-[#cfbcff] to-[#b7a1e8] font-semibold text-[#1e1b19] shadow-[0_0_20px_-6px_rgba(207,188,255,0.6)] transition-all hover:brightness-110",
+              big ? "px-4 py-3 text-sm" : "px-3 py-2 text-xs",
             )}
           >
             Ir <ArrowRight className={big ? "h-4 w-4" : "h-3 w-3"} />
           </button>
-        )}
+        ) : null}
       </div>
 
       {open && results.length > 0 && (
-        <div className="glass-strong absolute bottom-full left-0 right-0 z-50 mb-2 overflow-hidden rounded-2xl shadow-card">
-          <p className="border-b border-white/[0.06] px-4 py-2 text-[11px] font-medium uppercase tracking-wider text-white/35">
+        <div className="glass-strong absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-2xl shadow-card">
+          <p className="border-b border-white/[0.06] px-4 py-2 text-[11px] font-medium uppercase tracking-wider text-on-surface-variant/60">
             Sugerencias
           </p>
           <ul className="max-h-80 overflow-y-auto py-1">
@@ -145,10 +173,10 @@ export function SearchBar({
                 >
                   <Avatar name={item.name} emoji={item.emoji} size="md" />
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-medium text-white">
+                    <p className="truncate text-sm font-medium text-on-surface">
                       {item.name}
                     </p>
-                    <p className="truncate text-xs text-white/40">
+                    <p className="truncate text-xs text-on-surface-variant/70">
                       {item.category ?? "—"}
                       {searchPriceLine(item, listSource)}
                     </p>
@@ -163,7 +191,7 @@ export function SearchBar({
               router.push(`/precios?q=${encodeURIComponent(query)}`);
               setOpen(false);
             }}
-            className="block w-full border-t border-white/[0.06] px-4 py-2.5 text-center text-xs font-medium text-indigo-300 transition-colors hover:bg-white/[0.04]"
+            className="block w-full border-t border-white/[0.06] px-4 py-2.5 text-center text-xs font-medium text-primary transition-colors hover:bg-white/[0.04]"
           >
             Ver todos los resultados → /precios
           </button>
@@ -173,21 +201,21 @@ export function SearchBar({
   );
 }
 
-// Precio de la lista activa para la línea del dropdown.
+// Precio de la lista activa para la línea del dropdown / preview.
 function searchPriceLine(item: Item, source: PriceSource): string {
   if (source === "trade") {
-    return item.apiValue !== null ? ` · 🔵 ${formatVizard(item.apiValue)}` : "";
+    return item.apiValue !== null ? `${formatCompact(item.apiValue)} viz` : "";
   }
 
   const vo = item.valueOfficial;
   if (!vo) return "";
   if (vo.vizards != null) {
     const viz = typeof vo.vizards === "number" ? vo.vizards : midOf(vo.vizards);
-    if (viz != null) return ` · 🟢 ${formatVizard(viz)}`;
+    if (viz != null) return `${formatVizard(viz)}`;
   }
   if (vo.keys != null) {
     const keys = typeof vo.keys === "number" ? vo.keys : midOf(vo.keys);
-    if (keys != null) return ` · 🟢 ${formatCompact(keys)} llaves`;
+    if (keys != null) return `${formatCompact(keys)} 🔑`;
   }
   return "";
 }
