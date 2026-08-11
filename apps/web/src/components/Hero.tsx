@@ -64,7 +64,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="hero-dark relative flex min-h-[100vh] w-full items-center overflow-hidden pt-24">
+    <section className="hero-dark relative flex min-h-[100vh] w-full items-center pt-24">
       {/* Fondo: video de batalla (default) o shader 3D de Stitch */}
       <div className="absolute inset-0">
         {mode === "shader" ? <HeroShader /> : <Hero3D />}
@@ -75,7 +75,11 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-b from-background/40 via-transparent to-background" />
 
       {/* Contenido centrado (hero Stitch) */}
-      <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center px-4 pb-24 text-center sm:px-6">
+      {/* Sin z-index acá: si el contenedor creara un stacking context (z-10),
+          el dropdown del buscador (z-50) quedaría atrapado dentro y las cards
+          de abajo (z-20) lo taparían. El video/vignette ya quedan detrás por
+          orden de DOM. */}
+      <div className="relative mx-auto flex w-full max-w-4xl flex-col items-center px-4 pb-24 text-center sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
