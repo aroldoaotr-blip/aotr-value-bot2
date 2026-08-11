@@ -1,4 +1,4 @@
-/* import fs from "node:fs";
+import fs from "node:fs";
 import path from "node:path";
 import { Reveal } from "@/components/Reveal";
 import { getTestData } from "@/lib/test-data";
@@ -610,4 +610,3 @@ export default async function TestPage() {
     </div>
   );
 }
- */
