@@ -13,7 +13,13 @@ import {
   X,
 } from "lucide-react";
 import type { Item } from "@/lib/types";
-import { cn, formatCompact, formatRange, midOf, roundValue } from "@/lib/format";
+import {
+  cn,
+  formatCompact,
+  formatRange,
+  midOf,
+  roundValue,
+} from "@/lib/format";
 import {
   DEFAULT_RATES,
   getLocalRates,
@@ -60,10 +66,14 @@ function sortItems(items: Item[], sort: SortKey, source: PriceSource): Item[] {
     case "name":
       return sorted.sort((a, b) => a.name.localeCompare(b.name));
     case "value-desc":
-      return sorted.sort((a, b) => activeValue(b, source) - activeValue(a, source));
+      return sorted.sort(
+        (a, b) => activeValue(b, source) - activeValue(a, source),
+      );
     case "demand-desc":
       return sorted.sort(
-        (a, b) => activeDemand(b, source) - activeDemand(a, source) || a.name.localeCompare(b.name),
+        (a, b) =>
+          activeDemand(b, source) - activeDemand(a, source) ||
+          a.name.localeCompare(b.name),
       );
   }
 }
@@ -72,26 +82,51 @@ function sortItems(items: Item[], sort: SortKey, source: PriceSource): Item[] {
 function rarityChip(item: Item) {
   const rarity = (item.rarityLabel ?? "").toLowerCase();
   if (/mythic/i.test(rarity))
-    return { label: item.rarityLabel!, cls: "bg-mythic-red/20 text-mythic-red border border-mythic-red/30 shadow-[0_0_8px_rgba(239,68,68,0.2)]" };
+    return {
+      label: item.rarityLabel!,
+      cls: "bg-mythic-red/20 text-mythic-red border border-mythic-red/30 shadow-[0_0_8px_rgba(239,68,68,0.2)]",
+    };
   if (/legendary/i.test(rarity))
-    return { label: item.rarityLabel!, cls: "bg-legendary-orange/20 text-legendary-orange border border-legendary-orange/30 shadow-[0_0_8px_rgba(249,115,22,0.2)]" };
+    return {
+      label: item.rarityLabel!,
+      cls: "bg-legendary-orange/20 text-legendary-orange border border-legendary-orange/30 shadow-[0_0_8px_rgba(249,115,22,0.2)]",
+    };
   if (/epic/i.test(rarity))
-    return { label: item.rarityLabel!, cls: "bg-epic-violet/20 text-epic-violet border border-epic-violet/30 shadow-[0_0_8px_rgba(139,92,246,0.2)]" };
+    return {
+      label: item.rarityLabel!,
+      cls: "bg-epic-violet/20 text-epic-violet border border-epic-violet/30 shadow-[0_0_8px_rgba(139,92,246,0.2)]",
+    };
   if (/rare/i.test(rarity))
-    return { label: item.rarityLabel!, cls: "bg-rare-blue/20 text-rare-blue border border-rare-blue/30 shadow-[0_0_8px_rgba(59,130,246,0.2)]" };
+    return {
+      label: item.rarityLabel!,
+      cls: "bg-rare-blue/20 text-rare-blue border border-rare-blue/30 shadow-[0_0_8px_rgba(59,130,246,0.2)]",
+    };
   if (item.rarityLabel)
-    return { label: item.rarityLabel, cls: "bg-surface-variant text-on-surface-variant border border-outline-variant/50" };
+    return {
+      label: item.rarityLabel,
+      cls: "bg-surface-variant text-on-surface-variant border border-outline-variant/50",
+    };
   return null;
 }
 
 // ── Barras de demanda (▰▰▰▱▱) ────────────────────────────
 function DemandBlocks({ demand }: { demand: number | null }) {
-  if (demand === null) return <span className="text-xs text-on-surface-variant/60">—</span>;
+  if (demand === null)
+    return <span className="text-xs text-on-surface-variant/60">—</span>;
   const filled = Math.max(0, Math.min(5, Math.round(demand / 2)));
-  const label = demand >= 8 ? "Muy Alta" : demand >= 5 ? "Alta" : demand >= 3 ? "Media" : "Baja";
+  const label =
+    demand >= 8
+      ? "Muy Alta"
+      : demand >= 5
+        ? "Alta"
+        : demand >= 3
+          ? "Media"
+          : "Baja";
   return (
     <div className="flex items-center justify-between">
-      <span className="text-[10px] font-label-caps text-on-surface-variant">{label}</span>
+      <span className="text-[10px] font-label-caps text-on-surface-variant">
+        {label}
+      </span>
       <span className="font-label-caps text-sm tracking-widest text-primary">
         {"▰".repeat(filled)}
         {"▱".repeat(5 - filled)}
@@ -223,7 +258,10 @@ export function PriceExplorer({ items }: { items: Item[] }) {
         </div>
         <div className="flex items-center gap-3">
           <PriceSourceToggle />
-          <div className="glass-panel flex rounded-full p-1" aria-label="Cambiar vista">
+          <div
+            className="glass-panel flex rounded-full p-1"
+            aria-label="Cambiar vista"
+          >
             {(
               [
                 ["cards", LayoutGrid, "Tarjetas"],
@@ -248,12 +286,10 @@ export function PriceExplorer({ items }: { items: Item[] }) {
           </div>
         </div>
       </div>
-
       <p className="fade-up mb-6 max-w-2xl text-sm text-on-surface-variant">
-        Compara el precio oficial de la hoja con el precio de tradeo de la API. Haz clic en
-        cualquier item para ver su histórico completo.
+        Compara el precio oficial de la hoja con el precio de tradeo de la API.
+        Haz clic en cualquier item para ver su histórico completo.
       </p>
-
       {/* ── Toolbar de filtros (cristal) ───────────────── */}
       <div className="glass-panel flex flex-col gap-4 rounded-xl p-4 lg:flex-row lg:items-center">
         {/* Búsqueda con foco neón */}
@@ -278,7 +314,8 @@ export function PriceExplorer({ items }: { items: Item[] }) {
             >
               <option value="name">Nombre</option>
               <option value="value-desc">
-                Valor ({listSource === "official" ? "🟢 oficial" : "🔵 tradeo"} mayor)
+                Valor ({listSource === "official" ? "🟢 oficial" : "🔵 tradeo"}{" "}
+                mayor)
               </option>
               <option value="demand-desc">Demanda</option>
             </select>
@@ -286,11 +323,11 @@ export function PriceExplorer({ items }: { items: Item[] }) {
         </div>
 
         <p className="ml-auto shrink-0 font-data-tabular text-xs text-on-surface-variant/80">
-          {filtered.length} items · {listSource === "official" ? "🟢 oficial" : "🔵 tradeo"}
+          {filtered.length} items ·{" "}
+          {listSource === "official" ? "🟢 oficial" : "🔵 tradeo"}
           {category !== "all" ? ` · ${category}` : ""}
         </p>
       </div>
-
       {/* ── Categorías: carrusel deslizable ───────────── */}
       <CategoryCarousel
         categories={categories}
@@ -298,7 +335,6 @@ export function PriceExplorer({ items }: { items: Item[] }) {
         active={category}
         onSelect={setCategory}
       />
-
       {view === "cards" ? (
         /* Grilla de tarjetas Stitch */
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -324,7 +360,9 @@ export function PriceExplorer({ items }: { items: Item[] }) {
                   <th className="px-3 py-3 font-medium">Categoría</th>
                   <th className="px-3 py-3 font-medium">Demanda</th>
                   <th className="px-3 py-3 text-right font-medium">
-                    {listSource === "official" ? "🟢 Precio oficial" : "🔵 Precio de tradeo"}
+                    {listSource === "official"
+                      ? "🟢 Precio oficial"
+                      : "🔵 Precio de tradeo"}
                   </th>
                   <th className="px-3 py-3 font-medium">Estado</th>
                 </tr>
@@ -370,7 +408,11 @@ export function PriceExplorer({ items }: { items: Item[] }) {
                       <DemandBar item={item} source={listSource} />
                     </td>
                     <td className="px-3 py-3 text-right">
-                      <SourcePricesCell item={item} source={listSource} rates={rates} />
+                      <SourcePricesCell
+                        item={item}
+                        source={listSource}
+                        rates={rates}
+                      />
                     </td>
                     <td className="px-3 py-3">
                       {listSource === "official" ? (
@@ -378,7 +420,10 @@ export function PriceExplorer({ items }: { items: Item[] }) {
                       ) : (
                         <>
                           <StatusBadge status={item.status} />
-                          <RateBadge rate={item.rateOfChange} className="mt-1" />
+                          <RateBadge
+                            rate={item.rateOfChange}
+                            className="mt-1"
+                          />
                         </>
                       )}
                     </td>
@@ -389,7 +434,6 @@ export function PriceExplorer({ items }: { items: Item[] }) {
           </div>
         </div>
       )}
-
       {/* ── Paginación ────────────────────────────────── */}
       {totalPages > 1 && (
         <div className="mt-6 flex items-center justify-center gap-4">
@@ -402,7 +446,8 @@ export function PriceExplorer({ items }: { items: Item[] }) {
             <ChevronLeft className="h-4 w-4" />
           </button>
           <span className="font-data-tabular text-xs text-on-surface-variant">
-            Página <strong className="text-on-surface">{safePage}</strong> de {totalPages}
+            Página <strong className="text-on-surface">{safePage}</strong> de{" "}
+            {totalPages}
           </span>
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
@@ -419,7 +464,8 @@ export function PriceExplorer({ items }: { items: Item[] }) {
           <p className="text-3xl">🔍</p>
           <p className="mt-2 font-semibold text-on-surface">Sin resultados</p>
           <p className="mt-1 text-sm text-on-surface-variant">
-            Prueba con otro nombre, categoría o cambia de lista con el deslizable.
+            Prueba con otro nombre, categoría o cambia de lista con el
+            deslizable.
           </p>
         </div>
       )}{" "}
@@ -464,14 +510,13 @@ function StitchCard({
       : item.demandApi;
   const chip = rarityChip(item);
 
-  const glowColor =
-    /mythic/i.test(item.rarityLabel ?? "")
-      ? "rgba(239,68,68,0.2)"
-      : /legendary/i.test(item.rarityLabel ?? "")
-        ? "rgba(249,115,22,0.2)"
-        : /epic/i.test(item.rarityLabel ?? "")
-          ? "rgba(139,92,246,0.2)"
-          : "rgba(207,188,255,0.15)";
+  const glowColor = /mythic/i.test(item.rarityLabel ?? "")
+    ? "rgba(239,68,68,0.2)"
+    : /legendary/i.test(item.rarityLabel ?? "")
+      ? "rgba(249,115,22,0.2)"
+      : /epic/i.test(item.rarityLabel ?? "")
+        ? "rgba(139,92,246,0.2)"
+        : "rgba(207,188,255,0.15)";
 
   return (
     <article
@@ -483,14 +528,14 @@ function StitchCard({
         style={{ background: glowColor }}
       />
       <div className="flex items-start justify-between">
-        <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-lg border border-outline-variant/30 bg-surface-highest">
+        <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-lg border border-outline-variant/30 bg-surface-highest">
           <Avatar name={item.name} emoji={item.emoji} size="sm" />
         </div>
         {chip && (
           <span
             className={cn(
               "rounded px-2 py-0.5 font-label-caps text-[10px] font-bold",
-              chip.cls
+              chip.cls,
             )}
           >
             {chip.label.toUpperCase()}
@@ -514,15 +559,21 @@ function StitchCard({
       <div className="mt-auto flex flex-col gap-2 border-t border-outline-variant/30 pt-4 font-data-tabular text-sm">
         <div className="flex items-center justify-between">
           <span className="text-on-surface-variant">🔑 Keys</span>
-          <span className="font-bold text-on-surface">{formatRange(keys, 0)}</span>
+          <span className="font-bold text-on-surface">
+            {formatRange(keys, 0)}
+          </span>
         </div>
         <div className="flex items-center justify-between">
           <span className="text-on-surface-variant">📜 Scrolls</span>
-          <span className="font-bold text-on-surface">{formatRange(scrolls, 0)}</span>
+          <span className="font-bold text-on-surface">
+            {formatRange(scrolls, 0)}
+          </span>
         </div>
         <div className="flex items-center justify-between">
           <span className="text-on-surface-variant">🎭 Vizard</span>
-          <span className="font-bold text-on-surface">{formatRange(vizards)}</span>
+          <span className="font-bold text-on-surface">
+            {formatRange(vizards)}
+          </span>
         </div>
       </div>
       <button
@@ -561,15 +612,21 @@ function SourcePricesCell({
     <div className="space-y-1 text-xs">
       <p className="whitespace-nowrap">
         <span className="text-on-surface-variant/50">🔑</span>{" "}
-        <span className={cn("font-semibold", tone)}>{formatRange(keys, 0)}</span>
+        <span className={cn("font-semibold", tone)}>
+          {formatRange(keys, 0)}
+        </span>
       </p>
       <p className="whitespace-nowrap">
         <span className="text-on-surface-variant/50">📜</span>{" "}
-        <span className={cn("font-semibold", toneSub)}>{formatRange(scrolls, 0)}</span>
+        <span className={cn("font-semibold", toneSub)}>
+          {formatRange(scrolls, 0)}
+        </span>
       </p>
       <p className="whitespace-nowrap">
         <span className="text-on-surface-variant/50">🎭</span>{" "}
-        <span className={cn("font-semibold", toneSub)}>{formatRange(vizards)}</span>
+        <span className={cn("font-semibold", toneSub)}>
+          {formatRange(vizards)}
+        </span>
       </p>
     </div>
   );
@@ -725,9 +782,25 @@ function ItemModal({
                 🟢 Precio oficial (hoja AOTR)
               </p>
               <div className="mt-3 space-y-1.5">
-                <ModalPrice icon="🔑" label="Llaves" value={roundValue(sourceValue(item, "official", "keys", rates))} />
-                <ModalPrice icon="📜" label="Pergaminos" value={roundValue(sourceValue(item, "official", "scrolls", rates))} />
-                <ModalPrice icon="🎭" label="Vizard" value={sourceValue(item, "official", "vizards", rates)} />
+                <ModalPrice
+                  icon="🔑"
+                  label="Llaves"
+                  value={roundValue(
+                    sourceValue(item, "official", "keys", rates),
+                  )}
+                />
+                <ModalPrice
+                  icon="📜"
+                  label="Pergaminos"
+                  value={roundValue(
+                    sourceValue(item, "official", "scrolls", rates),
+                  )}
+                />
+                <ModalPrice
+                  icon="🎭"
+                  label="Vizard"
+                  value={sourceValue(item, "official", "vizards", rates)}
+                />
               </div>
             </div>
             <div className="glass-panel rounded-2xl p-4">
@@ -735,9 +808,21 @@ function ItemModal({
                 🔵 Precio de tradeo (API)
               </p>
               <div className="mt-3 space-y-1.5">
-                <ModalPrice icon="🎭" label="Valor (viz)" value={sourceValue(item, "api", "vizards", rates)} />
-                <ModalPrice icon="🔑" label="Llaves" value={roundValue(sourceValue(item, "api", "keys", rates))} />
-                <ModalPrice icon="📜" label="Pergaminos" value={roundValue(sourceValue(item, "api", "scrolls", rates))} />
+                <ModalPrice
+                  icon="🎭"
+                  label="Valor (viz)"
+                  value={sourceValue(item, "api", "vizards", rates)}
+                />
+                <ModalPrice
+                  icon="🔑"
+                  label="Llaves"
+                  value={roundValue(sourceValue(item, "api", "keys", rates))}
+                />
+                <ModalPrice
+                  icon="📜"
+                  label="Pergaminos"
+                  value={roundValue(sourceValue(item, "api", "scrolls", rates))}
+                />
               </div>
             </div>
           </div>
@@ -774,7 +859,9 @@ function ItemModal({
                     onClick={onClose}
                     className="glass-panel flex items-center gap-2 rounded-full px-3 py-1.5 text-xs transition-all hover:border-primary/40"
                   >
-                    <span className="font-medium text-on-surface">{s.name}</span>
+                    <span className="font-medium text-on-surface">
+                      {s.name}
+                    </span>
                     <span className="font-data-tabular text-on-surface-variant">
                       {formatCompact(s.apiValue)} viz
                     </span>
@@ -789,7 +876,15 @@ function ItemModal({
   );
 }
 
-function ModalPrice({ icon, label, value }: { icon: string; label: string; value: ReturnType<typeof sourceValue> }) {
+function ModalPrice({
+  icon,
+  label,
+  value,
+}: {
+  icon: string;
+  label: string;
+  value: ReturnType<typeof sourceValue>;
+}) {
   if (value === null || value === undefined) return null;
   return (
     <div className="flex items-center justify-between rounded-lg bg-surface-container/50 px-3 py-2">
