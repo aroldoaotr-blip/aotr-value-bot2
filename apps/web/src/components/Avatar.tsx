@@ -38,7 +38,12 @@ function analyzeSprite(src: string): Promise<{ src: string; opaque: boolean }> {
 
         // Sample de las 4 esquinas para detectar fondo opaco (dorado/card)
         const at = (x: number, y: number) => d[(y * img.width + x) * 4 + 3];
-        const corners = [at(2, 2), at(img.width - 3, 2), at(2, img.height - 3), at(img.width - 3, img.height - 3)];
+        const corners = [
+          at(2, 2),
+          at(img.width - 3, 2),
+          at(2, img.height - 3),
+          at(img.width - 3, img.height - 3),
+        ];
         const fullyOpaque = corners.every((a) => a > 200);
 
         if (fullyOpaque) {
@@ -48,7 +53,10 @@ function analyzeSprite(src: string): Promise<{ src: string; opaque: boolean }> {
         }
 
         // Buscar bounds no-transparentes
-        let minX = img.width, minY = img.height, maxX = 0, maxY = 0;
+        let minX = img.width,
+          minY = img.height,
+          maxX = 0,
+          maxY = 0;
         for (let y = 0; y < img.height; y++) {
           for (let x = 0; x < img.width; x++) {
             if (d[(y * img.width + x) * 4 + 3] > 24) {
@@ -100,7 +108,7 @@ export function Avatar({
   emoji,
   size = "md",
   className,
-  rounded = "xl"
+  rounded = "xl",
 }: {
   name: string;
   emoji?: string | null;
@@ -109,8 +117,12 @@ export function Avatar({
   rounded?: "xl" | "full";
 }) {
   const [failed, setFailed] = useState(false);
-  const [prep, setPrep] = useState<{ src: string; opaque: boolean } | null>(null);
-  const src = emoji ? `${IMAGE_BASE}${emoji.startsWith("/") ? emoji : `/${emoji}`}` : null;
+  const [prep, setPrep] = useState<{ src: string; opaque: boolean } | null>(
+    null,
+  );
+  const src = emoji
+    ? `${IMAGE_BASE}${emoji.startsWith("/") ? emoji : `/${emoji}`}`
+    : null;
   const showImg = src && !failed;
 
   // Resetear estado si cambia el item
@@ -141,11 +153,11 @@ export function Avatar({
   }, [src]);
 
   const sizes = {
-    sm: "h-12 w-12 text-[11px]",
-    md: "h-16 w-16 text-sm",
-    lg: "h-20 w-20 text-lg",
+    sm: "h-24 w-24 text-[11px]",
+    md: "h-24 w-24 text-sm",
+    lg: "h-24 w-24 text-lg",
     xl: "h-32 w-32 text-3xl",
-    card: "h-28 w-28 sm:h-36 sm:w-36 text-3xl sm:text-4xl"
+    card: "h-28 w-28 sm:h-36 sm:w-36 text-3xl sm:text-4xl",
   };
 
   const radius = rounded === "full" ? "rounded-full" : "rounded-xl";
@@ -156,7 +168,7 @@ export function Avatar({
         "avatar-shell relative flex shrink-0 items-center justify-center overflow-hidden",
         radius,
         sizes[size],
-        className
+        className,
       )}
       aria-label={name}
     >
@@ -170,7 +182,7 @@ export function Avatar({
           className={cn(
             "avatar-img relative h-full w-full object-contain",
             prep.opaque && "avatar-opaque",
-            radius
+            radius,
           )}
         />
       ) : (
