@@ -193,7 +193,7 @@ export function Avatar({
         // 2. Si hay glowColor, aplicamos el gradiente de negro a glowColor.
         // Si no, lo dejamos limpio o con un fondo por defecto.
         backgroundImage: glowColor
-          ? `linear-gradient(to bottom, rgb(80, 80, 80), ${glowColor})`
+          ? `linear-gradient(to bottom, rgb(18, 18, 18), ${glowColor})`
           : undefined,
       }}
       aria-label={name}
