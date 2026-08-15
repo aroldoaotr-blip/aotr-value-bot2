@@ -49,8 +49,17 @@ const PREFIX_COMMANDS = {
 
 // ── Cache de datos en memoria ────────────────────────────
 async function refreshOfficialCache() {
-  // 1) Persistir la hoja oficial en la BD (la web la lee desde ahí)
-  await syncOfficial();
+  // 1) Persistir la lista oficial en la BD (la web la lee desde ahí).
+  // Si falla la BD, seguimos cargando la caché: el bot aún puede responder
+  // con la fuente oficial y no queda sin resolver de ítems.
+  try {
+    const result = await syncOfficial();
+    if (result.skipped) {
+      console.warn("🟢 Sync oficial saltado (otro sync en curso); actualizando caché local.");
+    }
+  } catch (error) {
+    console.error("⚠️ No se pudo persistir la lista oficial; se actualiza solo la caché:", error.message);
+  }
 
   // 2) Cache en memoria para los comandos del bot
   const items = await loadItems();

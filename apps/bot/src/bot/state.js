@@ -3,9 +3,12 @@
 import { GiveawayManager } from "../services/giveaways.js";
 import { compactKey } from "../core/normalize.js";
 
+const emptyResolver = Object.assign(() => null, { suggest: () => [] });
+
 export const state = {
   itemsCache: [], // items oficiales (hoja AOTR)
-  resolveItem: null, // resolver sobre itemsCache
+  itemsReady: false,
+  resolveItem: emptyResolver, // resolver sobre itemsCache (seguro durante el arranque)
   vizardRate: null,
   apiMap: new Map(), // compactKey -> { value, keys, scrolls, demand, status, rateOfChange }
   apiKeyRatio: null,
@@ -25,6 +28,7 @@ export const state = {
 export function setItems(items, vizardRate) {
   state.itemsCache = items;
   state.vizardRate = vizardRate;
+  state.itemsReady = true;
   state.lastUpdate = new Date();
 }
 

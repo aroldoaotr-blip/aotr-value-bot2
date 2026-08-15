@@ -204,6 +204,9 @@ export async function getHistorySpark(itemName) {
 // El canal decide la lista visible: canal trade → solo API, canal oficial
 // → solo hoja, sin canal configurado → ambas. Los botones permiten cambiar.
 export async function cmdValor(ctx, input) {
+  if (!state.itemsReady) {
+    return ctx.reply({ content: "⏳ Estoy cargando los precios oficiales. Probá nuevamente en unos segundos." });
+  }
   const item =
     resolveCurrency(input, state.vizardRate) || state.resolveItem(input);
 
@@ -246,6 +249,9 @@ export async function cmdValor(ctx, input) {
 // En un canal de tradeo suma con precios de la API; en uno oficial (o sin
 // configurar) con la hoja oficial.
 export async function cmdSuma(ctx, input) {
+  if (!state.itemsReady) {
+    return ctx.reply({ content: "⏳ Estoy cargando los precios oficiales. Probá nuevamente en unos segundos." });
+  }
   const { found: foundItems, notFound } = resolveItems(splitItems(input));
 
   if (!foundItems.length) {
@@ -295,6 +301,9 @@ export async function cmdSuma(ctx, input) {
 
 // ── Trade ────────────────────────────────────────────────
 export async function cmdTrade(ctx, leftText, rightText) {
+  if (!state.itemsReady) {
+    return ctx.reply({ content: "⏳ Estoy cargando los precios oficiales. Probá nuevamente en unos segundos." });
+  }
   const leftResolved = resolveItems(splitItems(leftText));
   const rightResolved = resolveItems(splitItems(rightText));
 
@@ -339,6 +348,9 @@ export function buildComparison(leftResolved, rightResolved, source) {
 
 // ── Similares ────────────────────────────────────────────
 export async function cmdSimilares(ctx, input, percent = 10) {
+  if (!state.itemsReady) {
+    return ctx.reply({ content: "⏳ Estoy cargando los precios oficiales. Probá nuevamente en unos segundos." });
+  }
   const targetItem =
     resolveCurrency(input, state.vizardRate) || state.resolveItem(input);
 

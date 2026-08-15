@@ -67,17 +67,65 @@ async function logSync(source, status, rows = null, error = null, durationMs = n
   }
 }
 
+const UPDATE_BATCH_SIZE = 25;
+const UPDATE_MAX_RETRIES = 3;
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+function isStatementTimeout(error) {
+  const message = String(error?.message ?? error);
+  return message.includes("57014") || message.includes("statement timeout");
+}
+
+function valuesMatch(left, right) {
+  if (left === right) return true;
+  if (left == null || right == null) return false;
+  if (typeof left === "number" && typeof right === "number") {
+    // PostgreSQL/JSON puede devolver una precisión binaria apenas distinta
+    // de la división hecha en JavaScript (p. ej. 10 / 3).
+    return Math.abs(left - right) <= Math.max(Math.abs(left), Math.abs(right), 1) * 1e-12;
+  }
+  if (Array.isArray(left) && Array.isArray(right)) {
+    return left.length === right.length && left.every((value, index) => valuesMatch(value, right[index]));
+  }
+  if (typeof left === "object" && typeof right === "object") {
+    const leftKeys = Object.keys(left);
+    const rightKeys = Object.keys(right);
+    return (
+      leftKeys.length === rightKeys.length &&
+      leftKeys.every((key) => Object.hasOwn(right, key) && valuesMatch(left[key], right[key]))
+    );
+  }
+  return false;
+}
+
+function rowChanged(existing, next) {
+  return Object.entries(next).some(([key, value]) => !valuesMatch(existing[key], value));
+}
+
 // Upsert completo de una lista: crea los nuevos, actualiza los existentes
 // y borra los que ya no vienen en la fuente (la lista = espejo del origen).
+// Las actualizaciones se hacen en bloques pequeños: un lote de cientos de
+// updates puede exceder el timeout del pooler de Supabase.
 async function upsertAll(model, rows) {
-  const existing = await model.findMany({ select: { id: true } });
-  const existingIds = new Set(existing.map((e) => e.id));
+  // Algunos nombres del origen normalizan a la misma clave. Conservamos la
+  // última versión, igual que hacía el loop original, sin actualizar esa fila
+  // varias veces dentro del mismo sync.
+  const rowsById = new Map(rows.map((row) => [row.id, row]));
+  const freshRows = [...rowsById.values()];
+  if (freshRows.length !== rows.length) {
+    console.warn(`⚠️ ${model.name}: ${rows.length - freshRows.length} duplicados por clave normalizada`);
+  }
+
+  const existing = await model.findMany();
+  const existingById = new Map(existing.map((row) => [row.id, row]));
+  const existingIds = new Set(existingById.keys());
 
   const creates = [];
   const updates = [];
-  for (const row of rows) {
+  for (const row of freshRows) {
     if (existingIds.has(row.id)) {
-      updates.push(model.update({ where: { id: row.id }, data: row }));
+      if (rowChanged(existingById.get(row.id), row)) updates.push(row);
     } else {
       creates.push(row);
     }
@@ -87,18 +135,37 @@ async function upsertAll(model, rows) {
     await model.createMany({ data: creates, skipDuplicates: true });
   }
   if (updates.length) {
-    await prisma.$transaction(updates);
+    console.log(`📝 ${model.name}: ${updates.length} items modificados de ${freshRows.length}`);
+  }
+  for (let index = 0; index < updates.length; index += UPDATE_BATCH_SIZE) {
+    const batch = updates.slice(index, index + UPDATE_BATCH_SIZE);
+    for (let attempt = 0; attempt < UPDATE_MAX_RETRIES; attempt++) {
+      try {
+        await prisma.$transaction(
+          batch.map((row) => model.update({ where: { id: row.id }, data: row }))
+        );
+        break;
+      } catch (error) {
+        const lastAttempt = attempt === UPDATE_MAX_RETRIES - 1;
+        if (!isStatementTimeout(error) || lastAttempt) throw error;
+        const delay = 500 * (attempt + 1);
+        console.warn(
+          `⏳ ${model.name}: timeout en lote ${index / UPDATE_BATCH_SIZE + 1}; reintentando en ${delay}ms`
+        );
+        await sleep(delay);
+      }
+    }
   }
 
   // Prune: items que ya no están en la fuente
-  const freshIds = new Set(rows.map((r) => r.id));
+  const freshIds = new Set(freshRows.map((r) => r.id));
   const stale = [...existingIds].filter((id) => !freshIds.has(id));
   if (stale.length) {
     await model.deleteMany({ where: { id: { in: stale } } });
     console.log(`🧹 ${model.name}: ${stale.length} items eliminados (ya no existen en la fuente)`);
   }
 
-  return rows.length;
+  return freshRows.length;
 }
 
 // ── Oficial (hoja AOTR) ─────────────────────────────────
