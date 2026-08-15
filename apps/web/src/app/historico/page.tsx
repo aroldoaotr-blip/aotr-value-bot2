@@ -62,52 +62,77 @@ export default async function HistoricoPage() {
       </Reveal>
 
       {/* ── Top subidas / caídas ───────────────────────── */}
-      <div className="grid gap-8 lg:grid-cols-2">
-        <Reveal>
-          <div>
-            <h2 className="mb-3 font-label-caps text-sm font-bold uppercase tracking-widest text-neon-green">
-              ▲ Top subidas (60 días)
-            </h2>
-            <ExpandableList
-              items={gainers.map((m, i) => (
-                <MoverCard key={m.item.id} mover={m} kind="up" rank={i} />
-              ))}
-              initial={5}
-            />
-          </div>
-        </Reveal>
+      {gainers.length > 0 || losers.length > 0 ? (
+        <div className="grid gap-8 lg:grid-cols-2">
+          <Reveal>
+            <div>
+              <h2 className="mb-3 font-label-caps text-sm font-bold uppercase tracking-widest text-neon-green">
+                ▲ Top subidas
+              </h2>
+              {gainers.length > 0 ? (
+                <ExpandableList
+                  items={gainers.map((m, i) => (
+                    <MoverCard key={m.item.id} mover={m} kind="up" rank={i} />
+                  ))}
+                  initial={5}
+                />
+              ) : (
+                <p className="rounded-xl border border-outline-variant/30 bg-surface-container/30 p-6 text-xs text-on-surface-variant">
+                  No se registraron subidas de precio en las sincronizaciones recientes de la base de datos.
+                </p>
+              )}
+            </div>
+          </Reveal>
 
-        <Reveal delay={0.1}>
-          <div>
-            <h2 className="mb-3 font-label-caps text-sm font-bold uppercase tracking-widest text-neon-red">
-              ▼ Top caídas (60 días)
-            </h2>
-            <ExpandableList
-              items={losers.map((m, i) => (
-                <MoverCard key={m.item.id} mover={m} kind="down" rank={i} />
-              ))}
-              initial={5}
-            />
+          <Reveal delay={0.1}>
+            <div>
+              <h2 className="mb-3 font-label-caps text-sm font-bold uppercase tracking-widest text-neon-red">
+                ▼ Top caídas
+              </h2>
+              {losers.length > 0 ? (
+                <ExpandableList
+                  items={losers.map((m, i) => (
+                    <MoverCard key={m.item.id} mover={m} kind="down" rank={i} />
+                  ))}
+                  initial={5}
+                />
+              ) : (
+                <p className="rounded-xl border border-outline-variant/30 bg-surface-container/30 p-6 text-xs text-on-surface-variant">
+                  No se registraron caídas de precio en las sincronizaciones recientes de la base de datos.
+                </p>
+              )}
+            </div>
+          </Reveal>
+        </div>
+      ) : (
+        <Reveal>
+          <div className="rounded-xl border border-primary/20 bg-primary/5 p-8 text-center">
+            <p className="font-semibold text-on-surface">📊 Precios estables en la Base de Datos</p>
+            <p className="mt-2 text-xs leading-relaxed text-on-surface-variant">
+              Los precios de la fuente se han mantenido estables durante las sincronizaciones recientes registradas en Supabase. Las listas de subidas y caídas se actualizarán automáticamente en cuanto la API o la hoja oficial detecten cambios en las próximas sincronizaciones.
+            </p>
           </div>
         </Reveal>
-      </div>
+      )}
 
       {/* ── Más volátiles ──────────────────────────────── */}
-      <Reveal delay={0.15}>
-        <div className="mt-16">
-          <h2 className="font-headline-lg text-xl font-semibold text-on-surface sm:text-2xl">
-            🌪️ Más volátiles
-          </h2>
-          <p className="mt-1 text-sm text-on-surface-variant">
-            Items con mayores oscilaciones dentro del período.
-          </p>
-          <HScroll className="mt-6" trackClassName="pb-2">
-            {volatile.map((m, i) => (
-              <MoverCard key={m.item.id} mover={m} kind="up" rank={i} />
-            ))}
-          </HScroll>
-        </div>
-      </Reveal>
+      {volatile.length > 0 && (
+        <Reveal delay={0.15}>
+          <div className="mt-16">
+            <h2 className="font-headline-lg text-xl font-semibold text-on-surface sm:text-2xl">
+              🌪️ Más volátiles
+            </h2>
+            <p className="mt-1 text-sm text-on-surface-variant">
+              Items con mayores oscilaciones dentro del período.
+            </p>
+            <HScroll className="mt-6" trackClassName="pb-2">
+              {volatile.map((m, i) => (
+                <MoverCard key={m.item.id} mover={m} kind={m.direction} rank={i} />
+              ))}
+            </HScroll>
+          </div>
+        </Reveal>
+      )}
 
       <Reveal delay={0.2}>
         <div className="glass-panel mt-16 rounded-xl p-8 text-center">

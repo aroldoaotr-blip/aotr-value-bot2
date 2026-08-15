@@ -79,13 +79,18 @@ function mapDbRow(o: any, t: any): Item {
 async function loadFromDb(): Promise<Item[]> {
   const { prisma } = await import("@aotr/db");
 
-  const [officialRows, tradeRows, historyRows] = await Promise.all([
+  const [officialRows, tradeRows, tradeHistoryRows, officialHistoryRows] = await Promise.all([
     prisma.officialPrice.findMany(),
     prisma.tradePrice.findMany(),
     prisma.tradePriceHistory.findMany({
       where: { recordedAt: { gte: new Date(Date.now() - HISTORY_DAYS * 86400000) } },
       orderBy: { recordedAt: "asc" },
       select: { itemId: true, value: true, recordedAt: true }
+    }),
+    prisma.officialPriceHistory.findMany({
+      where: { recordedAt: { gte: new Date(Date.now() - HISTORY_DAYS * 86400000) } },
+      orderBy: { recordedAt: "asc" },
+      select: { itemId: true, vizards: true, recordedAt: true }
     })
   ]);
 
@@ -97,19 +102,26 @@ async function loadFromDb(): Promise<Item[]> {
 
   const items: Item[] = [...ids].map((id) => mapDbRow(officialById.get(id), tradeById.get(id)));
 
-  // Histórico (es de la lista de tradeo) — una sola consulta para todo
-  if (historyRows.length) {
-    const historyByItem = new Map<string, HistoryPoint[]>();
-    for (const h of historyRows) {
-      if (h.value === null) continue;
-      const list = historyByItem.get(h.itemId) ?? [];
-      list.push({ ts: h.recordedAt.toISOString(), value: h.value });
-      historyByItem.set(h.itemId, list);
-    }
+  // Mapas de histórico real desde Supabase
+  const tradeHistoryByItem = new Map<string, HistoryPoint[]>();
+  for (const h of tradeHistoryRows) {
+    if (h.value === null) continue;
+    const list = tradeHistoryByItem.get(h.itemId) ?? [];
+    list.push({ ts: h.recordedAt.toISOString(), value: h.value });
+    tradeHistoryByItem.set(h.itemId, list);
+  }
 
-    for (const item of items) {
-      item.history = historyByItem.get(item.id) ?? [];
-    }
+  const officialHistoryByItem = new Map<string, HistoryPoint[]>();
+  for (const h of officialHistoryRows) {
+    if (h.vizards === null) continue;
+    const list = officialHistoryByItem.get(h.itemId) ?? [];
+    list.push({ ts: h.recordedAt.toISOString(), value: h.vizards });
+    officialHistoryByItem.set(h.itemId, list);
+  }
+
+  for (const item of items) {
+    // Si el item tiene historial de tradeo, lo usamos; si no, su historial oficial
+    item.history = tradeHistoryByItem.get(item.id) ?? officialHistoryByItem.get(item.id) ?? [];
   }
 
   items.sort((a, b) => a.name.localeCompare(b.name));
@@ -118,8 +130,6 @@ async function loadFromDb(): Promise<Item[]> {
 
 export async function getItems(): Promise<Item[]> {
   if (process.env.DATABASE_URL) {
-    // Reintenta solo si pasó el TTL desde el último fallo (evita esperar
-    // el timeout de Prisma en cada request cuando la BD no tiene tablas).
     if (Date.now() - dbFailedAt > CACHE_TTL && (!dbCache || Date.now() - dbCache.at > CACHE_TTL)) {
       try {
         const items = await loadFromDb();
@@ -139,38 +149,51 @@ export function getMeta(): Meta {
   return metaSeed as Meta;
 }
 
-// ── Movimientos (tendencias) ─────────────────────────────
+// ── Movimientos (tendencias) — calcula cambios reales (> 0% o < 0%) ──
 export function computeMovers(
   items: Item[],
   limit = 8
 ): { gainers: ItemMover[]; losers: ItemMover[]; volatile: ItemMover[] } {
-  const withChange: ItemMover[] = [];
+  const gainersList: ItemMover[] = [];
+  const losersList: ItemMover[] = [];
+  const volatileList: ItemMover[] = [];
 
   for (const item of items) {
     if (!item.history || item.history.length < 2) continue;
 
     const first = item.history[0].value;
     const last = item.history[item.history.length - 1].value;
-    if (!first || !last) continue;
+    if (first == null || last == null || first <= 0) continue;
 
     const changeAbs = last - first;
-    const changePct = (changeAbs / Math.abs(first)) * 100;
+    const changePct = (changeAbs / first) * 100;
 
-    const volatility =
-      Math.max(
-        ...item.history.map(
-          (p) => Math.abs((p.value - first) / Math.abs(first || 1)) * 100
-        )
-      );
+    const volatility = Math.max(
+      ...item.history.map(
+        (p) => Math.abs((p.value - first) / first) * 100
+      )
+    );
 
-    withChange.push({ item, changePct, changeAbs, direction: changeAbs >= 0 ? "up" : "down", volatility });
+    if (changePct > 0.01) {
+      gainersList.push({ item, changePct, changeAbs, direction: "up", volatility });
+    } else if (changePct < -0.01) {
+      losersList.push({ item, changePct, changeAbs, direction: "down", volatility });
+    }
+
+    if (volatility > 0.01) {
+      volatileList.push({
+        item,
+        changePct,
+        changeAbs,
+        direction: changeAbs >= 0 ? "up" : "down",
+        volatility
+      });
+    }
   }
 
-  const sorted = [...withChange].sort((a, b) => b.changePct - a.changePct);
-
   return {
-    gainers: sorted.filter((m) => m.direction === "up").slice(0, limit),
-    losers: sorted.filter((m) => m.direction === "down").slice(0, limit),
-    volatile: [...withChange].sort((a, b) => b.volatility - a.volatility).slice(0, limit)
+    gainers: gainersList.sort((a, b) => b.changePct - a.changePct).slice(0, limit),
+    losers: losersList.sort((a, b) => a.changePct - b.changePct).slice(0, limit),
+    volatile: volatileList.sort((a, b) => b.volatility - a.volatility).slice(0, limit)
   };
 }

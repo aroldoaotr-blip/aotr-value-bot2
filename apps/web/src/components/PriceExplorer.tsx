@@ -385,7 +385,12 @@ export function PriceExplorer({ items }: { items: Item[] }) {
                   >
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
-                        <Avatar name={item.name} officialImage={item.officialImage} emoji={item.emoji} size="sm" />
+                        <Avatar
+                          name={item.name}
+                          officialImage={item.officialImage}
+                          emoji={item.emoji}
+                          size="sm"
+                        />
                         <div className="min-w-0">
                           <p className="truncate font-semibold text-on-surface group-hover:text-primary">
                             {item.name}
@@ -524,12 +529,22 @@ function StitchCard({
       style={{ animationDelay: `${delay}s` }}
     >
       <div
-        className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full opacity-50 blur-3xl transition-opacity group-hover:opacity-100"
+        className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full opacity-50 blur-3xl transition-opacity group-hover:opacity-100"
         style={{ background: glowColor }}
       />
       <div className="flex items-start justify-between">
-        <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-lg border border-outline-variant/30 bg-surface-highest">
-          <Avatar name={item.name} officialImage={item.officialImage} emoji={item.emoji} size="sm" />
+        <div
+          className="flex p-2 h-36 w-36 items-center justify-center overflow-hidden rounded-lg border border-outline-variant/30 "
+          style={{
+            backgroundImage: `linear-gradient(to bottom, rgb(52, 52, 52), ${glowColor})`,
+          }}
+        >
+          <Avatar
+            name={item.name}
+            officialImage={item.officialImage}
+            emoji={item.emoji}
+            size="sm"
+          />
         </div>
         {chip && (
           <span

@@ -214,25 +214,47 @@ export const syncOfficial = withLock(async () => {
   }
 });
 
-// ── Histórico oficial (las 3 monedas por sync) ───────────
+// ── Histórico oficial (solo guarda si hay cambios respecto al último registro) ──
 export async function recordOfficialHistory(items) {
   try {
     const nowDate = new Date();
+    const latestHistory = await prisma.officialPriceHistory.findMany({
+      distinct: ["itemId"],
+      orderBy: [{ itemId: "asc" }, { recordedAt: "desc" }],
+      select: { itemId: true, vizards: true, keys: true }
+    });
+    const latestByItem = new Map(latestHistory.map((h) => [h.itemId, h]));
+
     const data = items
       .filter((item) => item.value.keys != null || item.value.vizards != null)
-      .map((item) => ({
-        itemId: stableId(compactKey(item.name)),
-        keys: midValue(item.value.keys),
-        scrolls: midValue(item.value.scrolls),
-        vizards: midValue(item.value.vizards),
-        recordedAt: nowDate
-      }));
+      .map((item) => {
+        const id = stableId(compactKey(item.name));
+        const keysVal = midValue(item.value.keys);
+        const vizVal = midValue(item.value.vizards);
+        const latest = latestByItem.get(id);
 
-    if (!data.length) return;
+        if (latest && latest.keys === keysVal && latest.vizards === vizVal) {
+          return null;
+        }
+
+        return {
+          itemId: id,
+          keys: keysVal,
+          scrolls: midValue(item.value.scrolls),
+          vizards: vizVal,
+          recordedAt: nowDate
+        };
+      })
+      .filter(Boolean);
+
+    if (!data.length) {
+      console.log("ℹ️ Histórico oficial: sin cambios de precio desde el último registro.");
+      return;
+    }
 
     const result = await prisma.officialPriceHistory.createMany({ data, skipDuplicates: true });
     if (result.count > 0) {
-      console.log(`📈 Histórico oficial: ${result.count} registros nuevos`);
+      console.log(`📈 Histórico oficial: ${result.count} registros con variaciones agregados.`);
     }
   } catch (error) {
     console.error("⚠️ Error registrando histórico oficial:", error.message);
@@ -302,24 +324,44 @@ export const syncTrade = withLock(async () => {
   }
 });
 
-// ── Histórico de tradeo (una instantánea por item por sync) ──
+// ── Histórico de tradeo (solo guarda si hay cambios respecto al último registro) ──
 export async function recordTradeHistory(apiRows) {
   try {
     const nowDate = new Date();
+    const latestHistory = await prisma.tradePriceHistory.findMany({
+      distinct: ["itemId"],
+      orderBy: [{ itemId: "asc" }, { recordedAt: "desc" }],
+      select: { itemId: true, value: true, demand: true }
+    });
+    const latestByItem = new Map(latestHistory.map((h) => [h.itemId, h]));
+
     const data = apiRows
       .filter((item) => item.value !== null)
-      .map((item) => ({
-        itemId: stableId(compactKey(item.name)),
-        value: item.value,
-        demand: item.demand,
-        recordedAt: nowDate
-      }));
+      .map((item) => {
+        const id = stableId(compactKey(item.name));
+        const latest = latestByItem.get(id);
 
-    if (!data.length) return;
+        if (latest && latest.value === item.value && latest.demand === item.demand) {
+          return null;
+        }
+
+        return {
+          itemId: id,
+          value: item.value,
+          demand: item.demand,
+          recordedAt: nowDate
+        };
+      })
+      .filter(Boolean);
+
+    if (!data.length) {
+      console.log("ℹ️ Histórico trade: sin cambios de precio o demanda desde el último registro.");
+      return;
+    }
 
     const result = await prisma.tradePriceHistory.createMany({ data, skipDuplicates: true });
     if (result.count > 0) {
-      console.log(`📈 Histórico trade: ${result.count} registros nuevos`);
+      console.log(`📈 Histórico trade: ${result.count} registros con variaciones agregados.`);
     }
   } catch (error) {
     console.error("⚠️ Error registrando histórico trade:", error.message);
