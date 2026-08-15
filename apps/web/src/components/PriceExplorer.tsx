@@ -534,9 +534,9 @@ function StitchCard({
       />
       <div className="flex items-start justify-between">
         <div
-          className="flex p-2 h-36 w-36 items-center justify-center overflow-hidden rounded-lg border border-outline-variant/30 "
+          className="flex h-36 w-36 items-center justify-center overflow-hidden rounded-lg border border-outline-variant/30 "
           style={{
-            backgroundImage: `linear-gradient(to bottom, rgb(52, 52, 52), ${glowColor})`,
+            backgroundImage: glowColor,
           }}
         >
           <Avatar
@@ -544,6 +544,7 @@ function StitchCard({
             officialImage={item.officialImage}
             emoji={item.emoji}
             size="sm"
+            glowColor={glowColor}
           />
         </div>
         {chip && (

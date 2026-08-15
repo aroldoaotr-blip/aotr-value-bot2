@@ -117,6 +117,7 @@ export function Avatar({
   size = "md",
   className,
   rounded = "xl",
+  glowColor, // <-- 1. Recibimos el color de brillo
 }: {
   name: string;
   officialImage?: string | null;
@@ -124,6 +125,7 @@ export function Avatar({
   size?: "sm" | "md" | "lg" | "xl" | "card";
   className?: string;
   rounded?: "xl" | "full";
+  glowColor?: string; // <-- Definimos su tipo
 }) {
   const [sourceIndex, setSourceIndex] = useState(0);
   const [prep, setPrep] = useState<{ src: string; opaque: boolean } | null>(
@@ -131,7 +133,9 @@ export function Avatar({
   );
   const sources = [
     officialImage ? officialImageUrl(officialImage) : null,
-    emoji ? `${LEGACY_IMAGE_BASE}${emoji.startsWith("/") ? emoji : `/${emoji}`}` : null,
+    emoji
+      ? `${LEGACY_IMAGE_BASE}${emoji.startsWith("/") ? emoji : `/${emoji}`}`
+      : null,
   ].filter((source): source is string => Boolean(source));
   const src = sources[sourceIndex] ?? null;
   const showImg = Boolean(src);
@@ -168,10 +172,10 @@ export function Avatar({
   }, [src]);
 
   const sizes = {
-    sm: "h-24 w-24 text-[11px]",
-    md: "h-24 w-24 text-sm",
-    lg: "h-24 w-24 text-lg",
-    xl: "h-32 w-32 text-3xl",
+    sm: "h-32 w-32 text-[11px]",
+    md: "h-32 w-32 text-sm",
+    lg: "h-32 w-32 text-lg",
+    xl: "h-36 w-36 text-3xl",
     card: "h-28 w-28 sm:h-36 sm:w-36 text-3xl sm:text-4xl",
   };
 
@@ -180,11 +184,18 @@ export function Avatar({
   return (
     <div
       className={cn(
-        "avatar-shell relative flex shrink-0 items-center justify-center overflow-hidden",
+        "avatar-shell p-2 relative flex shrink-0 items-center justify-center overflow-hidden",
         radius,
         sizes[size],
         className,
       )}
+      style={{
+        // 2. Si hay glowColor, aplicamos el gradiente de negro a glowColor.
+        // Si no, lo dejamos limpio o con un fondo por defecto.
+        backgroundImage: glowColor
+          ? `linear-gradient(to bottom, rgb(80, 80, 80), ${glowColor})`
+          : undefined,
+      }}
       aria-label={name}
     >
       {showImg && prep ? (
