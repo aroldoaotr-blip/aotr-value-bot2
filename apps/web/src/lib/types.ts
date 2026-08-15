@@ -23,6 +23,7 @@ export interface Item {
   rarityPct: number | null;
   status: string | null;
   obtainedFrom: string | null;
+  officialImage: string | null;
   emoji: string | null;
   demandApi: number | null;
   demandOfficial: string | null;

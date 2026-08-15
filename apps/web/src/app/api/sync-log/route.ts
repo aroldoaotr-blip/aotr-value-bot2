@@ -29,6 +29,7 @@ export async function GET() {
         source: true,
         status: true,
         rows: true,
+        error: true,
         durationMs: true,
         startedAt: true
       }

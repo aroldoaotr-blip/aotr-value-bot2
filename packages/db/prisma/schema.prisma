@@ -45,6 +45,7 @@ model OfficialPrice {
   taxGold        Float?
   sheet          String? // Hoja de Excel de origen
   existingAmount String? // Cantidad existente registrada en la hoja
+  image          String? // nombre de imagen oficial en aotrevolution.com/originals/webp
   updatedAt      DateTime @updatedAt
 
   history OfficialPriceHistory[]

@@ -110,9 +110,13 @@ function taxLine(gems, gold) {
   return `💎 ${gems != null ? formatValue(gems) : "—"} · 🪙 ${gold != null ? formatValue(gold) : "—"}`;
 }
 
-function imageUrl(emoji) {
-  if (!emoji) return null;
-  return `https://www.aotrvalue.com${emoji.startsWith("/") ? emoji : `/${emoji}`}`;
+function imageUrl(officialImage, legacyEmoji) {
+  if (officialImage) {
+    const webpName = officialImage.replace(/\.[a-z0-9]+$/i, ".webp");
+    return `https://aotrevolution.com/originals/webp/${encodeURIComponent(webpName)}`;
+  }
+  if (!legacyEmoji) return null;
+  return `https://www.aotrvalue.com${legacyEmoji.startsWith("/") ? legacyEmoji : `/${legacyEmoji}`}`;
 }
 
 export function createItemEmbed(
@@ -174,7 +178,7 @@ export function createItemEmbed(
         : footer().text,
     });
 
-  const thumb = imageUrl(apiRow?.emoji ?? null);
+  const thumb = imageUrl(item.image ?? null, apiRow?.emoji ?? null);
   if (thumb) embed.setThumbnail(thumb);
 
   if (visible === "both") {

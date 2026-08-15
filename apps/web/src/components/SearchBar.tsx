@@ -171,7 +171,7 @@ export function SearchBar({
                     i === active ? "bg-white/[0.07]" : "hover:bg-white/[0.04]",
                   )}
                 >
-                  <Avatar name={item.name} emoji={item.emoji} size="md" />
+                  <Avatar name={item.name} officialImage={item.officialImage} emoji={item.emoji} size="md" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium text-on-surface">
                       {item.name}

@@ -385,7 +385,7 @@ export function PriceExplorer({ items }: { items: Item[] }) {
                   >
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
-                        <Avatar name={item.name} emoji={item.emoji} size="sm" />
+                        <Avatar name={item.name} officialImage={item.officialImage} emoji={item.emoji} size="sm" />
                         <div className="min-w-0">
                           <p className="truncate font-semibold text-on-surface group-hover:text-primary">
                             {item.name}
@@ -529,7 +529,7 @@ function StitchCard({
       />
       <div className="flex items-start justify-between">
         <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-lg border border-outline-variant/30 bg-surface-highest">
-          <Avatar name={item.name} emoji={item.emoji} size="sm" />
+          <Avatar name={item.name} officialImage={item.officialImage} emoji={item.emoji} size="sm" />
         </div>
         {chip && (
           <span
@@ -745,6 +745,7 @@ function ItemModal({
           <div className="flex items-center gap-4">
             <Avatar
               name={item.name}
+              officialImage={item.officialImage}
               emoji={item.emoji}
               size="xl"
               className="rounded-2xl"

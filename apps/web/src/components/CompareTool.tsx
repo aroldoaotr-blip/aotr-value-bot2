@@ -14,6 +14,7 @@ type LightItem = {
   id: string;
   name: string;
   slug: string;
+  officialImage?: string | null;
   emoji: string | null;
   category: string | null;
   source: ItemSource;
@@ -168,7 +169,7 @@ function SidePanel({
                     }}
                     className="flex w-full items-center gap-2.5 px-3 py-2 text-left transition-colors hover:bg-white/[0.07]"
                   >
-                    <Avatar name={item.name} emoji={item.emoji} size="sm" />
+                    <Avatar name={item.name} officialImage={item.officialImage} emoji={item.emoji} size="sm" />
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-medium text-on-surface">{item.name}</p>
                       <p className="text-[10px] text-on-surface-variant/70">
@@ -213,7 +214,7 @@ function SidePanel({
           >
             <div className="flex items-center gap-3">
               <Link href={`/item/${item.slug}`} onClick={(e) => e.stopPropagation()}>
-                <Avatar name={item.name} emoji={item.emoji} size="sm" />
+                <Avatar name={item.name} officialImage={item.officialImage} emoji={item.emoji} size="sm" />
               </Link>
               <div>
                 <div className="font-medium text-on-surface">{item.name}</div>

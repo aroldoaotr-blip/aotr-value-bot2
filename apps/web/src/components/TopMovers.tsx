@@ -31,7 +31,7 @@ export function MoverCard({
     >
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
-          <Avatar name={item.name} emoji={item.emoji} size="sm" />
+          <Avatar name={item.name} officialImage={item.officialImage} emoji={item.emoji} size="sm" />
           <div>
             <h4 className="font-medium text-on-surface">{item.name}</h4>
             <p className="font-label-caps text-[10px] text-on-surface-variant">

@@ -1,92 +1,108 @@
-// Carga la hoja oficial AOTR (Excel exportado de Google Sheets)
+// Carga la lista oficial publicada por AOT Revolution.
+// El archivo es JavaScript (`const AOTR_DATA = [...]`), no JSON puro.
 
-import XLSX from "xlsx";
-import { parseValue } from "../core/parseValue.js";
+const OFFICIAL_DATA_URL =
+  process.env.OFFICIAL_DATA_URL ||
+  "https://aotrevolution.com/data.js?v=20260814c";
 
-const DEFAULT_SHEET_ID = "1kpAy0dLgjmRe52oWKft7GrDLSssN6wEt9C09hx_eRqs";
-const SHEET_URL =
-  process.env.SHEET_URL ||
-  `https://docs.google.com/spreadsheets/d/${DEFAULT_SHEET_ID}/export?format=xlsx`;
+const DEFAULT_RATES = { keysPerVizard: 900, keysPerScroll: 3 };
 
-const SKIP_SHEETS = ["Overview"];
+function extractJsonArray(script, variableName) {
+  const declaration = new RegExp(`\\b(?:const|let|var)\\s+${variableName}\\s*=`).exec(script);
+  if (!declaration) throw new Error(`No se encontró ${variableName} en data.js`);
+  const start = script.indexOf("[", declaration.index + declaration[0].length);
+  if (start < 0) throw new Error(`${variableName} no contiene un arreglo`);
 
-function normalizeCell(value) {
-  if (value === undefined || value === null) return null;
-  return String(value).trim();
+  let depth = 0;
+  let quote = null;
+  let escaped = false;
+  for (let i = start; i < script.length; i++) {
+    const char = script[i];
+    if (quote) {
+      if (escaped) escaped = false;
+      else if (char === "\\") escaped = true;
+      else if (char === quote) quote = null;
+      continue;
+    }
+    if (char === '"' || char === "'") {
+      quote = char;
+      continue;
+    }
+    if (char === "[") depth++;
+    if (char === "]") {
+      depth--;
+      if (depth === 0) return JSON.parse(script.slice(start, i + 1));
+    }
+  }
+  throw new Error(`${variableName} está incompleto`);
 }
 
-function isCategoryRow(row) {
-  const itemName = normalizeCell(row["Item Name"]);
-  const rarity = normalizeCell(row["Rarity"]);
-  const value = normalizeCell(row["Value"]);
-  return itemName && !rarity && !value;
-}
-
-function isValidItemRow(row) {
-  return normalizeCell(row["Item Name"]) && normalizeCell(row["Value"]);
+function extractJsonObject(script, variableName) {
+  const declaration = new RegExp(`\\b(?:const|let|var)\\s+${variableName}\\s*=`).exec(script);
+  if (!declaration) return {};
+  const start = script.indexOf("{", declaration.index + declaration[0].length);
+  if (start < 0) return {};
+  let depth = 0;
+  for (let i = start; i < script.length; i++) {
+    if (script[i] === "{") depth++;
+    if (script[i] === "}" && --depth === 0) return JSON.parse(script.slice(start, i + 1));
+  }
+  return {};
 }
 
 function parseTax(rawTax) {
-  if (!rawTax || rawTax === "N/A") return null;
-
-  const clean = String(rawTax)
-    .replace(/[💎🪙, ]/g, "")
-    .toLowerCase();
-
-  const match = clean.match(/([\d.]+)(k|m)?/);
+  if (!rawTax || String(rawTax).toLowerCase() === "n/a") return null;
+  const match = String(rawTax).replaceAll(",", "").match(/([\d.]+)\s*(k|m)?/i);
   if (!match) return null;
+  let value = Number(match[1]);
+  if (match[2]?.toLowerCase() === "k") value *= 1_000;
+  if (match[2]?.toLowerCase() === "m") value *= 1_000_000;
+  return value;
+}
 
-  let number = Number(match[1]);
-  if (match[2] === "k") number *= 1000;
-  if (match[2] === "m") number *= 1000000;
+function numericValue(value) {
+  const number = Number(value);
+  return Number.isFinite(number) && number >= 0 ? number : null;
+}
 
-  return number;
+export function parseOfficialData(script) {
+  const rows = extractJsonArray(script, "AOTR_DATA");
+  const meta = extractJsonObject(script, "AOTR_META");
+  const rates = {
+    keysPerVizard: numericValue(meta.vizard_keys) || DEFAULT_RATES.keysPerVizard,
+    keysPerScroll: numericValue(meta.scroll_keys) || DEFAULT_RATES.keysPerScroll
+  };
+
+  return rows
+    .filter((row) => row && typeof row.name === "string" && row.name.trim())
+    .map((row) => {
+      // `value` es el valor canónico en llaves (AOTR_META.currency = "keys").
+      const keys = row.na ? null : numericValue(row.value);
+      return {
+        name: row.name.trim(),
+        sheet: "AOT Revolution",
+        category: row.subcat || row.category || null,
+        rarity: row.rarity || null,
+        demand: row.demand == null ? null : String(row.demand),
+        value: {
+          keys,
+          scrolls: keys == null ? null : keys / rates.keysPerScroll,
+          vizards: keys == null ? null : keys / rates.keysPerVizard
+        },
+        rateOfChange: row.trend || null,
+        taxGems: parseTax(row.tax),
+        taxGold: null,
+        existingAmount: row.supply == null ? null : String(row.supply),
+        image: typeof row.img === "string" && row.img.trim() ? row.img.trim() : null
+      };
+    });
 }
 
 export async function loadItems() {
-  console.log("📥 Descargando hoja oficial AOTR...");
-
-  const response = await fetch(SHEET_URL);
-  if (!response.ok) {
-    throw new Error(`No se pudo descargar la hoja: ${response.status}`);
-  }
-
-  const arrayBuffer = await response.arrayBuffer();
-  const workbook = XLSX.read(arrayBuffer, { type: "array" });
-
-  const items = [];
-
-  for (const sheetName of workbook.SheetNames) {
-    if (SKIP_SHEETS.includes(sheetName)) continue;
-
-    const sheet = workbook.Sheets[sheetName];
-    const rows = XLSX.utils.sheet_to_json(sheet, { defval: null });
-
-    let currentCategory = sheetName;
-
-    for (const row of rows) {
-      if (isCategoryRow(row)) {
-        currentCategory = normalizeCell(row["Item Name"]);
-        continue;
-      }
-
-      if (!isValidItemRow(row)) continue;
-
-      items.push({
-        name: normalizeCell(row["Item Name"]),
-        sheet: sheetName,
-        category: currentCategory,
-        rarity: normalizeCell(row["Rarity"]),
-        demand: normalizeCell(row["Demand"]),
-        value: parseValue(row["Value"]),
-        rateOfChange: normalizeCell(row["Rate Of Change"]),
-        taxGems: parseTax(row["Tax (Gems)"]),
-        taxGold: parseTax(row["Tax (Gold)"]),
-        existingAmount: normalizeCell(row["Existing Amount"])
-      });
-    }
-  }
-
+  console.log("📥 Descargando lista oficial de AOT Revolution...");
+  const response = await fetch(OFFICIAL_DATA_URL);
+  if (!response.ok) throw new Error(`No se pudo descargar data.js: ${response.status}`);
+  const items = parseOfficialData(await response.text());
   console.log(`📦 Items oficiales cargados: ${items.length}`);
   return items;
 }

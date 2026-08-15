@@ -17,6 +17,7 @@ interface SyncLogEntry {
   source: string;
   status: string;
   rows: number | null;
+  error: string | null;
   durationMs: number | null;
   startedAt: string;
 }
@@ -538,32 +539,39 @@ export default function AdminPage() {
                   <div
                     key={log.id}
                     className={cn(
-                      "flex items-center justify-between rounded-lg p-3 transition-colors hover:bg-surface-variant/30",
+                      "rounded-lg p-3 transition-colors hover:bg-surface-variant/30",
                       !ok && "opacity-60"
                     )}
                   >
-                    <div className="flex items-center gap-3">
-                      <span
-                        className="h-2 w-2 rounded-full"
-                        style={{ background: dot, boxShadow: `0 0 8px ${dot}` }}
-                      />
-                      <div className="flex flex-col">
-                        <span className="font-data-tabular text-sm text-on-surface">
-                          {log.source === "official" ? "Oficial (hoja)" : "Trade (API)"}
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <span
+                          className="h-2 w-2 rounded-full"
+                          style={{ background: dot, boxShadow: `0 0 8px ${dot}` }}
+                        />
+                        <div className="flex flex-col">
+                          <span className="font-data-tabular text-sm text-on-surface">
+                            {log.source === "official" ? "Oficial" : "Trade (API)"}
+                          </span>
+                          <span className="text-[12px] text-on-surface-variant">
+                            {ok ? `${log.rows ?? 0} items` : "error"}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="font-data-tabular text-[12px] text-on-surface-variant">
+                          {timeAgo(log.startedAt)}
                         </span>
-                        <span className="text-[12px] text-on-surface-variant">
-                          {ok ? `${log.rows ?? 0} items` : "error"}
+                        <span className={ok ? "text-[#22c55e]" : "text-error"}>
+                          {ok ? "✓" : "✗"}
                         </span>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <span className="font-data-tabular text-[12px] text-on-surface-variant">
-                        {timeAgo(log.startedAt)}
-                      </span>
-                      <span className={ok ? "text-[#22c55e]" : "text-error"}>
-                        {ok ? "✓" : "✗"}
-                      </span>
-                    </div>
+                    {!ok && log.error && (
+                      <p className="mt-2 break-words rounded-md border border-error/25 bg-error/10 px-2 py-1.5 font-mono text-[11px] leading-relaxed text-error">
+                        Motivo: {log.error}
+                      </p>
+                    )}
                   </div>
                 );
               })}

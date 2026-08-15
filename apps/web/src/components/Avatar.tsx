@@ -3,7 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/format";
 
-const IMAGE_BASE = "https://www.aotrvalue.com";
+const LEGACY_IMAGE_BASE = "https://www.aotrvalue.com";
+const OFFICIAL_IMAGE_BASE = "https://aotrevolution.com/originals/webp";
+
+function officialImageUrl(image: string): string {
+  // data.js puede listar PNG/JPG, pero los originales públicos se sirven como WebP.
+  const webpName = image.replace(/\.[a-z0-9]+$/i, ".webp");
+  return `${OFFICIAL_IMAGE_BASE}/${encodeURIComponent(webpName)}`;
+}
 
 function initialsOf(name: string): string {
   // Array.from es code-point aware: evita partir un emoji en surrogates
@@ -105,29 +112,37 @@ function cacheSet(key: string, value: { src: string; opaque: boolean }) {
 
 export function Avatar({
   name,
+  officialImage,
   emoji,
   size = "md",
   className,
   rounded = "xl",
 }: {
   name: string;
+  officialImage?: string | null;
   emoji?: string | null;
   size?: "sm" | "md" | "lg" | "xl" | "card";
   className?: string;
   rounded?: "xl" | "full";
 }) {
-  const [failed, setFailed] = useState(false);
+  const [sourceIndex, setSourceIndex] = useState(0);
   const [prep, setPrep] = useState<{ src: string; opaque: boolean } | null>(
     null,
   );
-  const src = emoji
-    ? `${IMAGE_BASE}${emoji.startsWith("/") ? emoji : `/${emoji}`}`
-    : null;
-  const showImg = src && !failed;
+  const sources = [
+    officialImage ? officialImageUrl(officialImage) : null,
+    emoji ? `${LEGACY_IMAGE_BASE}${emoji.startsWith("/") ? emoji : `/${emoji}`}` : null,
+  ].filter((source): source is string => Boolean(source));
+  const src = sources[sourceIndex] ?? null;
+  const showImg = Boolean(src);
 
-  // Resetear estado si cambia el item
+  // Volver a intentar primero la imagen oficial cuando cambia el item.
   useEffect(() => {
-    setFailed(false);
+    setSourceIndex(0);
+    setPrep(null);
+  }, [officialImage, emoji]);
+
+  useEffect(() => {
     setPrep(null);
     if (!src) return;
     let alive = true;
@@ -178,7 +193,10 @@ export function Avatar({
           alt={name}
           loading="lazy"
           decoding="async"
-          onError={() => setFailed(true)}
+          onError={() => {
+            setPrep(null);
+            setSourceIndex((index) => index + 1);
+          }}
           className={cn(
             "avatar-img relative h-full w-full object-contain",
             prep.opaque && "avatar-opaque",

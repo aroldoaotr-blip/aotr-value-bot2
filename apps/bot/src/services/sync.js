@@ -127,7 +127,8 @@ export const syncOfficial = withLock(async () => {
       taxGems: item.taxGems,
       taxGold: item.taxGold,
       sheet: item.sheet ?? null,
-      existingAmount: item.existingAmount ?? null
+      existingAmount: item.existingAmount ?? null,
+      image: item.image ?? null
     }));
 
     await upsertAll(prisma.officialPrice, rows);

@@ -124,6 +124,7 @@ async function main() {
       rarityPct: api?.rarityPct ?? null,
       status: api?.status ?? null,
       obtainedFrom: api?.obtainedFrom ?? null,
+      officialImage: off?.image ?? null,
       emoji: api?.emoji ?? null,
       demandApi: api?.demand ?? null,
       demandOfficial: off?.demand ?? null,

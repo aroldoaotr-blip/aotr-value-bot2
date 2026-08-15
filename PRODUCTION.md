@@ -8,19 +8,19 @@ base de datos **Supabase (PostgreSQL)**.
 ## 1. Cómo fluyen los precios (para entender qué se actualiza)
 
 ```
-Hoja oficial AOTR ──┐
+Lista oficial AOT Revolution ──┐
                     ├──> Bot de Discord (Railway) ──sync cada 30 min──> Supabase ──> Web (Vercel)
 API de tradeo ──────┘                                                    ▲
                                                           (la web lee de la BD, caché ≤ 5 min)
 ```
 
-- El **bot** sincroniza **ambos orígenes** (hoja oficial + API de tradeo) a la BD **cada
+- El **bot** sincroniza **ambos orígenes** (lista oficial + API de tradeo) a la BD **cada
   30 minutos** por defecto (`SYNC_OFFICIAL_MINUTES=30` y `SYNC_TRADE_MINUTES=30`) y también
   al arrancar (`SYNC_ON_BOOT=true`).
 - La **web** lee de Supabase y refresca su caché cada ≤5 min (`revalidate` + TTL interno).
   ⇒ **Los precios en la web y en el bot quedan actualizados cada 30 minutos** (la web refleja
   el sync con hasta 5 min de retraso por su caché).
-- La BD tiene **2 listas de precios independientes** (`OfficialPrice` de la hoja y `TradePrice` de la API),
+- La BD tiene **2 listas de precios independientes** (`OfficialPrice` de la lista oficial y `TradePrice` de la API),
 cada una con **su propio histórico** (`OfficialPriceHistory` con las 3 monedas y `TradePriceHistory` con viz),
 registrado en cada sync y limpio a los 60 días (alineado con lo que muestra la web). Las listas solo
 comparten el `id = stableId(nombre)` (join) y la imagen (emoji de la API → item oficial en la web).
@@ -39,9 +39,9 @@ comparten el `id = stableId(nombre)` (join) y la imagen (emoji de la API → ite
 - [ ] **Token del bot de Discord** (https://discord.com/developers/applications → tu app →
       Bot → Reset Token). Activa `MESSAGE CONTENT INTENT` en la pestaña Bot.
 
-> La API externa de tradeo y la hoja oficial ya vienen configuradas por código
+> La API externa de tradeo y la lista oficial ya vienen configuradas por código
 > (no requieren variables), pero puedes sobrescribirlas con `EXTERNAL_SUPABASE_URL`,
-> `EXTERNAL_SUPABASE_ANON_KEY` y `SHEET_URL`.
+> `EXTERNAL_SUPABASE_ANON_KEY` y `OFFICIAL_DATA_URL`.
 
 ---
 
@@ -105,7 +105,7 @@ comparten el `id = stableId(nombre)` (join) y la imagen (emoji de la API → ite
 5. **Deploy**. Verifica:
    - `https://tu-dominio/` → home con hero y buscador.
    - `https://tu-dominio/precios` → items con las dos listas de precios (oficial ≈ 398 · trade ≈ 379).
-   - `https://tu-dominio/item/12-fps` → detalle con datos de hoja + API.
+   - `https://tu-dominio/item/12-fps` → detalle con datos oficiales + API.
    - `https://tu-dominio/admin` → redirige al login.
 
 ---

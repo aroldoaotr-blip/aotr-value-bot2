@@ -2,7 +2,7 @@
 
 Plataforma profesional de valores de **AOTR**: bot de Discord + web (Next.js) compartiendo la misma base de datos (Supabase/PostgreSQL via Prisma), con **dos fuentes de precio**:
 
-- 🟢 **Oficial** — hoja oficial AOTR (Google Sheets), sincronizada por el bot.
+- 🟢 **Oficial** — lista oficial de AOT Revolution (`data.js`), sincronizada por el bot.
 - 🔵 **Trade** — API de precios de tradeo (379 items), sincronizada cada 6 h.
 - 📈 **Histórico** — instantánea de precios con cada sincronización, con gráficas.
 
@@ -20,7 +20,7 @@ Plataforma profesional de valores de **AOTR**: bot de Discord + web (Next.js) co
 
 | Capa      | Tecnología                                   |
 | --------- | -------------------------------------------- |
-| Bot       | Node.js 22 · discord.js 14 · Fuse.js · xlsx  |
+| Bot       | Node.js 22 · discord.js 14 · Fuse.js          |
 | Web       | Next.js 15 (App Router) · React 19 · TS      |
 | Diseño    | Tailwind · Framer Motion · Three.js (3D)     |
 | Datos     | Supabase (PostgreSQL) · Prisma 5             |

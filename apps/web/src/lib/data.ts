@@ -11,7 +11,7 @@ import metaSeed from "./seed/meta.json";
 //   · TradePrice    → precios de tradeo (API externa)
 // Aquí se fusionan por id (stableId del nombre) en el shape plano
 // que consumen las páginas. Lo único compartido entre listas es
-// la imagen (emoji de la API) y la identidad (id/name/slug).
+// la identidad (id/name/slug). Cada fuente conserva su propia imagen.
 // ═════════════════════════════════════════════════════════
 
 const CACHE_TTL = 5 * 60 * 1000; // 5 min (alineado con revalidate)
@@ -40,7 +40,7 @@ function mapDbRow(o: any, t: any): Item {
     rarityPct: trade?.rarityPct ?? null,
     status: trade?.status ?? null,
     obtainedFrom: trade?.obtainedFrom ?? null,
-    // La imagen es lo único compartido: emoji de la API aplicado al item oficial
+    officialImage: official?.image ?? null,
     emoji: trade?.emoji ?? null,
     demandApi: trade?.demand ?? null,
     demandOfficial: official?.demand ?? null,

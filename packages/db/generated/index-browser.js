@@ -138,6 +138,7 @@ exports.Prisma.OfficialPriceScalarFieldEnum = {
   taxGold: 'taxGold',
   sheet: 'sheet',
   existingAmount: 'existingAmount',
+  image: 'image',
   updatedAt: 'updatedAt'
 };
 

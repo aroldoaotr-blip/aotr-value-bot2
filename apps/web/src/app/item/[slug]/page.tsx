@@ -187,7 +187,7 @@ export default async function ItemPage({
               {demandDots(item)}
             </div>
             <div className="flex items-center gap-3">
-              <Avatar name={item.name} emoji={item.emoji} size="lg" />
+              <Avatar name={item.name} officialImage={item.officialImage} emoji={item.emoji} size="lg" />
               <div>
                 <h1 className="font-display-lg text-3xl font-bold tracking-tight text-on-surface sm:text-5xl">
                   {item.name}
@@ -365,7 +365,7 @@ export default async function ItemPage({
                   href={`/item/${s.slug}`}
                   className="glass-panel glass-card-hover flex items-center gap-3 rounded-lg p-4"
                 >
-                  <Avatar name={s.name} emoji={s.emoji} size="sm" />
+                  <Avatar name={s.name} officialImage={s.officialImage} emoji={s.emoji} size="sm" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-semibold text-on-surface">{s.name}</p>
                     <p className="font-data-tabular text-xs text-primary">

@@ -1658,6 +1658,7 @@ export namespace Prisma {
     taxGold: number | null
     sheet: string | null
     existingAmount: string | null
+    image: string | null
     updatedAt: Date | null
   }
 
@@ -1674,6 +1675,7 @@ export namespace Prisma {
     taxGold: number | null
     sheet: string | null
     existingAmount: string | null
+    image: string | null
     updatedAt: Date | null
   }
 
@@ -1693,6 +1695,7 @@ export namespace Prisma {
     taxGold: number
     sheet: number
     existingAmount: number
+    image: number
     updatedAt: number
     _all: number
   }
@@ -1721,6 +1724,7 @@ export namespace Prisma {
     taxGold?: true
     sheet?: true
     existingAmount?: true
+    image?: true
     updatedAt?: true
   }
 
@@ -1737,6 +1741,7 @@ export namespace Prisma {
     taxGold?: true
     sheet?: true
     existingAmount?: true
+    image?: true
     updatedAt?: true
   }
 
@@ -1756,6 +1761,7 @@ export namespace Prisma {
     taxGold?: true
     sheet?: true
     existingAmount?: true
+    image?: true
     updatedAt?: true
     _all?: true
   }
@@ -1862,6 +1868,7 @@ export namespace Prisma {
     taxGold: number | null
     sheet: string | null
     existingAmount: string | null
+    image: string | null
     updatedAt: Date
     _count: OfficialPriceCountAggregateOutputType | null
     _avg: OfficialPriceAvgAggregateOutputType | null
@@ -1900,6 +1907,7 @@ export namespace Prisma {
     taxGold?: boolean
     sheet?: boolean
     existingAmount?: boolean
+    image?: boolean
     updatedAt?: boolean
     history?: boolean | OfficialPrice$historyArgs<ExtArgs>
     _count?: boolean | OfficialPriceCountOutputTypeDefaultArgs<ExtArgs>
@@ -1921,6 +1929,7 @@ export namespace Prisma {
     taxGold?: boolean
     sheet?: boolean
     existingAmount?: boolean
+    image?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["officialPrice"]>
 
@@ -1940,6 +1949,7 @@ export namespace Prisma {
     taxGold?: boolean
     sheet?: boolean
     existingAmount?: boolean
+    image?: boolean
     updatedAt?: boolean
   }
 
@@ -1970,6 +1980,7 @@ export namespace Prisma {
       taxGold: number | null
       sheet: string | null
       existingAmount: string | null
+      image: string | null
       updatedAt: Date
     }, ExtArgs["result"]["officialPrice"]>
     composites: {}
@@ -2380,6 +2391,7 @@ export namespace Prisma {
     readonly taxGold: FieldRef<"OfficialPrice", 'Float'>
     readonly sheet: FieldRef<"OfficialPrice", 'String'>
     readonly existingAmount: FieldRef<"OfficialPrice", 'String'>
+    readonly image: FieldRef<"OfficialPrice", 'String'>
     readonly updatedAt: FieldRef<"OfficialPrice", 'DateTime'>
   }
     
@@ -10534,6 +10546,7 @@ export namespace Prisma {
     taxGold: 'taxGold',
     sheet: 'sheet',
     existingAmount: 'existingAmount',
+    image: 'image',
     updatedAt: 'updatedAt'
   };
 
@@ -10777,6 +10790,7 @@ export namespace Prisma {
     taxGold?: FloatNullableFilter<"OfficialPrice"> | number | null
     sheet?: StringNullableFilter<"OfficialPrice"> | string | null
     existingAmount?: StringNullableFilter<"OfficialPrice"> | string | null
+    image?: StringNullableFilter<"OfficialPrice"> | string | null
     updatedAt?: DateTimeFilter<"OfficialPrice"> | Date | string
     history?: OfficialPriceHistoryListRelationFilter
   }
@@ -10797,6 +10811,7 @@ export namespace Prisma {
     taxGold?: SortOrderInput | SortOrder
     sheet?: SortOrderInput | SortOrder
     existingAmount?: SortOrderInput | SortOrder
+    image?: SortOrderInput | SortOrder
     updatedAt?: SortOrder
     history?: OfficialPriceHistoryOrderByRelationAggregateInput
   }
@@ -10820,6 +10835,7 @@ export namespace Prisma {
     taxGold?: FloatNullableFilter<"OfficialPrice"> | number | null
     sheet?: StringNullableFilter<"OfficialPrice"> | string | null
     existingAmount?: StringNullableFilter<"OfficialPrice"> | string | null
+    image?: StringNullableFilter<"OfficialPrice"> | string | null
     updatedAt?: DateTimeFilter<"OfficialPrice"> | Date | string
     history?: OfficialPriceHistoryListRelationFilter
   }, "id" | "normalized" | "slug">
@@ -10840,6 +10856,7 @@ export namespace Prisma {
     taxGold?: SortOrderInput | SortOrder
     sheet?: SortOrderInput | SortOrder
     existingAmount?: SortOrderInput | SortOrder
+    image?: SortOrderInput | SortOrder
     updatedAt?: SortOrder
     _count?: OfficialPriceCountOrderByAggregateInput
     _avg?: OfficialPriceAvgOrderByAggregateInput
@@ -10867,6 +10884,7 @@ export namespace Prisma {
     taxGold?: FloatNullableWithAggregatesFilter<"OfficialPrice"> | number | null
     sheet?: StringNullableWithAggregatesFilter<"OfficialPrice"> | string | null
     existingAmount?: StringNullableWithAggregatesFilter<"OfficialPrice"> | string | null
+    image?: StringNullableWithAggregatesFilter<"OfficialPrice"> | string | null
     updatedAt?: DateTimeWithAggregatesFilter<"OfficialPrice"> | Date | string
   }
 
@@ -11420,6 +11438,7 @@ export namespace Prisma {
     taxGold?: number | null
     sheet?: string | null
     existingAmount?: string | null
+    image?: string | null
     updatedAt?: Date | string
     history?: OfficialPriceHistoryCreateNestedManyWithoutItemInput
   }
@@ -11440,6 +11459,7 @@ export namespace Prisma {
     taxGold?: number | null
     sheet?: string | null
     existingAmount?: string | null
+    image?: string | null
     updatedAt?: Date | string
     history?: OfficialPriceHistoryUncheckedCreateNestedManyWithoutItemInput
   }
@@ -11460,6 +11480,7 @@ export namespace Prisma {
     taxGold?: NullableFloatFieldUpdateOperationsInput | number | null
     sheet?: NullableStringFieldUpdateOperationsInput | string | null
     existingAmount?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     history?: OfficialPriceHistoryUpdateManyWithoutItemNestedInput
   }
@@ -11480,6 +11501,7 @@ export namespace Prisma {
     taxGold?: NullableFloatFieldUpdateOperationsInput | number | null
     sheet?: NullableStringFieldUpdateOperationsInput | string | null
     existingAmount?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     history?: OfficialPriceHistoryUncheckedUpdateManyWithoutItemNestedInput
   }
@@ -11500,6 +11522,7 @@ export namespace Prisma {
     taxGold?: number | null
     sheet?: string | null
     existingAmount?: string | null
+    image?: string | null
     updatedAt?: Date | string
   }
 
@@ -11519,6 +11542,7 @@ export namespace Prisma {
     taxGold?: NullableFloatFieldUpdateOperationsInput | number | null
     sheet?: NullableStringFieldUpdateOperationsInput | string | null
     existingAmount?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -11538,6 +11562,7 @@ export namespace Prisma {
     taxGold?: NullableFloatFieldUpdateOperationsInput | number | null
     sheet?: NullableStringFieldUpdateOperationsInput | string | null
     existingAmount?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -12216,6 +12241,7 @@ export namespace Prisma {
     taxGold?: SortOrder
     sheet?: SortOrder
     existingAmount?: SortOrder
+    image?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -12237,6 +12263,7 @@ export namespace Prisma {
     taxGold?: SortOrder
     sheet?: SortOrder
     existingAmount?: SortOrder
+    image?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -12253,6 +12280,7 @@ export namespace Prisma {
     taxGold?: SortOrder
     sheet?: SortOrder
     existingAmount?: SortOrder
+    image?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -13351,6 +13379,7 @@ export namespace Prisma {
     taxGold?: number | null
     sheet?: string | null
     existingAmount?: string | null
+    image?: string | null
     updatedAt?: Date | string
   }
 
@@ -13370,6 +13399,7 @@ export namespace Prisma {
     taxGold?: number | null
     sheet?: string | null
     existingAmount?: string | null
+    image?: string | null
     updatedAt?: Date | string
   }
 
@@ -13405,6 +13435,7 @@ export namespace Prisma {
     taxGold?: NullableFloatFieldUpdateOperationsInput | number | null
     sheet?: NullableStringFieldUpdateOperationsInput | string | null
     existingAmount?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -13424,6 +13455,7 @@ export namespace Prisma {
     taxGold?: NullableFloatFieldUpdateOperationsInput | number | null
     sheet?: NullableStringFieldUpdateOperationsInput | string | null
     existingAmount?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

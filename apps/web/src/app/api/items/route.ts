@@ -20,10 +20,11 @@ export async function GET(request: NextRequest) {
         total: result.length,
         keyRatio: getMeta().apiKeyValue,
         items: result.map(
-          ({ id, name, slug, emoji, category, source, apiValue, apiKeys, valueOfficial }) => ({
+          ({ id, name, slug, officialImage, emoji, category, source, apiValue, apiKeys, valueOfficial }) => ({
             id,
             name,
             slug,
+            officialImage,
             emoji,
             category,
             source,

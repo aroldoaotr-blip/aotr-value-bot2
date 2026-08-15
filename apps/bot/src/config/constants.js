@@ -3,7 +3,7 @@ export const BRANDING = {
   footer: "AOTR Values • Bot v3",
   designer: "Diseñado por melevengo",
   colors: {
-    official: 0x22c55e, // verde — hoja oficial AOTR
+    official: 0x22c55e, // verde — lista oficial AOTR
     trade: 0x3b82f6, // azul — API de tradeo
     info: 0x6366f1,
     purple: 0x9b59b6,
@@ -27,7 +27,7 @@ export const BRANDING = {
 export const DEFAULTS = {
   prefix: "!",
   syncTradeMinutes: 30, // minutos entre sincronización de la API de tradeo
-  syncOfficialMinutes: 30, // minutos entre sincronización de la hoja oficial
+  syncOfficialMinutes: 30, // minutos entre sincronización de la lista oficial
   historyRetentionDays: 60, // días de histórico que se conservan (alineado con lo que muestra la web)
   historyOnSync: true,
   channelRoleOfficial: "official",
