@@ -190,10 +190,10 @@ export function Avatar({
         className,
       )}
       style={{
-        // 2. Si hay glowColor, aplicamos el gradiente de negro a glowColor.
-        // Si no, lo dejamos limpio o con un fondo por defecto.
+        // 2. Si hay glowColor, aplicamos el gradiente desde el fondo dinámico (--avatar-bg-top) hasta glowColor.
+        // En tema oscuro usa rgb(18, 18, 18) y en tema claro (ember) usa blanco rgb(255, 255, 255).
         backgroundImage: glowColor
-          ? `linear-gradient(to bottom, rgb(18, 18, 18), ${glowColor})`
+          ? `linear-gradient(to bottom, var(--avatar-bg-top, rgb(18, 18, 18)), ${glowColor})`
           : undefined,
       }}
       aria-label={name}

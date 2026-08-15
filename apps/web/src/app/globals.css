@@ -66,6 +66,8 @@
   --logo-c: #6750a4;
   --logo-ring: rgba(255, 255, 255, 0.9);
   --logo-glow: rgba(207, 188, 255, 0.55);
+  /* Avatar gradiente (top color) */
+  --avatar-bg-top: rgb(18, 18, 18);
 }
 
 * {
@@ -576,6 +578,9 @@ body {
   --logo-c: #93000b;
   --logo-ring: rgba(255, 255, 255, 0.95);
   --logo-glow: rgba(220, 38, 38, 0.5);
+
+  /* Avatar gradiente (top color en tema claro) */
+  --avatar-bg-top: rgb(255, 255, 255);
 }
 
 [data-theme="ember"] body {
