@@ -49,22 +49,9 @@ const PREFIX_COMMANDS = {
 
 // ── Cache de datos en memoria ────────────────────────────
 async function refreshOfficialCache() {
-  // 1) Persistir la lista oficial en la BD (la web la lee desde ahí).
-  // Si falla la BD, seguimos cargando la caché: el bot aún puede responder
-  // con la fuente oficial y no queda sin resolver de ítems.
-  try {
-    const result = await syncOfficial();
-    if (result.skipped) {
-      console.warn("🟢 Sync oficial saltado (otro sync en curso); actualizando caché local.");
-    }
-    return result;
-  } catch (error) {
-    console.error("⚠️ No se pudo persistir la lista oficial; se actualiza solo la caché:", error.message);
-  }
-
-  // 2) Cache en memoria para los comandos del bot
+  // 1) Cache en memoria para los comandos del bot: se carga PRIMERO para
+  // que el bot responda aunque la BD esté lenta (la BD es solo la web).
   const items = await loadItems();
-  // Tasas configuradas por admin (web /administrador) con fallback a detección
   const configured = await loadConfiguredRates();
   const vizardRate = findVizardRate(items, configured);
   const converted = applyVizardConversion(items, vizardRate);
@@ -80,6 +67,19 @@ async function refreshOfficialCache() {
     );
   }
   console.log(`🟢 Cache oficial: ${converted.length} items`);
+
+  // 2) Persistir la lista oficial en la BD (la web la lee desde ahí).
+  // Si falla la BD, el bot ya tiene caché y sigue respondiendo.
+  try {
+    const result = await syncOfficial();
+    if (result.skipped) {
+      console.warn("🟢 Sync oficial saltado (otro sync en curso); actualizando caché local.");
+    }
+    return result;
+  } catch (error) {
+    console.error("⚠️ No se pudo persistir la lista oficial:", error.message);
+    return null;
+  }
 }
 
 async function refreshTradeCache() {
