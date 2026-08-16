@@ -57,6 +57,7 @@ async function refreshOfficialCache() {
     if (result.skipped) {
       console.warn("🟢 Sync oficial saltado (otro sync en curso); actualizando caché local.");
     }
+    return result;
   } catch (error) {
     console.error("⚠️ No se pudo persistir la lista oficial; se actualiza solo la caché:", error.message);
   }
@@ -87,7 +88,7 @@ async function refreshTradeCache() {
   // Sync saltado por solapamiento (withLock) o sin datos: mantener caché anterior
   if (result.skipped || !result.data) {
     console.warn("🔵 Sync trade saltado (otro sync en curso) — se mantiene la caché actual.");
-    return;
+    return result;
   }
 
   const { data } = result;
@@ -189,12 +190,24 @@ export function registerEvents(client) {
     }
 
     // Sincronizaciones programadas
-    // Ambos orígenes se sincronizan cada 30 minutos (por defecto)
+    // Ambos orígenes se sincronizan cada 30 minutos (por defecto).
+    // El trade arranca 1 min después del oficial para no chocar con el
+    // semáforo (withLock): si ambos disparan a la vez, siempre gana el oficial.
     const officialMs = (Number(process.env.SYNC_OFFICIAL_MINUTES) || DEFAULTS.syncOfficialMinutes) * 60 * 1000;
     const tradeMs = (Number(process.env.SYNC_TRADE_MINUTES) || DEFAULTS.syncTradeMinutes) * 60 * 1000;
+    const RETRY_MS = 8 * 60 * 1000; // reintento cuando un sync se salta por choque
 
-    setInterval(() => refreshOfficialCache().catch(console.error), officialMs);
-    setInterval(() => refreshTradeCache().catch(console.error), tradeMs);
+    // Si el sync se salta (otro en curso), se reprograma para 8 min después
+    const runWithRetry = (run) => async () => {
+      const result = await run().catch(console.error);
+      if (result?.skipped) {
+        console.warn(`🔄 Sync salteado por choque; reintentando en ${RETRY_MS / 60000} min`);
+        setTimeout(() => runWithRetry(run)(), RETRY_MS);
+      }
+    };
+
+    setInterval(runWithRetry(refreshOfficialCache), officialMs);
+    setTimeout(() => setInterval(runWithRetry(refreshTradeCache), tradeMs), 60_000);
     setInterval(() => cleanupHistory().catch(console.error), 24 * 60 * 60 * 1000);
 
     console.log(`🔄 Sync oficial cada ${officialMs / 60000} min · Sync trade cada ${tradeMs / 60000} min`);

@@ -149,6 +149,34 @@ export function getMeta(): Meta {
   return metaSeed as Meta;
 }
 
+let lastUpdateCache: { at: number; value: string | null } | null = null;
+
+// Última actualización REAL del dataset en la BD (no el seed estático):
+// el updatedAt más reciente entre ambas listas de precios.
+export async function getDatasetUpdatedAt(): Promise<string> {
+  if (process.env.DATABASE_URL) {
+    if (!lastUpdateCache || Date.now() - lastUpdateCache.at > CACHE_TTL) {
+      try {
+        const { prisma } = await import("@aotr/db");
+        const [trade, official] = await Promise.all([
+          prisma.tradePrice.findFirst({ orderBy: { updatedAt: "desc" }, select: { updatedAt: true } }),
+          prisma.officialPrice.findFirst({ orderBy: { updatedAt: "desc" }, select: { updatedAt: true } })
+        ]);
+        const ts = Math.max(
+          trade?.updatedAt?.getTime() ?? 0,
+          official?.updatedAt?.getTime() ?? 0
+        );
+        lastUpdateCache = { at: Date.now(), value: ts > 0 ? new Date(ts).toISOString() : null };
+      } catch (error) {
+        console.warn("⚠️ No se pudo leer la última actualización de la BD:", error);
+        lastUpdateCache = { at: Date.now(), value: null };
+      }
+    }
+    if (lastUpdateCache.value) return lastUpdateCache.value;
+  }
+  return metaSeed.generatedAt;
+}
+
 // ── Movimientos (tendencias) — calcula cambios reales (> 0% o < 0%) ──
 export function computeMovers(
   items: Item[],

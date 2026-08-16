@@ -3,7 +3,7 @@ import { MoverCard } from "@/components/TopMovers";
 import { ExpandableList } from "@/components/ExpandableList";
 import { HScroll } from "@/components/HScroll";
 import { PriceSourceToggle } from "@/lib/price-source";
-import { getItems, computeMovers, getMeta } from "@/lib/data";
+import { getItems, computeMovers, getMeta, getDatasetUpdatedAt } from "@/lib/data";
 import { formatRelative } from "@/lib/format";
 
 export const revalidate = 300;
@@ -16,6 +16,7 @@ export const metadata = {
 export default async function HistoricoPage() {
   const items = await getItems();
   const meta = getMeta();
+  const datasetUpdatedAt = await getDatasetUpdatedAt();
   const { gainers, losers, volatile } = computeMovers(items, 10);
 
   return (
@@ -33,7 +34,7 @@ export default async function HistoricoPage() {
             <p className="mt-3 max-w-2xl text-sm text-on-surface-variant">
               El bot registra el precio de tradeo de cada item con cada sincronización (cada 30
               minutos). Estos son los movimientos de los últimos 60 días. Última actualización del
-              dataset: <span className="font-semibold text-on-surface">{formatRelative(meta.generatedAt)}</span>.
+              dataset: <span className="font-semibold text-on-surface">{formatRelative(datasetUpdatedAt)}</span>.
             </p>
           </div>
           <PriceSourceToggle className="w-64" />
