@@ -8,8 +8,11 @@ const OFFICIAL_DATA_URL =
 const DEFAULT_RATES = { keysPerVizard: 900, keysPerScroll: 3 };
 
 function extractJsonArray(script, variableName) {
-  const declaration = new RegExp(`\\b(?:const|let|var)\\s+${variableName}\\s*=`).exec(script);
-  if (!declaration) throw new Error(`No se encontró ${variableName} en data.js`);
+  const declaration = new RegExp(
+    `\\b(?:const|let|var)\\s+${variableName}\\s*=`,
+  ).exec(script);
+  if (!declaration)
+    throw new Error(`No se encontró ${variableName} en data.js`);
   const start = script.indexOf("[", declaration.index + declaration[0].length);
   if (start < 0) throw new Error(`${variableName} no contiene un arreglo`);
 
@@ -38,21 +41,26 @@ function extractJsonArray(script, variableName) {
 }
 
 function extractJsonObject(script, variableName) {
-  const declaration = new RegExp(`\\b(?:const|let|var)\\s+${variableName}\\s*=`).exec(script);
+  const declaration = new RegExp(
+    `\\b(?:const|let|var)\\s+${variableName}\\s*=`,
+  ).exec(script);
   if (!declaration) return {};
   const start = script.indexOf("{", declaration.index + declaration[0].length);
   if (start < 0) return {};
   let depth = 0;
   for (let i = start; i < script.length; i++) {
     if (script[i] === "{") depth++;
-    if (script[i] === "}" && --depth === 0) return JSON.parse(script.slice(start, i + 1));
+    if (script[i] === "}" && --depth === 0)
+      return JSON.parse(script.slice(start, i + 1));
   }
   return {};
 }
 
 function parseTax(rawTax) {
   if (!rawTax || String(rawTax).toLowerCase() === "n/a") return null;
-  const match = String(rawTax).replaceAll(",", "").match(/([\d.]+)\s*(k|m)?/i);
+  const match = String(rawTax)
+    .replaceAll(",", "")
+    .match(/([\d.]+)\s*(k|m)?/i);
   if (!match) return null;
   let value = Number(match[1]);
   if (match[2]?.toLowerCase() === "k") value *= 1_000;
@@ -69,15 +77,28 @@ export function parseOfficialData(script) {
   const rows = extractJsonArray(script, "AOTR_DATA");
   const meta = extractJsonObject(script, "AOTR_META");
   const rates = {
-    keysPerVizard: numericValue(meta.vizard_keys) || DEFAULT_RATES.keysPerVizard,
-    keysPerScroll: numericValue(meta.scroll_keys) || DEFAULT_RATES.keysPerScroll
+    keysPerVizard:
+      numericValue(meta.vizard_keys) || DEFAULT_RATES.keysPerVizard,
+    keysPerScroll:
+      numericValue(meta.scroll_keys) || DEFAULT_RATES.keysPerScroll,
   };
 
   return rows
     .filter((row) => row && typeof row.name === "string" && row.name.trim())
     .map((row) => {
-      // `value` es el valor canónico en llaves (AOTR_META.currency = "keys").
       const keys = row.na ? null : numericValue(row.value);
+
+      // Detectar y asignar impuesto correctamente
+      let taxValue = parseTax(row.tax);
+      let taxGems = null;
+      let taxGold = null;
+
+      if (row.tax && row.tax.toLowerCase().includes("gem")) {
+        taxGems = taxValue;
+      } else {
+        taxGold = taxValue;
+      }
+
       return {
         name: row.name.trim(),
         sheet: "AOT Revolution",
@@ -87,13 +108,14 @@ export function parseOfficialData(script) {
         value: {
           keys,
           scrolls: keys == null ? null : keys / rates.keysPerScroll,
-          vizards: keys == null ? null : keys / rates.keysPerVizard
+          vizards: keys == null ? null : keys / rates.keysPerVizard,
         },
         rateOfChange: row.trend || null,
-        taxGems: parseTax(row.tax),
-        taxGold: null,
+        taxGems,
+        taxGold,
         existingAmount: row.supply == null ? null : String(row.supply),
-        image: typeof row.img === "string" && row.img.trim() ? row.img.trim() : null
+        image:
+          typeof row.img === "string" && row.img.trim() ? row.img.trim() : null,
       };
     });
 }
@@ -101,7 +123,8 @@ export function parseOfficialData(script) {
 export async function loadItems() {
   console.log("📥 Descargando lista oficial de AOT Revolution...");
   const response = await fetch(OFFICIAL_DATA_URL);
-  if (!response.ok) throw new Error(`No se pudo descargar data.js: ${response.status}`);
+  if (!response.ok)
+    throw new Error(`No se pudo descargar data.js: ${response.status}`);
   const items = parseOfficialData(await response.text());
   console.log(`📦 Items oficiales cargados: ${items.length}`);
   return items;
