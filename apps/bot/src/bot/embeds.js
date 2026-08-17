@@ -107,7 +107,16 @@ function demandBar(demand) {
 
 function taxLine(gems, gold) {
   if (gems == null && gold == null) return "";
-  return `💎 ${gems != null ? formatValue(gems) : "—"} · 🪙 ${gold != null ? formatValue(gold) : "—"}`;
+
+  if (gems != null && gold == null) {
+    return `💎 ${formatValue(gems)}`;
+  }
+
+  if (gold != null && gems == null) {
+    return `🪙 ${formatValue(gold)}`;
+  }
+
+  return `💎 ${formatValue(gems)} · 🪙 ${formatValue(gold)}`;
 }
 
 function imageUrl(officialImage, legacyEmoji) {
